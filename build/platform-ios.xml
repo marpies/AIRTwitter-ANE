@@ -1,0 +1,8 @@
+<platform xmlns="http://ns.adobe.com/air/extension/18.0">
+    <linkerOptions>
+        <option>-ios_version_min 5.1</option>
+        <option>-weak_framework Accounts</option>
+        <option>-weak_framework Social</option>
+        <option>-weak_framework Twitter</option>
+    </linkerOptions>
+</platform>

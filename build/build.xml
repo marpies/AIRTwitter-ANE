@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="AIRTwitter build scripts" default="all">
+
+    <property file="build.properties"/>
+
+    <target name="all" depends="swc,ios,android,package" description="Create SWC, iOS and Android libraries and packages ANE"/>
+
+    <!--
+
+    ================================================================
+                                        iOS
+    ================================================================
+
+    -->
+    <target name="ios" description="Build iOS library">
+
+        <mkdir dir="temp/ios/build/"/>
+
+        <exec executable="xcodebuild" failonerror="true" dir="../ios/">
+            <arg line="-project ${name}.xcodeproj"/>
+            <arg line="-alltargets clean"/>
+        </exec>
+
+        <exec executable="xcodebuild" failonerror="true" dir="../ios/">
+            <arg line="-project ${name}.xcodeproj"/>
+            <arg line="-sdk iphoneos"/>
+            <arg line="-alltargets"/>
+            <arg line="-configuration Release"/>
+            <arg line="SYMROOT=../build/temp/ios/build/"/>
+        </exec>
+
+        <copy file="temp/ios/build/Release-iphoneos/lib${name}.a" todir="temp/ios" overwrite="true"/>
+
+        <copy file="temp/swc/content/library.swf" todir="temp/ios" overwrite="true"/>
+
+        <delete dir="temp/ios/build/"/>
+    </target>
+
+
+
+    <!--
+
+    ================================================================
+                                Android
+    ================================================================
+
+    -->
+    <target name="android" description="Build Android Library with debugging disabled">
+        <property name="ANDROID_DEBUG" value="false"/>
+        <antcall target="android-build"/>
+    </target>
+    <target name="android-debug" description="Build Android Library with debugging enabled">
+        <property name="ANDROID_DEBUG" value="true"/>
+        <antcall target="android-build"/>
+    </target>
+    <target name="android-build" description="Build Android Library">
+
+        <mkdir dir="temp/android/build/"/>
+
+        <javac source="1.6" destdir="temp/android/build/" includeantruntime="false" debug="${ANDROID_DEBUG}">
+            <src path="../android/src"/>
+            <classpath>
+                <pathelement location="${android.sdk}/android.jar"/>
+                <pathelement location="${air.sdk}/lib/android/FlashRuntimeExtensions.jar"/>
+                <pathelement location="../android/libs/android-support-v4.jar"/>
+                <pathelement location="../android/libs/twitter4j-async-4.0.4.jar"/>
+                <pathelement location="../android/libs/twitter4j-core-4.0.4.jar"/>
+            </classpath>
+        </javac>
+
+        <delete dir="temp/android/build/com/twitter" />
+
+        <copy file="../android/libs/android-support-v4.jar" todir="temp/android/"/>
+        <copy file="../android/libs/twitter4j-async-4.0.4.jar" todir="temp/android/"/>
+        <copy file="../android/libs/twitter4j-core-4.0.4.jar" todir="temp/android/"/>
+
+        <jar basedir="temp/android/build/" destfile="temp/android/lib${name}.jar"/>
+
+        <delete dir="temp/android/build/"/>
+    </target>
+
+
+
+    <!--
+
+    ================================================================
+                            Actionscript (SWC)
+    ================================================================
+
+    -->
+    <target name="swc" description="Build SWC library">
+        <mkdir dir="temp/swc/content/"/>
+
+        <fileset dir="../actionscript/src" casesensitive="yes" id="classfiles">
+            <include name="**/*.as"/>
+        </fileset>
+
+        <pathconvert property="classlist" refid="classfiles" pathsep=" " dirsep=".">
+            <regexpmapper from=".*src.(.*)\.as" to="\1"/>
+        </pathconvert>
+
+        <exec executable="${air.sdk}/bin/compc${bin.ext}" failonerror="true">
+            <env key="AIR_SDK_HOME" value="${air.sdk}"/>
+            <arg line='-source-path ../actionscript/src'/>
+            <arg line='-output temp/swc/${name}.swc'/>
+            <arg line='-swf-version=26'/>
+            <arg line='-external-library-path+="${air.sdk}/frameworks/libs/air/airglobal.swc"'/>
+            <arg line='-include-classes ${classlist}'/>
+        </exec>
+
+        <unzip src="temp/swc/${name}.swc" dest="temp/swc/content" overwrite="true"/>
+
+        <copy file="temp/swc/content/library.swf" todir="temp/ios" overwrite="true"/>
+        <copy file="temp/swc/content/library.swf" todir="temp/android" overwrite="true"/>
+        <copy file="temp/swc/content/library.swf" todir="temp/default" overwrite="true"/>
+    </target>
+
+    <!--
+
+    ================================================================
+                                Package
+    ================================================================
+
+    -->
+    <target name="package" description="Create the extension package">
+        <exec executable="${air.sdk}/bin/adt${bin.ext}" failonerror="true" dir="temp/">
+            <arg value="-package"/>
+            <arg value="-target"/>
+            <arg value="ane"/>
+            <arg value="${name}.ane"/>
+            <arg value="../extension.xml"/>
+            <arg line="-swc swc/${name}.swc"/>
+            <arg line="-platform iPhone-ARM -platformoptions ../platform-ios.xml -C ios/ ."/>
+            <arg line="-platform Android-ARM -platformoptions ../platform-android.xml -C android/ ."/>
+            <arg line="-platform Android-x86 -platformoptions ../platform-android.xml -C android/ ."/>
+            <arg line="-platform default -C default/ ."/>
+        </exec>
+
+        <move file="temp/${name}.ane" todir="../bin"/>
+
+        <delete dir="temp/"/>
+    </target>
+
+
+
+    <!--
+
+    ================================================================
+                        ActionScript Documentation
+    ================================================================
+
+     -->
+    <target name="asdoc" description="Generate ActionScript documentation">
+        <exec executable="${air.sdk}/bin/asdoc${bin.ext}" failonerror="false">
+            <env key="FLEX_HOME" value="${air.sdk}"/>
+            <env key="FALCON_HOME" value="${air.sdk}"/>
+            <arg line='-source-path ../actionscript/src'/>
+            <arg line='-doc-sources ../actionscript/src'/>
+            <arg line='-output ../docs'/>
+            <arg line='-library-path+="${air.sdk}/frameworks/libs/air/airglobal.swc"'/>
+        </exec>
+    </target>
+
+</project>

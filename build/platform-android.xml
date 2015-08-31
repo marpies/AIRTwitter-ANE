@@ -1,0 +1,9 @@
+<platform xmlns="http://ns.adobe.com/air/extension/18.0">
+
+    <packagedDependencies>
+        <packagedDependency>android-support-v4.jar</packagedDependency>
+        <packagedDependency>twitter4j-core-4.0.4.jar</packagedDependency>
+        <packagedDependency>twitter4j-async-4.0.4.jar</packagedDependency>
+    </packagedDependencies> 
+
+</platform>

@@ -1,0 +1,39 @@
+Text for param in com.marpies.ane.twitter:AIRTwitter/getFavoritesForScreenName is not valid.
+org.xml.sax.SAXParseException: The element type "AIRTwitterStatus" must be terminated by the matching end-tag "</AIRTwitterStatus>".
+
+Text for param in com.marpies.ane.twitter:AIRTwitter/getFavoritesForUserID is not valid.
+org.xml.sax.SAXParseException: The element type "AIRTwitterStatus" must be terminated by the matching end-tag "</AIRTwitterStatus>".
+
+Text for param in com.marpies.ane.twitter:AIRTwitter/getFavorites is not valid.
+org.xml.sax.SAXParseException: The element type "AIRTwitterStatus" must be terminated by the matching end-tag "</AIRTwitterStatus>".
+
+Text for param in com.marpies.ane.twitter:AIRTwitter/getFollowersForScreenName is not valid.
+org.xml.sax.SAXParseException: The element type "AIRTwitterUser" must be terminated by the matching end-tag "</AIRTwitterUser>".
+
+Text for param in com.marpies.ane.twitter:AIRTwitter/getFollowersForUserID is not valid.
+org.xml.sax.SAXParseException: The element type "AIRTwitterUser" must be terminated by the matching end-tag "</AIRTwitterUser>".
+
+Text for param in com.marpies.ane.twitter:AIRTwitter/getFollowers is not valid.
+org.xml.sax.SAXParseException: The element type "AIRTwitterUser" must be terminated by the matching end-tag "</AIRTwitterUser>".
+
+Text for param in com.marpies.ane.twitter:AIRTwitter/getFriendsForScreenName is not valid.
+org.xml.sax.SAXParseException: The element type "AIRTwitterUser" must be terminated by the matching end-tag "</AIRTwitterUser>".
+
+Text for param in com.marpies.ane.twitter:AIRTwitter/getFriendsForUserID is not valid.
+org.xml.sax.SAXParseException: The element type "AIRTwitterUser" must be terminated by the matching end-tag "</AIRTwitterUser>".
+
+Text for param in com.marpies.ane.twitter:AIRTwitter/getFriends is not valid.
+org.xml.sax.SAXParseException: The element type "AIRTwitterUser" must be terminated by the matching end-tag "</AIRTwitterUser>".
+
+Text for param in com.marpies.ane.twitter:AIRTwitter/getHomeTimeline is not valid.
+org.xml.sax.SAXParseException: The element type "AIRTwitterStatus" must be terminated by the matching end-tag "</AIRTwitterStatus>".
+
+Text for param in com.marpies.ane.twitter:AIRTwitter/getUserTimelineForScreenName is not valid.
+org.xml.sax.SAXParseException: The element type "AIRTwitterStatus" must be terminated by the matching end-tag "</AIRTwitterStatus>".
+
+Text for param in com.marpies.ane.twitter:AIRTwitter/getUserTimelineForUserID is not valid.
+org.xml.sax.SAXParseException: The element type "AIRTwitterStatus" must be terminated by the matching end-tag "</AIRTwitterStatus>".
+
+Text for param in com.marpies.ane.twitter:AIRTwitter/getUserTimeline is not valid.
+org.xml.sax.SAXParseException: The element type "AIRTwitterStatus" must be terminated by the matching end-tag "</AIRTwitterStatus>".
+

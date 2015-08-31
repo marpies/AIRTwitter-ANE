@@ -1,0 +1,545 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3208415DEB7465DF12F2A9EE /* UserUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 32084E52B8AB17233CB58058 /* UserUtils.m */; };
+		3208418C92E5314AF47B0981 /* GetFriendsFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = 32084285331D63AE4CED53AD /* GetFriendsFunction.m */; };
+		32084368787D716E2639247F /* GetLoggedInUserFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = 320844A74E141432F6E16FE4 /* GetLoggedInUserFunction.m */; };
+		320844BF5BE582023B3513BA /* UnfollowUserFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = 32084DBA94507493E71C6417 /* UnfollowUserFunction.m */; };
+		320846E2628790EA7A45B974 /* RetweetStatusFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = 3208481F1E3C74BFC8E5641D /* RetweetStatusFunction.m */; };
+		320846E4056A9D3093A61CDC /* GetFollowersFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = 32084FE16910811E2A7F3196 /* GetFollowersFunction.m */; };
+		320848891D1DC65F89F889D4 /* MediaSourceProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 320848D39A2E0BCDDB8F2A8A /* MediaSourceProcessor.m */; };
+		320849A5E7EAC4D5CC7E09E1 /* StringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3208464DAD0026DD946B6BB4 /* StringUtils.m */; };
+		32084A979A3C1FF4D3472AE2 /* GetUserTimelineFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = 320840EAED7ED84523AA50BA /* GetUserTimelineFunction.m */; };
+		32084B8C8D156226A305DBA1 /* StatusUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3208445BBEEEFE301C581CC9 /* StatusUtils.m */; };
+		32084CCC7D65E38C62696A2C /* GetFavoritesFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = 32084BA92BEE7C238D196447 /* GetFavoritesFunction.m */; };
+		32084D480A62443BFBAF59B0 /* GetHomeTimelineFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = 32084C91E12E81F5F086F646 /* GetHomeTimelineFunction.m */; };
+		32084DC5F105A0C98A9F098B /* FavoriteStatusFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = 320843CD9CBC29CFE5009C5D /* FavoriteStatusFunction.m */; };
+		32084DD1AAB456DA52ACD847 /* LogoutFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = 32084023811B564066379C56 /* LogoutFunction.m */; };
+		32084E385E9628C816F3B679 /* FollowUserFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = 32084BEFA8F3B8E9CC914D50 /* FollowUserFunction.m */; };
+		32084FA4994E3FE3C195A595 /* AIRTwitterUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3208400EC6D8C5E446AEFA9B /* AIRTwitterUser.m */; };
+		C31AD2BA1B8E21F90042555C /* AIR.m in Sources */ = {isa = PBXBuildFile; fileRef = C31AD2B91B8E21F90042555C /* AIR.m */; };
+		C31AD2BD1B8E258D0042555C /* UpdateStatusFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = C31AD2BC1B8E258D0042555C /* UpdateStatusFunction.m */; };
+		C31AD2C31B8E3FC00042555C /* MediaSource.m in Sources */ = {isa = PBXBuildFile; fileRef = C31AD2C21B8E3FC00042555C /* MediaSource.m */; };
+		C31AD2C61B8E60ED0042555C /* BitmapDataUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C31AD2C51B8E60ED0042555C /* BitmapDataUtils.m */; };
+		C32F09171B7BEDA900BF4E4E /* ApplicationOpenURLFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = C32F09161B7BEDA900BF4E4E /* ApplicationOpenURLFunction.m */; };
+		C35331E21B7BCE8A003A7521 /* AIRTwitter.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = C35331E11B7BCE8A003A7521 /* AIRTwitter.h */; };
+		C35331E41B7BCE8A003A7521 /* AIRTwitter.m in Sources */ = {isa = PBXBuildFile; fileRef = C35331E31B7BCE8A003A7521 /* AIRTwitter.m */; };
+		C35332191B7BCEF4003A7521 /* NSDateFormatter+STTwitter.m in Sources */ = {isa = PBXBuildFile; fileRef = C35331FA1B7BCEF4003A7521 /* NSDateFormatter+STTwitter.m */; };
+		C353321A1B7BCEF4003A7521 /* NSError+STTwitter.m in Sources */ = {isa = PBXBuildFile; fileRef = C35331FC1B7BCEF4003A7521 /* NSError+STTwitter.m */; };
+		C353321B1B7BCEF4003A7521 /* NSString+STTwitter.m in Sources */ = {isa = PBXBuildFile; fileRef = C35331FE1B7BCEF4003A7521 /* NSString+STTwitter.m */; };
+		C353321C1B7BCEF4003A7521 /* STHTTPRequest+STTwitter.m in Sources */ = {isa = PBXBuildFile; fileRef = C35332001B7BCEF4003A7521 /* STHTTPRequest+STTwitter.m */; };
+		C353321D1B7BCEF4003A7521 /* STTwitterAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = C35332031B7BCEF4003A7521 /* STTwitterAPI.m */; };
+		C353321E1B7BCEF4003A7521 /* STTwitterAppOnly.m in Sources */ = {isa = PBXBuildFile; fileRef = C35332051B7BCEF4003A7521 /* STTwitterAppOnly.m */; };
+		C353321F1B7BCEF4003A7521 /* STTwitterHTML.m in Sources */ = {isa = PBXBuildFile; fileRef = C35332071B7BCEF4003A7521 /* STTwitterHTML.m */; };
+		C35332201B7BCEF4003A7521 /* STTwitterOAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = C35332091B7BCEF4003A7521 /* STTwitterOAuth.m */; };
+		C35332211B7BCEF4003A7521 /* STTwitterOS.m in Sources */ = {isa = PBXBuildFile; fileRef = C353320B1B7BCEF4003A7521 /* STTwitterOS.m */; };
+		C35332221B7BCEF4003A7521 /* STTwitterOSRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C353320D1B7BCEF4003A7521 /* STTwitterOSRequest.m */; };
+		C35332231B7BCEF4003A7521 /* STTwitterStreamParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C35332111B7BCEF4003A7521 /* STTwitterStreamParser.m */; };
+		C35332241B7BCEF4003A7521 /* BAVPlistNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C35332141B7BCEF4003A7521 /* BAVPlistNode.m */; };
+		C35332251B7BCEF4003A7521 /* JSONSyntaxHighlight.m in Sources */ = {isa = PBXBuildFile; fileRef = C35332161B7BCEF4003A7521 /* JSONSyntaxHighlight.m */; };
+		C35332261B7BCEF4003A7521 /* STHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C35332181B7BCEF4003A7521 /* STHTTPRequest.m */; };
+		C353322C1B7BCF18003A7521 /* FREObjectUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C35332281B7BCF18003A7521 /* FREObjectUtils.m */; };
+		C353322D1B7BCF18003A7521 /* InitFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = C353322B1B7BCF18003A7521 /* InitFunction.m */; };
+		C35332301B7BCF4D003A7521 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C353322F1B7BCF4D003A7521 /* Accounts.framework */; };
+		C35332321B7BCF52003A7521 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C35332311B7BCF52003A7521 /* Social.framework */; };
+		C35332341B7BCF59003A7521 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C35332331B7BCF59003A7521 /* Twitter.framework */; };
+		C35332371B7BCFA0003A7521 /* LoginFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = C35332361B7BCFA0003A7521 /* LoginFunction.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C35331DC1B7BCE8A003A7521 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+				C35331E21B7BCE8A003A7521 /* AIRTwitter.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		3208400EC6D8C5E446AEFA9B /* AIRTwitterUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AIRTwitterUser.m; sourceTree = "<group>"; };
+		32084023811B564066379C56 /* LogoutFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogoutFunction.m; sourceTree = "<group>"; };
+		320840EAED7ED84523AA50BA /* GetUserTimelineFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetUserTimelineFunction.m; sourceTree = "<group>"; };
+		32084285331D63AE4CED53AD /* GetFriendsFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetFriendsFunction.m; sourceTree = "<group>"; };
+		320843CD9CBC29CFE5009C5D /* FavoriteStatusFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteStatusFunction.m; sourceTree = "<group>"; };
+		3208443DDA97599BA3040654 /* LogoutFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogoutFunction.h; sourceTree = "<group>"; };
+		3208443DED1BB3CD6A7A8241 /* GetFollowersFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetFollowersFunction.h; sourceTree = "<group>"; };
+		3208445BBEEEFE301C581CC9 /* StatusUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusUtils.m; sourceTree = "<group>"; };
+		320844A74E141432F6E16FE4 /* GetLoggedInUserFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetLoggedInUserFunction.m; sourceTree = "<group>"; };
+		320845135A8AAE1ACF675D91 /* GetUserTimelineFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetUserTimelineFunction.h; sourceTree = "<group>"; };
+		3208464DAD0026DD946B6BB4 /* StringUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StringUtils.m; sourceTree = "<group>"; };
+		320846EB392348F3131BC04C /* GetLoggedInUserFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetLoggedInUserFunction.h; sourceTree = "<group>"; };
+		3208475190DA584E2E3A774E /* FavoriteStatusFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoriteStatusFunction.h; sourceTree = "<group>"; };
+		3208481F1E3C74BFC8E5641D /* RetweetStatusFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RetweetStatusFunction.m; sourceTree = "<group>"; };
+		320848D39A2E0BCDDB8F2A8A /* MediaSourceProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaSourceProcessor.m; sourceTree = "<group>"; };
+		320848F99648FC51C8DE3FD4 /* StatusUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusUtils.h; sourceTree = "<group>"; };
+		320849299B391083A05951B1 /* GetFriendsFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetFriendsFunction.h; sourceTree = "<group>"; };
+		32084996F6822AD335452FFB /* UnfollowUserFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnfollowUserFunction.h; sourceTree = "<group>"; };
+		320849D92223DDEECD1D16BA /* GetHomeTimelineFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetHomeTimelineFunction.h; sourceTree = "<group>"; };
+		32084A24F20C172A01D16710 /* GetFavoritesFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetFavoritesFunction.h; sourceTree = "<group>"; };
+		32084B2812EA992196B7B7BA /* StringUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringUtils.h; sourceTree = "<group>"; };
+		32084BA92BEE7C238D196447 /* GetFavoritesFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetFavoritesFunction.m; sourceTree = "<group>"; };
+		32084BB4D99D459AC8EB9B46 /* RetweetStatusFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RetweetStatusFunction.h; sourceTree = "<group>"; };
+		32084BEFA8F3B8E9CC914D50 /* FollowUserFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowUserFunction.m; sourceTree = "<group>"; };
+		32084C07A5E61AEE174B9DF0 /* MediaSourceProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaSourceProcessor.h; sourceTree = "<group>"; };
+		32084C486750053101F1EA27 /* UserUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserUtils.h; sourceTree = "<group>"; };
+		32084C8DB768C6E0144683D7 /* FollowUserFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowUserFunction.h; sourceTree = "<group>"; };
+		32084C91E12E81F5F086F646 /* GetHomeTimelineFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetHomeTimelineFunction.m; sourceTree = "<group>"; };
+		32084CB994C6148869533F4C /* AIRTwitterUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIRTwitterUser.h; sourceTree = "<group>"; };
+		32084DBA94507493E71C6417 /* UnfollowUserFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnfollowUserFunction.m; sourceTree = "<group>"; };
+		32084E52B8AB17233CB58058 /* UserUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserUtils.m; sourceTree = "<group>"; };
+		32084FE16910811E2A7F3196 /* GetFollowersFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetFollowersFunction.m; sourceTree = "<group>"; };
+		C31AD2B81B8E21F90042555C /* AIR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIR.h; sourceTree = "<group>"; };
+		C31AD2B91B8E21F90042555C /* AIR.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AIR.m; sourceTree = "<group>"; };
+		C31AD2BB1B8E258D0042555C /* UpdateStatusFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateStatusFunction.h; sourceTree = "<group>"; };
+		C31AD2BC1B8E258D0042555C /* UpdateStatusFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateStatusFunction.m; sourceTree = "<group>"; };
+		C31AD2C11B8E3FC00042555C /* MediaSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MediaSource.h; path = Data/MediaSource.h; sourceTree = "<group>"; };
+		C31AD2C21B8E3FC00042555C /* MediaSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MediaSource.m; path = Data/MediaSource.m; sourceTree = "<group>"; };
+		C31AD2C41B8E60ED0042555C /* BitmapDataUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BitmapDataUtils.h; sourceTree = "<group>"; };
+		C31AD2C51B8E60ED0042555C /* BitmapDataUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BitmapDataUtils.m; sourceTree = "<group>"; };
+		C32F09151B7BEDA900BF4E4E /* ApplicationOpenURLFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplicationOpenURLFunction.h; sourceTree = "<group>"; };
+		C32F09161B7BEDA900BF4E4E /* ApplicationOpenURLFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationOpenURLFunction.m; sourceTree = "<group>"; };
+		C35331DE1B7BCE8A003A7521 /* libAIRTwitter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAIRTwitter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		C35331E11B7BCE8A003A7521 /* AIRTwitter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AIRTwitter.h; sourceTree = "<group>"; };
+		C35331E31B7BCE8A003A7521 /* AIRTwitter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AIRTwitter.m; sourceTree = "<group>"; };
+		C35331F91B7BCEF4003A7521 /* NSDateFormatter+STTwitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDateFormatter+STTwitter.h"; path = "STTwitter/NSDateFormatter+STTwitter.h"; sourceTree = "<group>"; };
+		C35331FA1B7BCEF4003A7521 /* NSDateFormatter+STTwitter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDateFormatter+STTwitter.m"; path = "STTwitter/NSDateFormatter+STTwitter.m"; sourceTree = "<group>"; };
+		C35331FB1B7BCEF4003A7521 /* NSError+STTwitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSError+STTwitter.h"; path = "STTwitter/NSError+STTwitter.h"; sourceTree = "<group>"; };
+		C35331FC1B7BCEF4003A7521 /* NSError+STTwitter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSError+STTwitter.m"; path = "STTwitter/NSError+STTwitter.m"; sourceTree = "<group>"; };
+		C35331FD1B7BCEF4003A7521 /* NSString+STTwitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+STTwitter.h"; path = "STTwitter/NSString+STTwitter.h"; sourceTree = "<group>"; };
+		C35331FE1B7BCEF4003A7521 /* NSString+STTwitter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+STTwitter.m"; path = "STTwitter/NSString+STTwitter.m"; sourceTree = "<group>"; };
+		C35331FF1B7BCEF4003A7521 /* STHTTPRequest+STTwitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "STHTTPRequest+STTwitter.h"; path = "STTwitter/STHTTPRequest+STTwitter.h"; sourceTree = "<group>"; };
+		C35332001B7BCEF4003A7521 /* STHTTPRequest+STTwitter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "STHTTPRequest+STTwitter.m"; path = "STTwitter/STHTTPRequest+STTwitter.m"; sourceTree = "<group>"; };
+		C35332011B7BCEF4003A7521 /* STTwitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STTwitter.h; path = STTwitter/STTwitter.h; sourceTree = "<group>"; };
+		C35332021B7BCEF4003A7521 /* STTwitterAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STTwitterAPI.h; path = STTwitter/STTwitterAPI.h; sourceTree = "<group>"; };
+		C35332031B7BCEF4003A7521 /* STTwitterAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STTwitterAPI.m; path = STTwitter/STTwitterAPI.m; sourceTree = "<group>"; };
+		C35332041B7BCEF4003A7521 /* STTwitterAppOnly.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STTwitterAppOnly.h; path = STTwitter/STTwitterAppOnly.h; sourceTree = "<group>"; };
+		C35332051B7BCEF4003A7521 /* STTwitterAppOnly.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STTwitterAppOnly.m; path = STTwitter/STTwitterAppOnly.m; sourceTree = "<group>"; };
+		C35332061B7BCEF4003A7521 /* STTwitterHTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STTwitterHTML.h; path = STTwitter/STTwitterHTML.h; sourceTree = "<group>"; };
+		C35332071B7BCEF4003A7521 /* STTwitterHTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STTwitterHTML.m; path = STTwitter/STTwitterHTML.m; sourceTree = "<group>"; };
+		C35332081B7BCEF4003A7521 /* STTwitterOAuth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STTwitterOAuth.h; path = STTwitter/STTwitterOAuth.h; sourceTree = "<group>"; };
+		C35332091B7BCEF4003A7521 /* STTwitterOAuth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STTwitterOAuth.m; path = STTwitter/STTwitterOAuth.m; sourceTree = "<group>"; };
+		C353320A1B7BCEF4003A7521 /* STTwitterOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STTwitterOS.h; path = STTwitter/STTwitterOS.h; sourceTree = "<group>"; };
+		C353320B1B7BCEF4003A7521 /* STTwitterOS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STTwitterOS.m; path = STTwitter/STTwitterOS.m; sourceTree = "<group>"; };
+		C353320C1B7BCEF4003A7521 /* STTwitterOSRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STTwitterOSRequest.h; path = STTwitter/STTwitterOSRequest.h; sourceTree = "<group>"; };
+		C353320D1B7BCEF4003A7521 /* STTwitterOSRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STTwitterOSRequest.m; path = STTwitter/STTwitterOSRequest.m; sourceTree = "<group>"; };
+		C353320E1B7BCEF4003A7521 /* STTwitterProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STTwitterProtocol.h; path = STTwitter/STTwitterProtocol.h; sourceTree = "<group>"; };
+		C353320F1B7BCEF4003A7521 /* STTwitterRequestProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STTwitterRequestProtocol.h; path = STTwitter/STTwitterRequestProtocol.h; sourceTree = "<group>"; };
+		C35332101B7BCEF4003A7521 /* STTwitterStreamParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STTwitterStreamParser.h; path = STTwitter/STTwitterStreamParser.h; sourceTree = "<group>"; };
+		C35332111B7BCEF4003A7521 /* STTwitterStreamParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STTwitterStreamParser.m; path = STTwitter/STTwitterStreamParser.m; sourceTree = "<group>"; };
+		C35332131B7BCEF4003A7521 /* BAVPlistNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BAVPlistNode.h; sourceTree = "<group>"; };
+		C35332141B7BCEF4003A7521 /* BAVPlistNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BAVPlistNode.m; sourceTree = "<group>"; };
+		C35332151B7BCEF4003A7521 /* JSONSyntaxHighlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONSyntaxHighlight.h; sourceTree = "<group>"; };
+		C35332161B7BCEF4003A7521 /* JSONSyntaxHighlight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONSyntaxHighlight.m; sourceTree = "<group>"; };
+		C35332171B7BCEF4003A7521 /* STHTTPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STHTTPRequest.h; sourceTree = "<group>"; };
+		C35332181B7BCEF4003A7521 /* STHTTPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STHTTPRequest.m; sourceTree = "<group>"; };
+		C35332271B7BCF18003A7521 /* FREObjectUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FREObjectUtils.h; sourceTree = "<group>"; };
+		C35332281B7BCF18003A7521 /* FREObjectUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FREObjectUtils.m; sourceTree = "<group>"; };
+		C353322A1B7BCF18003A7521 /* InitFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InitFunction.h; sourceTree = "<group>"; };
+		C353322B1B7BCF18003A7521 /* InitFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InitFunction.m; sourceTree = "<group>"; };
+		C353322E1B7BCF30003A7521 /* FlashRuntimeExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlashRuntimeExtensions.h; sourceTree = "<group>"; };
+		C353322F1B7BCF4D003A7521 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
+		C35332311B7BCF52003A7521 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		C35332331B7BCF59003A7521 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
+		C35332351B7BCFA0003A7521 /* LoginFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginFunction.h; sourceTree = "<group>"; };
+		C35332361B7BCFA0003A7521 /* LoginFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginFunction.m; sourceTree = "<group>"; };
+		C36F054B1B7D1D01006B37F5 /* AIRTwitterEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIRTwitterEvent.h; path = Data/AIRTwitterEvent.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C35331DB1B7BCE8A003A7521 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C35332341B7BCF59003A7521 /* Twitter.framework in Frameworks */,
+				C35332321B7BCF52003A7521 /* Social.framework in Frameworks */,
+				C35332301B7BCF4D003A7521 /* Accounts.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		320842E5BF9F83E06A4E7F9C /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				3208464DAD0026DD946B6BB4 /* StringUtils.m */,
+				32084B2812EA992196B7B7BA /* StringUtils.h */,
+				3208445BBEEEFE301C581CC9 /* StatusUtils.m */,
+				320848F99648FC51C8DE3FD4 /* StatusUtils.h */,
+				320848D39A2E0BCDDB8F2A8A /* MediaSourceProcessor.m */,
+				32084C07A5E61AEE174B9DF0 /* MediaSourceProcessor.h */,
+				32084E52B8AB17233CB58058 /* UserUtils.m */,
+				32084C486750053101F1EA27 /* UserUtils.h */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		C35331D51B7BCE8A003A7521 = {
+			isa = PBXGroup;
+			children = (
+				C35332331B7BCF59003A7521 /* Twitter.framework */,
+				C35332311B7BCF52003A7521 /* Social.framework */,
+				C353322F1B7BCF4D003A7521 /* Accounts.framework */,
+				C35331E01B7BCE8A003A7521 /* AIRTwitter */,
+				C35331DF1B7BCE8A003A7521 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C35331DF1B7BCE8A003A7521 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C35331DE1B7BCE8A003A7521 /* libAIRTwitter.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C35331E01B7BCE8A003A7521 /* AIRTwitter */ = {
+			isa = PBXGroup;
+			children = (
+				C31AD2C41B8E60ED0042555C /* BitmapDataUtils.h */,
+				C31AD2C51B8E60ED0042555C /* BitmapDataUtils.m */,
+				C36F054A1B7D1CF8006B37F5 /* Data */,
+				C353322E1B7BCF30003A7521 /* FlashRuntimeExtensions.h */,
+				C35332271B7BCF18003A7521 /* FREObjectUtils.h */,
+				C35332281B7BCF18003A7521 /* FREObjectUtils.m */,
+				C35332291B7BCF18003A7521 /* Functions */,
+				C35331F81B7BCEE5003A7521 /* STTwitter */,
+				C35331E11B7BCE8A003A7521 /* AIRTwitter.h */,
+				C35331E31B7BCE8A003A7521 /* AIRTwitter.m */,
+				C31AD2B81B8E21F90042555C /* AIR.h */,
+				C31AD2B91B8E21F90042555C /* AIR.m */,
+				320842E5BF9F83E06A4E7F9C /* Utils */,
+			);
+			path = AIRTwitter;
+			sourceTree = "<group>";
+		};
+		C35331F81B7BCEE5003A7521 /* STTwitter */ = {
+			isa = PBXGroup;
+			children = (
+				C35331F91B7BCEF4003A7521 /* NSDateFormatter+STTwitter.h */,
+				C35331FA1B7BCEF4003A7521 /* NSDateFormatter+STTwitter.m */,
+				C35331FB1B7BCEF4003A7521 /* NSError+STTwitter.h */,
+				C35331FC1B7BCEF4003A7521 /* NSError+STTwitter.m */,
+				C35331FD1B7BCEF4003A7521 /* NSString+STTwitter.h */,
+				C35331FE1B7BCEF4003A7521 /* NSString+STTwitter.m */,
+				C35331FF1B7BCEF4003A7521 /* STHTTPRequest+STTwitter.h */,
+				C35332001B7BCEF4003A7521 /* STHTTPRequest+STTwitter.m */,
+				C35332011B7BCEF4003A7521 /* STTwitter.h */,
+				C35332021B7BCEF4003A7521 /* STTwitterAPI.h */,
+				C35332031B7BCEF4003A7521 /* STTwitterAPI.m */,
+				C35332041B7BCEF4003A7521 /* STTwitterAppOnly.h */,
+				C35332051B7BCEF4003A7521 /* STTwitterAppOnly.m */,
+				C35332061B7BCEF4003A7521 /* STTwitterHTML.h */,
+				C35332071B7BCEF4003A7521 /* STTwitterHTML.m */,
+				C35332081B7BCEF4003A7521 /* STTwitterOAuth.h */,
+				C35332091B7BCEF4003A7521 /* STTwitterOAuth.m */,
+				C353320A1B7BCEF4003A7521 /* STTwitterOS.h */,
+				C353320B1B7BCEF4003A7521 /* STTwitterOS.m */,
+				C353320C1B7BCEF4003A7521 /* STTwitterOSRequest.h */,
+				C353320D1B7BCEF4003A7521 /* STTwitterOSRequest.m */,
+				C353320E1B7BCEF4003A7521 /* STTwitterProtocol.h */,
+				C353320F1B7BCEF4003A7521 /* STTwitterRequestProtocol.h */,
+				C35332101B7BCEF4003A7521 /* STTwitterStreamParser.h */,
+				C35332111B7BCEF4003A7521 /* STTwitterStreamParser.m */,
+				C35332121B7BCEF4003A7521 /* Vendor */,
+			);
+			name = STTwitter;
+			sourceTree = "<group>";
+		};
+		C35332121B7BCEF4003A7521 /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				C35332131B7BCEF4003A7521 /* BAVPlistNode.h */,
+				C35332141B7BCEF4003A7521 /* BAVPlistNode.m */,
+				C35332151B7BCEF4003A7521 /* JSONSyntaxHighlight.h */,
+				C35332161B7BCEF4003A7521 /* JSONSyntaxHighlight.m */,
+				C35332171B7BCEF4003A7521 /* STHTTPRequest.h */,
+				C35332181B7BCEF4003A7521 /* STHTTPRequest.m */,
+			);
+			name = Vendor;
+			path = STTwitter/Vendor;
+			sourceTree = "<group>";
+		};
+		C35332291B7BCF18003A7521 /* Functions */ = {
+			isa = PBXGroup;
+			children = (
+				C31AD2BB1B8E258D0042555C /* UpdateStatusFunction.h */,
+				C31AD2BC1B8E258D0042555C /* UpdateStatusFunction.m */,
+				C32F09151B7BEDA900BF4E4E /* ApplicationOpenURLFunction.h */,
+				C32F09161B7BEDA900BF4E4E /* ApplicationOpenURLFunction.m */,
+				C353322A1B7BCF18003A7521 /* InitFunction.h */,
+				C353322B1B7BCF18003A7521 /* InitFunction.m */,
+				C35332351B7BCFA0003A7521 /* LoginFunction.h */,
+				C35332361B7BCFA0003A7521 /* LoginFunction.m */,
+				3208443DDA97599BA3040654 /* LogoutFunction.h */,
+				32084023811B564066379C56 /* LogoutFunction.m */,
+				320846EB392348F3131BC04C /* GetLoggedInUserFunction.h */,
+				320844A74E141432F6E16FE4 /* GetLoggedInUserFunction.m */,
+				3208443DED1BB3CD6A7A8241 /* GetFollowersFunction.h */,
+				32084FE16910811E2A7F3196 /* GetFollowersFunction.m */,
+				320849D92223DDEECD1D16BA /* GetHomeTimelineFunction.h */,
+				32084C91E12E81F5F086F646 /* GetHomeTimelineFunction.m */,
+				320845135A8AAE1ACF675D91 /* GetUserTimelineFunction.h */,
+				320840EAED7ED84523AA50BA /* GetUserTimelineFunction.m */,
+				32084A24F20C172A01D16710 /* GetFavoritesFunction.h */,
+				32084BA92BEE7C238D196447 /* GetFavoritesFunction.m */,
+				320849299B391083A05951B1 /* GetFriendsFunction.h */,
+				32084285331D63AE4CED53AD /* GetFriendsFunction.m */,
+				32084C8DB768C6E0144683D7 /* FollowUserFunction.h */,
+				32084BEFA8F3B8E9CC914D50 /* FollowUserFunction.m */,
+				32084996F6822AD335452FFB /* UnfollowUserFunction.h */,
+				32084DBA94507493E71C6417 /* UnfollowUserFunction.m */,
+				32084BB4D99D459AC8EB9B46 /* RetweetStatusFunction.h */,
+				3208481F1E3C74BFC8E5641D /* RetweetStatusFunction.m */,
+				3208475190DA584E2E3A774E /* FavoriteStatusFunction.h */,
+				320843CD9CBC29CFE5009C5D /* FavoriteStatusFunction.m */,
+			);
+			path = Functions;
+			sourceTree = "<group>";
+		};
+		C36F054A1B7D1CF8006B37F5 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				C31AD2C11B8E3FC00042555C /* MediaSource.h */,
+				C31AD2C21B8E3FC00042555C /* MediaSource.m */,
+				C36F054B1B7D1D01006B37F5 /* AIRTwitterEvent.h */,
+				3208400EC6D8C5E446AEFA9B /* AIRTwitterUser.m */,
+				32084CB994C6148869533F4C /* AIRTwitterUser.h */,
+			);
+			name = Data;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C35331DD1B7BCE8A003A7521 /* AIRTwitter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C35331F21B7BCE8A003A7521 /* Build configuration list for PBXNativeTarget "AIRTwitter" */;
+			buildPhases = (
+				C35331DA1B7BCE8A003A7521 /* Sources */,
+				C35331DB1B7BCE8A003A7521 /* Frameworks */,
+				C35331DC1B7BCE8A003A7521 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AIRTwitter;
+			productName = AIRTwitter;
+			productReference = C35331DE1B7BCE8A003A7521 /* libAIRTwitter.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C35331D61B7BCE8A003A7521 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0640;
+				ORGANIZATIONNAME = marpies;
+				TargetAttributes = {
+					C35331DD1B7BCE8A003A7521 = {
+						CreatedOnToolsVersion = 6.4;
+					};
+				};
+			};
+			buildConfigurationList = C35331D91B7BCE8A003A7521 /* Build configuration list for PBXProject "AIRTwitter" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = C35331D51B7BCE8A003A7521;
+			productRefGroup = C35331DF1B7BCE8A003A7521 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C35331DD1B7BCE8A003A7521 /* AIRTwitter */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C35331DA1B7BCE8A003A7521 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C353322C1B7BCF18003A7521 /* FREObjectUtils.m in Sources */,
+				C353321B1B7BCEF4003A7521 /* NSString+STTwitter.m in Sources */,
+				C353321F1B7BCEF4003A7521 /* STTwitterHTML.m in Sources */,
+				C31AD2BA1B8E21F90042555C /* AIR.m in Sources */,
+				C353321D1B7BCEF4003A7521 /* STTwitterAPI.m in Sources */,
+				C353322D1B7BCF18003A7521 /* InitFunction.m in Sources */,
+				C35332261B7BCEF4003A7521 /* STHTTPRequest.m in Sources */,
+				C35332251B7BCEF4003A7521 /* JSONSyntaxHighlight.m in Sources */,
+				C31AD2BD1B8E258D0042555C /* UpdateStatusFunction.m in Sources */,
+				C35332201B7BCEF4003A7521 /* STTwitterOAuth.m in Sources */,
+				C353321A1B7BCEF4003A7521 /* NSError+STTwitter.m in Sources */,
+				C35332231B7BCEF4003A7521 /* STTwitterStreamParser.m in Sources */,
+				C35332191B7BCEF4003A7521 /* NSDateFormatter+STTwitter.m in Sources */,
+				C353321E1B7BCEF4003A7521 /* STTwitterAppOnly.m in Sources */,
+				C35331E41B7BCE8A003A7521 /* AIRTwitter.m in Sources */,
+				C35332371B7BCFA0003A7521 /* LoginFunction.m in Sources */,
+				C32F09171B7BEDA900BF4E4E /* ApplicationOpenURLFunction.m in Sources */,
+				C35332211B7BCEF4003A7521 /* STTwitterOS.m in Sources */,
+				C353321C1B7BCEF4003A7521 /* STHTTPRequest+STTwitter.m in Sources */,
+				C31AD2C61B8E60ED0042555C /* BitmapDataUtils.m in Sources */,
+				C31AD2C31B8E3FC00042555C /* MediaSource.m in Sources */,
+				C35332241B7BCEF4003A7521 /* BAVPlistNode.m in Sources */,
+				C35332221B7BCEF4003A7521 /* STTwitterOSRequest.m in Sources */,
+				320849A5E7EAC4D5CC7E09E1 /* StringUtils.m in Sources */,
+				32084B8C8D156226A305DBA1 /* StatusUtils.m in Sources */,
+				320848891D1DC65F89F889D4 /* MediaSourceProcessor.m in Sources */,
+				32084DD1AAB456DA52ACD847 /* LogoutFunction.m in Sources */,
+				32084368787D716E2639247F /* GetLoggedInUserFunction.m in Sources */,
+				32084FA4994E3FE3C195A595 /* AIRTwitterUser.m in Sources */,
+				320846E4056A9D3093A61CDC /* GetFollowersFunction.m in Sources */,
+				3208415DEB7465DF12F2A9EE /* UserUtils.m in Sources */,
+				32084D480A62443BFBAF59B0 /* GetHomeTimelineFunction.m in Sources */,
+				32084A979A3C1FF4D3472AE2 /* GetUserTimelineFunction.m in Sources */,
+				32084CCC7D65E38C62696A2C /* GetFavoritesFunction.m in Sources */,
+				3208418C92E5314AF47B0981 /* GetFriendsFunction.m in Sources */,
+				32084E385E9628C816F3B679 /* FollowUserFunction.m in Sources */,
+				320844BF5BE582023B3513BA /* UnfollowUserFunction.m in Sources */,
+				320846E2628790EA7A45B974 /* RetweetStatusFunction.m in Sources */,
+				32084DC5F105A0C98A9F098B /* FavoriteStatusFunction.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		C35331F01B7BCE8A003A7521 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos7.1;
+			};
+			name = Debug;
+		};
+		C35331F11B7BCE8A003A7521 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos7.1;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C35331F31B7BCE8A003A7521 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		C35331F41B7BCE8A003A7521 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C35331D91B7BCE8A003A7521 /* Build configuration list for PBXProject "AIRTwitter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C35331F01B7BCE8A003A7521 /* Debug */,
+				C35331F11B7BCE8A003A7521 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C35331F21B7BCE8A003A7521 /* Build configuration list for PBXNativeTarget "AIRTwitter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C35331F31B7BCE8A003A7521 /* Debug */,
+				C35331F41B7BCE8A003A7521 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C35331D61B7BCE8A003A7521 /* Project object */;
+}

@@ -1,0 +1,33 @@
+<extension xmlns="http://ns.adobe.com/air/extension/18.0">
+  <id>com.marpies.ane.twitter</id>
+  <versionNumber>1</versionNumber>
+  <platforms>
+    <platform name="iPhone-ARM">
+        <applicationDeployment>
+            <nativeLibrary>libAIRTwitter.a</nativeLibrary>
+            <initializer>AIRTwitterInitializer</initializer>
+            <finalizer>AIRTwitterFinalizer</finalizer>
+        </applicationDeployment>
+    </platform>
+
+    <platform name="Android-ARM">
+        <applicationDeployment>
+            <nativeLibrary>libAIRTwitter.jar</nativeLibrary>
+            <initializer>com.marpies.ane.twitter.AIRTwitterExtension</initializer>
+            <finalizer>com.marpies.ane.twitter.AIRTwitterExtension</finalizer>
+        </applicationDeployment>
+    </platform>
+
+    <platform name="Android-x86">
+        <applicationDeployment>
+            <nativeLibrary>libAIRTwitter.jar</nativeLibrary>
+            <initializer>com.marpies.ane.twitter.AIRTwitterExtension</initializer>
+            <finalizer>com.marpies.ane.twitter.AIRTwitterExtension</finalizer>
+        </applicationDeployment>
+    </platform>
+
+    <platform name="default">
+        <applicationDeployment/>
+    </platform>
+  </platforms>
+</extension>
