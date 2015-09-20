@@ -34,7 +34,7 @@ FREObject getHomeTimeline(FREContext context, void* functionData, uint32_t argc,
     [[AIRTwitter api] getStatusesHomeTimelineWithCount:count
                                                sinceID:sinceID
                                                  maxID:maxID
-                                              trimUser:@(1)
+                                              trimUser:@(0)
                                         excludeReplies:excludeReplies
                                     contributorDetails:nil
                                        includeEntities:nil

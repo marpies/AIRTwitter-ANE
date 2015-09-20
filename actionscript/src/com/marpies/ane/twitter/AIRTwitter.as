@@ -514,7 +514,7 @@ package com.marpies.ane.twitter {
          */
 
         public static function get version():String {
-            return "0.5.0-beta";
+            return "0.5.3-beta";
         }
 
         /**
@@ -678,6 +678,12 @@ package com.marpies.ane.twitter {
             status.ns_airtwitter_internal::createdAt = json.createdAt;
             status.ns_airtwitter_internal::isRetweet = json.isRetweet;
             status.ns_airtwitter_internal::isSensitive = json.isSensitive;
+            if( "retweetedStatus" in json ) {
+                status.ns_airtwitter_internal::retweetedStatus = getStatusFromJSON( json.retweetedStatus );
+            }
+            if( "user" in json ) {
+                status.ns_airtwitter_internal::user = getUserFromJSON( json.user );
+            }
             return status;
         }
 

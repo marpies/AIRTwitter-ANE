@@ -63,7 +63,7 @@ void updateStatusWith(NSString* text, int callbackID, NSString* inReplyToStatusI
                              longitude:nil
                                placeID:nil
                     displayCoordinates:nil
-                              trimUser:nil
+                              trimUser:@(0)
                           successBlock:^(NSDictionary* status) {
                               [AIR log:[NSString stringWithFormat:@"Updated status w/ message %@", status[@"text"]]];
                               NSMutableDictionary* statusJSON = [StatusUtils getJSON:status];

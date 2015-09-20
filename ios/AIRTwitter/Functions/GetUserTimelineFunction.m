@@ -39,7 +39,7 @@ FREObject getUserTimeline(FREContext context, void* functionData, uint32_t argc,
                                                sinceID:sinceID
                                                  count:count
                                                  maxID:maxID
-                                              trimUser:@(1)
+                                              trimUser:@(0)
                                         excludeReplies:excludeReplies
                                     contributorDetails:nil
                                        includeRetweets:@(1)

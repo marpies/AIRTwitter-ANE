@@ -62,6 +62,14 @@ public class StatusUtils {
 		statusJSON.put( "isRetweet", status.isRetweet() );
 		statusJSON.put( "isSensitive", status.isPossiblySensitive() );
 		statusJSON.put( "createdAt", status.getCreatedAt() );
+		Status retweetedStatus = status.getRetweetedStatus();
+		if( retweetedStatus != null ) {
+			statusJSON.put( "retweetedStatus", getJSON( retweetedStatus ) );
+		}
+		User user = status.getUser();
+		if( user != null ) {
+			statusJSON.put( "user", UserUtils.getJSON( user ) );
+		}
 		return statusJSON;
 	}
 

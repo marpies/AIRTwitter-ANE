@@ -27,6 +27,8 @@ package com.marpies.ane.twitter.data {
         private var mCreatedAt:String;
         private var mIsRetweet:Boolean;
         private var mIsSensitive:Boolean;
+        private var mRetweetedStatus:AIRTwitterStatus;
+        private var mUser:AIRTwitterUser;
 
         public function AIRTwitterStatus() {
             mID = -1;
@@ -140,6 +142,32 @@ package com.marpies.ane.twitter.data {
         ns_airtwitter_internal function set isSensitive( value:Boolean ):void {
             mIsSensitive = value;
         }
+
+        public function get retweetedStatus():AIRTwitterStatus {
+            return mRetweetedStatus;
+        }
+
+        /**
+         * @private
+         */
+        ns_airtwitter_internal function set retweetedStatus( value:AIRTwitterStatus ):void {
+            mRetweetedStatus = value;
+        }
+
+        /**
+         * Returns user associated with the status.
+         */
+        public function get user():AIRTwitterUser {
+            return mUser;
+        }
+
+        /**
+         * @private
+         */
+        ns_airtwitter_internal function set user( value:AIRTwitterUser ):void {
+            mUser = value;
+        }
+
     }
 
 }

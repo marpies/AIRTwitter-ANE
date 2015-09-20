@@ -18,6 +18,7 @@
 #import "AIR.h"
 #import "AIRTwitterEvent.h"
 #import "StringUtils.h"
+#import "UserUtils.h"
 
 @implementation StatusUtils
 
@@ -26,12 +27,12 @@
  * Helper method for queries like getHomeTimeline, getFavorites...
  */
 + (void) dispatchStatuses:(NSArray*) statuses callbackID:(int) callbackID {
-    [AIR log:[NSString stringWithFormat:@"Got statuses query response with %d tweets", statuses.count]];
+    [AIR log:[NSString stringWithFormat:@"Got statuses query response with %lu tweets", (unsigned long)statuses.count]];
     /* Create array of statuses (tweets) */
     NSMutableArray* tweets = [[NSMutableArray alloc] init];
     for( NSUInteger i = 0; i < statuses.count; ++i ) {
-        /* Unlike Twitter4J the replies are excluded already */
-        [AIR log:[NSString stringWithFormat:@"Status: %@", statuses[i]]];
+        /* Unlike Twitter4J the replies are excluded already (if requested) */
+//        [AIR log:[NSString stringWithFormat:@"Status: %@", statuses[i]]];
         /* Create JSON for the status and put it to the array */
         [tweets addObject:[self getJSON:statuses[i]]];
     }
@@ -58,6 +59,14 @@
     statusJSON[@"isRetweet"] = status[@"retweeted"];    // todo: not sure
     statusJSON[@"isSensitive"] = isSensitive ? isSensitive : @(0);
     statusJSON[@"createdAt"] = status[@"created_at"];
+    id retweetedStatus = status[@"retweeted_status"];
+    if( retweetedStatus ) {
+        statusJSON[@"retweetedStatus"] = [self getJSON:retweetedStatus];
+    }
+    id user = status[@"user"];
+    if( user ) {
+        statusJSON[@"user"] = [UserUtils getTrimmedJSON:user];
+    }
     return statusJSON;
 }
 

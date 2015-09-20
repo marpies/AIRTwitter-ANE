@@ -10,8 +10,6 @@ ANE is currently in development and offers the following features:
 
 The following is at the top of todo list:
 * Login via system account and in-app web view
-* Add `force_login` parameter for browser login
-* Add `author` and `retweetedStatus` properties to `AIRTwitterStatus`
 * Private messaging
 * Search
 
@@ -187,3 +185,14 @@ ANT build scripts are available in the *build* directory. Edit *build.properties
 
 ## Author
 The ANE has been written by [Marcel Piestansky](https://twitter.com/marpies) and is distributed under [Apache License, version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html).
+
+## Change log
+
+#### September 20, 2015 (v0.5.3-beta)
+
+* ADDED `forceLogin` parameter to `login` method
+* ADDED `user` and `retweetedStatus` properties to `AIRTwitterStatus`
+
+#### August 31, 2015 (v0.5.0-beta)
+
+* Public release
