@@ -124,15 +124,16 @@ package com.marpies.ane.twitter {
 
         /**
          * Initiates login process via browser.
-         * @param  callback Function with signature <code>callback(errorMessage:String, wasCancelled:Boolean):void</code>.
+         * @param callback Function with signature <code>callback(errorMessage:String, wasCancelled:Boolean):void</code>.
+         * @param forceLogin If <code>true</code>, user will be forced to enter his name and password, even if he's logged in the browser.
          */
-        public static function login( callback:Function ):void {
+        public static function login( callback:Function, forceLogin:Boolean = false ):void {
             if( !isSupported ) return;
             validateExtensionContext();
 
             mLoginCallback = callback;
 
-            mContext.call( "login" );
+            mContext.call( "login", forceLogin );
         }
 
         /**

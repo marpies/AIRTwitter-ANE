@@ -16,10 +16,12 @@
 
 package com.marpies.ane.twitter.functions;
 
+import android.os.Bundle;
 import com.adobe.fre.FREContext;
 import com.adobe.fre.FREObject;
 import com.marpies.ane.twitter.LoginActivity;
 import com.marpies.ane.twitter.utils.AIR;
+import com.marpies.ane.twitter.utils.FREObjectUtils;
 
 public class LoginFunction extends BaseFunction {
 
@@ -27,7 +29,12 @@ public class LoginFunction extends BaseFunction {
 	public FREObject call( FREContext context, FREObject[] args ) {
 		super.call( context, args );
 
-		AIR.startActivity( LoginActivity.class, null );
+		boolean forceLogin = FREObjectUtils.getBoolean( args[0] );
+
+		Bundle extras = new Bundle();
+		extras.putBoolean( LoginActivity.EXTRA_PREFIX + ".forceLogin", forceLogin );
+
+		AIR.startActivity( LoginActivity.class, extras );
 
 		return null;
 	}

@@ -25,6 +25,8 @@
 
 FREObject login(FREContext context, void* functionData, uint32_t argc, FREObject argv[]) {
     [AIR log:@"Attempting login"];
+    
+    BOOL forceLogin = [FREObjectUtils getBOOL:argv[0]];
 
     if( [AIRTwitter accessToken] ) {
         [AIR log:@"User is already logged in."];
@@ -34,7 +36,7 @@ FREObject login(FREContext context, void* functionData, uint32_t argc, FREObject
         [[AIRTwitter api:YES] postTokenRequest:^(NSURL* url, NSString* oauthToken) {
                     [[UIApplication sharedApplication] openURL:url];
                 } authenticateInsteadOfAuthorize:NO
-                                      forceLogin:@(NO)  // todo: parametrize
+                                      forceLogin:@(forceLogin)
                                       screenName:nil
                                    oauthCallback:[NSString stringWithFormat:@"%@://twitter_access_tokens/", [AIRTwitter urlScheme]]
                                       errorBlock:^(NSError* error) {

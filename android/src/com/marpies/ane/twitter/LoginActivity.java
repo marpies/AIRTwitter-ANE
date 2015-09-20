@@ -30,6 +30,8 @@ import twitter4j.auth.RequestToken;
 
 public class LoginActivity extends Activity {
 
+	public static final String EXTRA_PREFIX = "com.marpies.ane.twitter.LoginActivity";
+
 	/* Track if activity is resumed after being stopped to
 	 * determine if the login attempt was cancelled.
 	 * Correct order: create -> resume -> stop -> destroy.
@@ -42,6 +44,9 @@ public class LoginActivity extends Activity {
 
 		mStopped = false;
 
+		Bundle extras = getIntent().getExtras();
+		boolean forceLogin = extras.getBoolean( EXTRA_PREFIX + ".forceLogin" );
+
 		/* If we have access tokens (user has logged in before) */
 		if( TwitterAPI.hasAccessTokens() ) {
 			AIR.log( "User is already logged in" );
@@ -51,7 +56,7 @@ public class LoginActivity extends Activity {
 		/* Get new access tokens */
 		else {
 			final AsyncTwitter twitter = TwitterAPI.getAsyncInstance();
-			twitter.addListener( getOAuthRequestTokenListener() );
+			twitter.addListener( getOAuthRequestTokenListener( forceLogin ) );
 			twitter.getOAuthRequestTokenAsync( TwitterAPI.getCallbackURL() );
 		}
 	}
@@ -93,14 +98,17 @@ public class LoginActivity extends Activity {
 	 *
 	 */
 
-	private TwitterAdapter getOAuthRequestTokenListener() {
+	private TwitterAdapter getOAuthRequestTokenListener( final boolean forceLogin ) {
 		return new TwitterAdapter() {
 			@Override
 			public void gotOAuthRequestToken( RequestToken token ) {
 				TwitterAPI.setRequestToken( token );
-//				String url = token.getAuthenticationURL() + "&force_login=true"; // todo: force_login
+				StringBuilder urlBuilder = new StringBuilder( token.getAuthenticationURL() );
+				if( forceLogin ) {
+					urlBuilder.append( "&force_login=true" );
+				}
 				/* Launch browser */
-				LoginActivity.this.startActivity( new Intent( Intent.ACTION_VIEW, Uri.parse( token.getAuthenticationURL() ) ) );
+				LoginActivity.this.startActivity( new Intent( Intent.ACTION_VIEW, Uri.parse( urlBuilder.toString() ) ) );
 			}
 
 			@Override
