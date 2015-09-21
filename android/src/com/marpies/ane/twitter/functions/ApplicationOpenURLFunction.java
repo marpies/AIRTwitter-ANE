@@ -35,7 +35,6 @@ public class ApplicationOpenURLFunction extends BaseFunction {
 		super.call( context, args );
 
 		try {
-			// todo: handle standard invoke
 			String url = FREObjectUtils.getString( args[0] );
 			/* URL class does not parse custom protocols, replace it with http */
 			url = url.replaceFirst( ".*:", "http:" );

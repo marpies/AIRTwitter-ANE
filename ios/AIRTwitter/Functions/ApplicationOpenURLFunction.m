@@ -38,25 +38,13 @@ NSDictionary* parametersDictionaryFromQueryString( NSString* queryString ) {
 }
 
 FREObject applicationOpenURL( FREContext context, void* functionData, uint32_t argc, FREObject argv[] ) {
-    /* If the invoke reason is "standard" then check if login is in process, if so then dispatch LOGIN_CANCEL */
-//    NSString* reason = (argv[1] == nil) ? nil : [FREObjectUtils getNSString:argv[1]];
-//    if( reason && [reason isEqualToString:@"standard"] && [AIRTwitter isLoginInProcess] ) {
-//        [AIR log:@"Login tab was cancelled"];
-//        [AIR dispatchEvent:LOGIN_CANCEL];
-//    }
-//    /* Handle open URL invoke */
-//    else {
-//
-//    }
-
-    NSString* url = (argv[0] == nil) ? nil : [FREObjectUtils getNSString:argv[0]];
-
+    NSString* url = [FREObjectUtils getNSString:argv[0]];
     NSURL* nsURL = [NSURL URLWithString:url];
-    NSDictionary *d = parametersDictionaryFromQueryString( nsURL.query );
+    NSDictionary* urlParams = parametersDictionaryFromQueryString( nsURL.query );
 
 //    NSString* token = d[@"oauth_token"];
-    NSString* verifier = d[@"oauth_verifier"];
-    NSString* denied = d[@"denied"];
+    NSString* verifier = urlParams[@"oauth_verifier"];  // PIN
+    NSString* denied = urlParams[@"denied"];
 
     if( denied || !verifier ) {
         [AIR log:@"App was launched after cancelled attempt to login"];
@@ -65,8 +53,6 @@ FREObject applicationOpenURL( FREContext context, void* functionData, uint32_t a
     }
 
     [AIRTwitter getAccessTokensForPIN:verifier];
-
-    [AIRTwitter setLoginInProcess:NO];
     
     return nil;
 }

@@ -32,7 +32,6 @@ FREObject login(FREContext context, void* functionData, uint32_t argc, FREObject
         [AIR log:@"User is already logged in."];
         [AIR dispatchEvent:LOGIN_ERROR withMessage:@"User is already logged in."];
     } else {
-        [AIRTwitter setLoginInProcess:YES];
         [[AIRTwitter api:YES] postTokenRequest:^(NSURL* url, NSString* oauthToken) {
                     [[UIApplication sharedApplication] openURL:url];
                 } authenticateInsteadOfAuthorize:NO

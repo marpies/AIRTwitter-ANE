@@ -22,9 +22,11 @@ package com.marpies.ane.twitter {
     import flash.desktop.NativeApplication;
     import flash.events.InvokeEvent;
     import flash.events.StatusEvent;
+    import flash.events.TimerEvent;
     import flash.external.ExtensionContext;
     import flash.system.Capabilities;
     import flash.utils.Dictionary;
+    import flash.utils.Timer;
 
     public class AIRTwitter {
 
@@ -54,7 +56,10 @@ package com.marpies.ane.twitter {
         private static const USER_QUERY_SUCCESS:String = "userQuerySuccess";
         private static const USER_QUERY_ERROR:String = "userQueryError";
 
+        /* Misc */
         private static var mLogEnabled:Boolean;
+        private static var mLoginInProgress:Boolean;
+        private static var mStandardInvokeTimer:Timer;
 
         /* Callbacks */
         private static var mLoginCallback:Function;
@@ -131,6 +136,7 @@ package com.marpies.ane.twitter {
             if( !isSupported ) return;
             validateExtensionContext();
 
+            mLoginInProgress = true;
             mLoginCallback = callback;
 
             mContext.call( "login", forceLogin );
@@ -498,8 +504,11 @@ package com.marpies.ane.twitter {
 
             mContext.removeEventListener( StatusEvent.STATUS, onStatus );
             NativeApplication.nativeApplication.removeEventListener( InvokeEvent.INVOKE, onInvokeHandler );
-//            NativeApplication.nativeApplication.removeEventListener( Event.ACTIVATE, onActivate );
-//            NativeApplication.nativeApplication.removeEventListener( Event.DEACTIVATE, onDeactivate );
+
+            if( mStandardInvokeTimer ) {
+                mStandardInvokeTimer.stop();
+                disposeStandardInvokeTimer();
+            }
 
             mContext.dispose();
             mContext = null;
@@ -514,7 +523,7 @@ package com.marpies.ane.twitter {
          */
 
         public static function get version():String {
-            return "0.5.3-beta";
+            return "0.5.4-beta";
         }
 
         /**
@@ -692,8 +701,17 @@ package com.marpies.ane.twitter {
             var callbackID:int;
             var callback:Function;
 
+            const eventCode:String = event.code;
+            if( eventCode != LOGIN_SUCCESS && eventCode != LOGIN_CANCEL && eventCode != LOGIN_ERROR ) {
+                json = JSON.parse( event.level );
+                callbackID = ("callbackID" in json) ? json.callbackID : -1;
+                callback = getCallback( callbackID );
+                unregisterCallback( callbackID );
+            }
+
             switch( event.code ) {
                 case LOGIN_SUCCESS:
+                    mLoginInProgress = false;
                     log( "Login success" );
                     if( mLoginCallback != null ) {
                         mLoginCallback( null, false );
@@ -702,6 +720,7 @@ package com.marpies.ane.twitter {
                     return;
 
                 case LOGIN_ERROR:
+                    mLoginInProgress = false;
                     log( "Login error " + event.level );
                     if( mLoginCallback != null ) {
                         mLoginCallback( event.level, false );
@@ -710,6 +729,7 @@ package com.marpies.ane.twitter {
                     return;
 
                 case LOGIN_CANCEL:
+                    mLoginInProgress = false;
                     if( mLoginCallback != null ) {
                         mLoginCallback( null, true );
                         mLoginCallback = null;
@@ -717,7 +737,6 @@ package com.marpies.ane.twitter {
                     return;
 
                 case CREDENTIALS_CHECK:
-                    json = JSON.parse( event.level );
                     const result:String = json.result;
                     log( "User credentials result: " + result );
                     if( mCredentialsCallback != null ) {
@@ -727,12 +746,8 @@ package com.marpies.ane.twitter {
                     return;
 
                 case STATUS_QUERY_SUCCESS:
-                    json = JSON.parse( event.level );
                     log( "Status update success " + json.id );
-                    callbackID = json.callbackID;
-                    callback = getCallback( callbackID );
                     if( callback != null ) {
-                        unregisterCallback( callbackID );
                         /* JSON will contain status info */
                         if( json.success != undefined ) {
                             callback( getStatusFromJSON( json ), null );
@@ -745,12 +760,8 @@ package com.marpies.ane.twitter {
                     return;
 
                 case STATUS_QUERY_ERROR:
-                    json = JSON.parse( event.level );
                     log( "Status update error " + json.errorMessage );
-                    callbackID = json.callbackID;
-                    callback = getCallback( callbackID );
                     if( callback != null ) {
-                        unregisterCallback( callbackID );
                         callback( null, json.errorMessage );
                     }
                     return;
@@ -758,10 +769,7 @@ package com.marpies.ane.twitter {
                 case USERS_QUERY_SUCCESS:
                     json = JSON.parse( event.level );
                     log( "Users query success" );
-                    callbackID = json.callbackID;
-                    callback = getCallback( callbackID );
                     if( callback != null ) {
-                        unregisterCallback( callbackID );
                         const users:Vector.<AIRTwitterUser> = getUsersFromJSONArray( json.users as Array );
                         const nextCursor:Number = (json.nextCursor == undefined) ? 0 : json.nextCursor;
                         const previousCursor:Number = (json.previousCursor == undefined) ? 0 : json.previousCursor;
@@ -772,10 +780,7 @@ package com.marpies.ane.twitter {
                 case USERS_QUERY_ERROR:
                     json = JSON.parse( event.level );
                     log( "Users query error " + json.errorMessage );
-                    callbackID = json.callbackID;
-                    callback = getCallback( callbackID );
                     if( callback != null ) {
-                        unregisterCallback( callbackID );
                         callback( null, 0, 0, json.errorMessage );
                     }
                     return;
@@ -783,10 +788,7 @@ package com.marpies.ane.twitter {
                 case TIMELINE_QUERY_SUCCESS:
                     json = JSON.parse( event.level );
                     log( "Timeline query success" );
-                    callbackID = json.callbackID;
-                    callback = getCallback( callbackID );
                     if( callback != null ) {
-                        unregisterCallback( callbackID );
                         const statuses:Vector.<AIRTwitterStatus> = getStatusesFromJSONArray( json.statuses as Array );
                         callback( statuses, null );
                     }
@@ -795,10 +797,7 @@ package com.marpies.ane.twitter {
                 case TIMELINE_QUERY_ERROR:
                     json = JSON.parse( event.level );
                     log( "Timeline query error " + json.errorMessage );
-                    callbackID = json.callbackID;
-                    callback = getCallback( callbackID );
                     if( callback != null ) {
-                        unregisterCallback( callbackID );
                         callback( null, json.errorMessage );
                     }
                     return;
@@ -806,10 +805,7 @@ package com.marpies.ane.twitter {
                 case USER_QUERY_SUCCESS:
                     json = JSON.parse( event.level );
                     log( "User query success" );
-                    callbackID = json.callbackID;
-                    callback = getCallback( callbackID );
                     if( callback != null ) {
-                        unregisterCallback( callbackID );
                         /* JSON will contain target user info */
                         if( json.success != undefined ) {
                             const user:AIRTwitterUser = getUserFromJSON( json );
@@ -829,10 +825,7 @@ package com.marpies.ane.twitter {
                 case USER_QUERY_ERROR:
                     json = JSON.parse( event.level );
                     log( "User query error " + json.errorMessage );
-                    callbackID = json.callbackID;
-                    callback = getCallback( callbackID );
                     if( callback != null ) {
-                        unregisterCallback( callbackID );
                         callback( null, json.errorMessage );
                     }
                     return;
@@ -859,24 +852,39 @@ package com.marpies.ane.twitter {
         private static function onInvokeHandler( event:InvokeEvent ):void {
             log( "onInvoke " + event.reason );
 
-            /* On iOS we are interested in "standard" invoke reason to check
-             * if we are manually returning to app after cancelling login attempt */
-//            if( iOS && event.reason && event.reason.toLowerCase() == "standard" ) {
-//                mContext.call( "applicationOpenURL", null, "standard" );
-//            }
-
-            const args:Array = event.arguments;
-            if( !args || args.length == 0 ) {
-                log( "onInvoke args.length == 0" );
+            /* We are interested in "standard" invoke reason to check if user is
+             * manually returning to app after closing the login browser tab */
+            if( mLoginInProgress && event.reason && event.reason.toLowerCase() == "standard" ) {
+                mStandardInvokeTimer = new Timer( 50, 1 );
+                mStandardInvokeTimer.addEventListener( TimerEvent.TIMER_COMPLETE, onStandardInvoke );
+                mStandardInvokeTimer.start();
                 return;
             }
 
             /* Handle openURL invoke event */
             if( event.reason && event.reason.toLowerCase() == "openurl" ) {
-                var url:String = String( args[0] );
-                if( url && url.indexOf( mURLScheme ) == 0 ) {
-                    mContext.call( "applicationOpenURL", url, "openurl" );
+                /* "openurl" invoke was dispatched shortly after "standard" (happens on iOS), we want to stop the timer */
+                if( mStandardInvokeTimer ) {
+                    mStandardInvokeTimer.stop();
+                    disposeStandardInvokeTimer();
                 }
+
+                var url:String = String( event.arguments[0] );
+                if( url && url.indexOf( mURLScheme ) == 0 ) {
+                    mContext.call( "applicationOpenURL", url );
+                }
+            }
+        }
+
+        private static function onStandardInvoke( event:TimerEvent ):void {
+            disposeStandardInvokeTimer();
+
+            log( "Returned to app manually after login attempt, thus login cancelled" );
+            mLoginInProgress = false;
+            /* Dispatch login callback with "wasCancelled" flag */
+            if( mLoginCallback != null ) {
+                mLoginCallback( null, true );
+                mLoginCallback = null;
             }
         }
 
@@ -884,6 +892,11 @@ package com.marpies.ane.twitter {
             if( mLogEnabled ) {
                 trace( TAG, message );
             }
+        }
+
+        private static function disposeStandardInvokeTimer():void {
+            mStandardInvokeTimer.removeEventListener( TimerEvent.TIMER_COMPLETE, onStandardInvoke );
+            mStandardInvokeTimer = null;
         }
 
         private static function get iOS():Boolean {

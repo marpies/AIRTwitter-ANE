@@ -25,8 +25,6 @@ static NSString* mURLScheme = nil;
 static NSString* mConsumerKey = nil;
 static NSString* mConsumerSecret = nil;
 
-static BOOL mLoginInProcess = NO;
-
 static AIRTwitterUser* mLoggedInUser = nil;
 
 @interface AIRTwitter ()
@@ -112,14 +110,6 @@ static AIRTwitterUser* mLoggedInUser = nil;
 
 + (NSString*) accessTokenSecret {
     return [[NSUserDefaults standardUserDefaults] valueForKey:@"accessTokenSecret"];
-}
-
-+ (BOOL) isLoginInProcess {
-    return mLoginInProcess;
-}
-
-+ (void) setLoginInProcess:(BOOL) isLoginInProcess {
-    mLoginInProcess = isLoginInProcess;
 }
 
 /**

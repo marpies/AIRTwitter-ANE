@@ -32,9 +32,6 @@
 + (NSString*) accessToken;
 + (NSString*) accessTokenSecret;
 
-+ (BOOL) isLoginInProcess;
-+ (void) setLoginInProcess:(BOOL) isLoginInProcess;
-
 + (AIRTwitterUser*) loggedInUser;
 + (void) setLoggedInUser:(AIRTwitterUser*) user;
 
