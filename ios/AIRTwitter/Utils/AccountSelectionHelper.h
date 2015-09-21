@@ -15,25 +15,13 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "STTwitter.h"
+#import <Accounts/Accounts.h>
+#import <UIKit/UIKit.h>
 
-@class AIRTwitterUser;
+@interface AccountSelectionHelper : NSObject<UIActionSheetDelegate>
 
-@interface AIRTwitter : NSObject
+typedef void (^accountSelectorCallback)(ACAccount *account, BOOL wasCancelled, NSString *errorMessage);
 
-+ (BOOL) initWithConsumerKey:(NSString*) key consumerSecret:(NSString*) secret urlScheme:(NSString*) urlScheme;
-+ (void) getAccessTokensForPIN:(NSString*) PIN;
-+ (void) verifySystemAccount:(ACAccount*) account;
-+ (void) clearAccessTokens;
-
-+ (STTwitterAPI*) api;
-+ (STTwitterAPI*) api:(BOOL) newInstance;
-
-+ (NSString*) urlScheme;
-+ (NSString*) accessToken;
-+ (NSString*) accessTokenSecret;
-
-+ (AIRTwitterUser*) loggedInUser;
-+ (void) setLoggedInUser:(AIRTwitterUser*) user;
++ (void) selectAccount:(accountSelectorCallback) completionHandler;
 
 @end

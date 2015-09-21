@@ -30,6 +30,8 @@
 #import "Functions/FavoriteStatusFunction.h"
 #import "Functions/GetLoggedInUserFunction.h"
 #import "Functions/ApplicationOpenURLFunction.h"
+#import "Functions/LoginWithAccount.h"
+#import "Functions/IsSystemAccountAvailableFunction.h"
 
 static BOOL logEnabled = NO;
 FREContext extensionContext = nil;
@@ -77,7 +79,7 @@ void AIRTwitterContextInitializer( void* extData,
                                   FREContext ctx,
                                   uint32_t* numFunctionsToSet,
                                   const FRENamedFunction** functionsToSet ) {
-    uint32_t numFunctions = 15;
+    uint32_t numFunctions = 17;
     *numFunctionsToSet = numFunctions;
     
     FRENamedFunction* functionArray = (FRENamedFunction*) malloc( sizeof( FRENamedFunction ) * numFunctions );
@@ -85,6 +87,7 @@ void AIRTwitterContextInitializer( void* extData,
     uint32_t index = 0;
     AIRTwitterAddFunction( functionArray, "init", &init, &index );
     AIRTwitterAddFunction( functionArray, "login", &login, &index );
+    AIRTwitterAddFunction( functionArray, "loginWithAccount", &loginWithAccount, &index );
     AIRTwitterAddFunction( functionArray, "logout", &logout, &index );
 
     AIRTwitterAddFunction( functionArray, "updateStatus", &updateStatus, &index );
@@ -102,6 +105,8 @@ void AIRTwitterContextInitializer( void* extData,
     AIRTwitterAddFunction( functionArray, "favoriteStatus", &favoriteStatus, &index );
 
     AIRTwitterAddFunction( functionArray, "applicationOpenURL", &applicationOpenURL, &index );
+    
+    AIRTwitterAddFunction( functionArray, "isSystemAccountAvailable", &isSystemAccountAvailable, &index );
     
     *functionsToSet = functionArray;
     

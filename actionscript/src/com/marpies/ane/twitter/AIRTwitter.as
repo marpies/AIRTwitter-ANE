@@ -143,6 +143,31 @@ package com.marpies.ane.twitter {
         }
 
         /**
+         * Initiates login process using an account set in user's iOS settings.
+         * @param callback Function with signature <code>callback(errorMessage:String, wasCancelled:Boolean):void</code>.
+         * @param dialogTitle Title for the pop up that appears when more Twitter accounts are available in the system.
+         * @param cancelButtonLabel Label for the cancel button that is part of the pop up. The button may not appear on
+         *                          iOS 8+ as the dialog is cancelled by tapping outside of its bounds.
+         *
+         * @see #isLoginWithAccountSupported
+         * @see #isSystemAccountAvailable
+         */
+        public static function loginWithAccount( callback:Function, dialogTitle:String = "Select an account", cancelButtonLabel:String = "Cancel" ):void {
+            if( !isLoginWithAccountSupported ) {
+                log( "Method loginWithAccount is only supported on iOS." );
+                return;
+            }
+            validateExtensionContext();
+
+            if( !dialogTitle ) throw new ArgumentError( "Parameter dialogTitle cannot be null." );
+            if( !cancelButtonLabel ) throw new ArgumentError( "Parameter cancelButtonLabel cannot be null." );
+
+            mLoginCallback = callback;
+
+            mContext.call( "loginWithAccount", dialogTitle, cancelButtonLabel );
+        }
+
+        /**
          * Logs out current and clears access tokens.
          */
         public static function logout():void {
@@ -523,7 +548,7 @@ package com.marpies.ane.twitter {
          */
 
         public static function get version():String {
-            return "0.5.4-beta";
+            return "0.5.6-beta";
         }
 
         /**
@@ -531,6 +556,24 @@ package com.marpies.ane.twitter {
          */
         public static function get isSupported():Boolean {
             return iOS || Capabilities.manufacturer.indexOf( "Android" ) > -1;
+        }
+
+        /**
+         * Supported on iOS only.
+         */
+        public static function get isLoginWithAccountSupported():Boolean {
+            return iOS;
+        }
+
+        /**
+         * Checks if a Twitter account is set in the user's iOS settings
+         * and your app was granted access to use it.
+         */
+        public static function get isSystemAccountAvailable():Boolean {
+            if( !iOS ) return false;
+            validateExtensionContext();
+
+            return mContext.call( "isSystemAccountAvailable" );
         }
 
         /**

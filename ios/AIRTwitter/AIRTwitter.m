@@ -43,11 +43,8 @@ static AIRTwitterUser* mLoggedInUser = nil;
         [AIR log:@"Initializing STTwitter w/ key, secret and user's access tokens"];
         mTwitter = [STTwitterAPI twitterAPIWithOAuthConsumerKey:key consumerSecret:secret oauthToken:accessToken oauthTokenSecret:[self accessTokenSecret]];
         return YES;
-    } else {
-        [AIR log:@"Init STTwitter w/ key and secret"];
-        mTwitter = [STTwitterAPI twitterAPIWithOAuthConsumerKey:key consumerSecret:secret];
-        return NO;
     }
+    return NO;
 }
 
 + (void) getAccessTokensForPIN:(NSString*) PIN {
@@ -55,20 +52,49 @@ static AIRTwitterUser* mLoggedInUser = nil;
 
     [mTwitter postAccessTokenRequestWithPIN:PIN successBlock:^(NSString* oauthToken, NSString* oauthTokenSecret, NSString* userID, NSString* screenName) {
         [AIR log:@"Successfully retrieved access token"];
-        /* There are not set when logging in after log out so we set them manually */
-        [mTwitter setUserName:screenName];
-        [mTwitter setUserID:userID];
-        /* Store access tokens */
-        NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
-        [defaults setObject:mTwitter.oauthAccessToken forKey:@"accessToken"];
-        [defaults setObject:mTwitter.oauthAccessTokenSecret forKey:@"accessTokenSecret"];
-        [defaults synchronize];
+        [self storeCredentials:screenName userID:userID accessToken:oauthToken accessTokenSecret:oauthTokenSecret];
         /* Dispatch login success */
         [AIR dispatchEvent:LOGIN_SUCCESS];
     } errorBlock:^(NSError* error) {
         [AIR log:[NSString stringWithFormat:@"Error retrieving access token: %@", error.localizedDescription]];
         [AIR dispatchEvent:LOGIN_ERROR withMessage:error.localizedDescription];
     }];
+}
+
++ (void) verifySystemAccount:(ACAccount*) account {
+    [[self api] postReverseOAuthTokenRequest:^(NSString *authenticationHeader) {
+        [AIR log:@"Authentication header retrieved."];
+        mTwitter = [STTwitterAPI twitterAPIOSWithAccount:account];
+        [mTwitter verifyCredentialsWithUserSuccessBlock:^(NSString *username, NSString *userID) {
+            [AIR log:@"Credentials for system account are valid."];
+            [mTwitter postReverseAuthAccessTokenWithAuthenticationHeader:authenticationHeader successBlock:^(NSString *oAuthToken, NSString *oAuthTokenSecret, NSString *userID, NSString *screenName) {
+                [AIR log:@"Access token for authentication header retrieved."];
+                [self storeCredentials:username userID:userID accessToken:oAuthToken accessTokenSecret:oAuthTokenSecret];
+                /* Dispatch login success */
+                [AIR dispatchEvent:LOGIN_SUCCESS];
+            } errorBlock:^(NSError *error) {
+                [AIR log:[NSString stringWithFormat:@"Error retrieving access token for authentication header: %@", error.localizedDescription]];
+                [AIR dispatchEvent:LOGIN_ERROR withMessage:error.localizedDescription];
+            }];
+        } errorBlock:^(NSError *error) {
+            [AIR log:[NSString stringWithFormat:@"Error verifying system account credentials: %@", error.localizedDescription]];
+            [AIR dispatchEvent:LOGIN_ERROR withMessage:error.localizedDescription];
+        }];
+    } errorBlock:^(NSError *error) {
+        [AIR log:[NSString stringWithFormat:@"Error retrieving authentication header: %@", error.localizedDescription]];
+        [AIR dispatchEvent:LOGIN_ERROR withMessage:error.localizedDescription];
+    }];
+}
+
++ (void) storeCredentials:(NSString*) screenName userID:(NSString*) userID accessToken:(NSString*) accessToken accessTokenSecret:(NSString*) accessTokenSecret {
+    /* There are not set when logging in after log out so we set them manually */
+    [mTwitter setUserName:screenName];
+    [mTwitter setUserID:userID];
+    /* Store access tokens */
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:accessToken forKey:@"accessToken"];
+    [defaults setObject:accessTokenSecret forKey:@"accessTokenSecret"];
+    [defaults synchronize];
 }
 
 + (void) clearAccessTokens {

@@ -14,26 +14,6 @@
  * limitations under the License.
  */
 
-#import <Foundation/Foundation.h>
-#import "STTwitter.h"
+#import "FlashRuntimeExtensions.h"
 
-@class AIRTwitterUser;
-
-@interface AIRTwitter : NSObject
-
-+ (BOOL) initWithConsumerKey:(NSString*) key consumerSecret:(NSString*) secret urlScheme:(NSString*) urlScheme;
-+ (void) getAccessTokensForPIN:(NSString*) PIN;
-+ (void) verifySystemAccount:(ACAccount*) account;
-+ (void) clearAccessTokens;
-
-+ (STTwitterAPI*) api;
-+ (STTwitterAPI*) api:(BOOL) newInstance;
-
-+ (NSString*) urlScheme;
-+ (NSString*) accessToken;
-+ (NSString*) accessTokenSecret;
-
-+ (AIRTwitterUser*) loggedInUser;
-+ (void) setLoggedInUser:(AIRTwitterUser*) user;
-
-@end
+FREObject isSystemAccountAvailable( FREContext context, void* functionData, uint32_t argc, FREObject argv[] );
