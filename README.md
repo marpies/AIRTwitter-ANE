@@ -9,7 +9,6 @@ ANE is currently in development and offers the following features:
 * Retrieving followers, friends, sending (un)follow requests
 
 The following is at the top of todo list:
-* Private messaging
 * Search
 * Login via in-app web view
 
@@ -188,6 +187,11 @@ The ANE has been written by [Marcel Piestansky](https://twitter.com/marpies) and
 ## Change log
 
 #### September 22, 2015
+
+* v0.6.0-beta
+  * ADDED support for sending and reading direct messages
+  * FIXED differences in dispatched and parsed JSON for user object
+  * FIXED incorrect internal event being dispatched on iOS for follow/unfollow requests
 
 * v0.5.7-beta
   * ADDED `undoFavoriteStatusWithID` and `deleteStatusWithID` methods

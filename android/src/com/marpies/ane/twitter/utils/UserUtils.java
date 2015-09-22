@@ -64,7 +64,7 @@ public class UserUtils {
 		userJSON.put( "tweetsCount", user.getStatusesCount() );
 		userJSON.put( "favoritesCount", user.getFavouritesCount() );
 		userJSON.put( "followersCount", user.getFollowersCount() );
-		userJSON.put( "followingsCount", user.getFriendsCount() );
+		userJSON.put( "friendsCount", user.getFriendsCount() );
 		userJSON.put( "profileImageURL", user.getProfileImageURL() );
 		userJSON.put( "isProtected", user.isProtected() );
 		userJSON.put( "isVerified", user.isVerified() );

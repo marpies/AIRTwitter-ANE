@@ -28,7 +28,7 @@
  * Helper method for queries like getFollowers and getFriends.
  */
 + (void) dispatchUsers:(NSArray*) users previousCursor:(NSString*) previousCursor nextCursor:(NSString*) nextCursor callbackID:(int) callbackID {
-    [AIR log:[NSString stringWithFormat:@"Got users query response with %d user(s)", users.count]];
+    [AIR log:[NSString stringWithFormat:@"Got users query response with %lu user(s)", users.count]];
     /* Create array of JSON users */
     NSMutableArray* jsonArray = [[NSMutableArray alloc] init];
     for( NSUInteger i = 0; i < users.count; i++ ) {
@@ -63,7 +63,7 @@
     json[@"tweetsCount"] = user.tweetsCount;
     json[@"favoritesCount"] = user.favoritesCount;
     json[@"followersCount"] = user.followersCount;
-    json[@"followingsCount"] = user.friendsCount;
+    json[@"friendsCount"] = user.friendsCount;
     json[@"profileImageURL"] = user.profileImageURL;
     json[@"isProtected"] = @(user.isProtected);
     json[@"isVerified"] = @(user.isVerified);

@@ -46,7 +46,7 @@ FREObject followUser(FREContext context, void* functionData, uint32_t argc, FREO
                                             }
                                               errorBlock:^(NSError* error) {
                                                   [AIR log:[NSString stringWithFormat:@"Error following user %@", error.localizedDescription]];
-                                                  [AIR dispatchEvent:USER_QUERY_SUCCESS withMessage:[StringUtils getEventErrorJSONString:callbackID errorMessage:error.localizedDescription]];
+                                                  [AIR dispatchEvent:USER_QUERY_ERROR withMessage:[StringUtils getEventErrorJSONString:callbackID errorMessage:error.localizedDescription]];
                                               }];
 
     return nil;

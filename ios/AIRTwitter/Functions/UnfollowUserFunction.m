@@ -44,7 +44,7 @@ FREObject unfollowUser(FREContext context, void* functionData, uint32_t argc, FR
                                           }
                                             errorBlock:^(NSError* error) {
                                                 [AIR log:[NSString stringWithFormat:@"Error unfollowing user %@", error.localizedDescription]];
-                                                [AIR dispatchEvent:USER_QUERY_SUCCESS withMessage:[StringUtils getEventErrorJSONString:callbackID errorMessage:error.localizedDescription]];
+                                                [AIR dispatchEvent:USER_QUERY_ERROR withMessage:[StringUtils getEventErrorJSONString:callbackID errorMessage:error.localizedDescription]];
                                             }];
 
     return nil;

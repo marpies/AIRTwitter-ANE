@@ -72,7 +72,7 @@ public class GetLoggedInUserFunction extends BaseFunction {
 
 	@Override
 	public void gotUserDetail( User user ) {
-		AIR.log( "Successfully retrieved user info" + user.getScreenName() + " | " + user.getId() );
+		AIR.log( "Successfully retrieved logged in user info" );
 		TwitterAPI.setLoggedInUser( user );
 		try {
 			JSONObject userJSON = UserUtils.getJSON( user );

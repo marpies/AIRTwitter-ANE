@@ -30,6 +30,9 @@
 #import "Functions/FavoriteStatusFunction.h"
 #import "Functions/UndoFavoriteStatusFunction.h"
 #import "Functions/DeleteStatusFunction.h"
+#import "Functions/SendDirectMessageFunction.h"
+#import "Functions/GetDirectMessagesFunction.h"
+#import "Functions/GetSentDirectMessagesFunction.h"
 #import "Functions/GetLoggedInUserFunction.h"
 #import "Functions/ApplicationOpenURLFunction.h"
 #import "Functions/LoginWithAccount.h"
@@ -81,7 +84,7 @@ void AIRTwitterContextInitializer( void* extData,
                                   FREContext ctx,
                                   uint32_t* numFunctionsToSet,
                                   const FRENamedFunction** functionsToSet ) {
-    uint32_t numFunctions = 19;
+    uint32_t numFunctions = 22;
     *numFunctionsToSet = numFunctions;
     
     FRENamedFunction* functionArray = (FRENamedFunction*) malloc( sizeof( FRENamedFunction ) * numFunctions );
@@ -107,6 +110,10 @@ void AIRTwitterContextInitializer( void* extData,
     AIRTwitterAddFunction( functionArray, "favoriteStatus", &favoriteStatus, &index );
     AIRTwitterAddFunction( functionArray, "undoFavoriteStatus", &undoFavoriteStatus, &index );
     AIRTwitterAddFunction( functionArray, "deleteStatus", &deleteStatus, &index );
+
+    AIRTwitterAddFunction( functionArray, "sendDirectMessage", &sendDirectMessage, &index );
+    AIRTwitterAddFunction( functionArray, "getDirectMessages", &getDirectMessages, &index );
+    AIRTwitterAddFunction( functionArray, "getSentDirectMessages", &getSentDirectMessages, &index );
 
     AIRTwitterAddFunction( functionArray, "applicationOpenURL", &applicationOpenURL, &index );
     

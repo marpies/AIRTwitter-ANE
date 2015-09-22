@@ -37,4 +37,10 @@ static const NSString* TIMELINE_QUERY_ERROR = @"timelineQueryError";
 static const NSString* USER_QUERY_SUCCESS = @"userQuerySuccess";
 static const NSString* USER_QUERY_ERROR = @"userQueryError";
 
+static const NSString* DIRECT_MESSAGE_QUERY_SUCCESS = @"directMessageQuerySuccess";
+static const NSString* DIRECT_MESSAGE_QUERY_ERROR = @"directMessageQueryError";
+
+static const NSString* DIRECT_MESSAGES_QUERY_SUCCESS = @"directMessagesQuerySuccess";
+static const NSString* DIRECT_MESSAGES_QUERY_ERROR = @"directMessagesQueryError";
+
 #endif

@@ -35,4 +35,11 @@ public class AIRTwitterEvent {
 
 	public static final String USER_QUERY_SUCCESS = "userQuerySuccess";
 	public static final String USER_QUERY_ERROR = "userQueryError";
+
+	public static final String DIRECT_MESSAGE_QUERY_SUCCESS = "directMessageQuerySuccess";
+	public static final String DIRECT_MESSAGE_QUERY_ERROR = "directMessageQueryError";
+
+	public static final String DIRECT_MESSAGES_QUERY_SUCCESS = "directMessagesQuerySuccess";
+	public static final String DIRECT_MESSAGES_QUERY_ERROR = "directMessagesQueryError";
+
 }

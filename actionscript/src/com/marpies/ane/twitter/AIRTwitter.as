@@ -16,6 +16,7 @@
 
 package com.marpies.ane.twitter {
 
+    import com.marpies.ane.twitter.data.AIRTwitterDirectMessage;
     import com.marpies.ane.twitter.data.AIRTwitterStatus;
     import com.marpies.ane.twitter.data.AIRTwitterUser;
 
@@ -55,6 +56,14 @@ package com.marpies.ane.twitter {
         /* Event name for queries that return single user (un/followUser, getLoggedInUser...) */
         private static const USER_QUERY_SUCCESS:String = "userQuerySuccess";
         private static const USER_QUERY_ERROR:String = "userQueryError";
+
+        /* Event name for queries that return single direct message */
+        private static const DIRECT_MESSAGE_QUERY_SUCCESS:String = "directMessageQuerySuccess";
+        private static const DIRECT_MESSAGE_QUERY_ERROR:String = "directMessageQueryError";
+
+        /* Event name for queries that return list with direct messages (getDirectMessages, getSentDirectMessages) */
+        private static const DIRECT_MESSAGES_QUERY_SUCCESS:String = "directMessagesQuerySuccess";
+        private static const DIRECT_MESSAGES_QUERY_ERROR:String = "directMessagesQueryError";
 
         /* Misc */
         private static var mLogEnabled:Boolean;
@@ -537,6 +546,61 @@ package com.marpies.ane.twitter {
         }
 
         /**
+         * Sends direct message to user with given ID.
+         * @param text Text of the message.
+         * @param userID ID of the user to send the message to.
+         * @param callback Function with signature <code>callback(message:AIRTwitterDirectMessage, errorMessage:String):void</code>.
+         */
+        public static function sendDirectMessageToUserWithID( text:String, userID:Number, callback:Function ):void {
+            if( !text ) throw new ArgumentError( "Parameter text cannot be null." );
+            validateUserID( userID );
+
+            sendDirectMessageInternal( text, userID, null, callback );
+        }
+
+        /**
+         * Sends direct message to user with given screen name.
+         * @param text Text of the message.
+         * @param screenName Screen name of the user to send the message to.
+         * @param callback Function with signature <code>callback(message:AIRTwitterDirectMessage, errorMessage:String):void</code>.
+         */
+        public static function sendDirectMessageToUserWithScreenName( text:String, screenName:String, callback:Function ):void {
+            if( !text ) throw new ArgumentError( "Parameter text cannot be null." );
+            validateScreenName( screenName );
+
+            sendDirectMessageInternal( text, -1, screenName, callback );
+        }
+
+        /**
+         * Returns the <code>count</code> most recent direct messages sent to the authenticated user.
+         * @param count Specifies the number of records to retrieve. Must be less than or equal to 200.
+         * @param sinceID Returns results with an ID greater than (that is, more recent than) the specified ID.
+         * @param maxID Returns results with an ID less than (that is, older than) or equal to the specified ID.
+         * @param callback Function with signature <code>callback(messages:Vector.&lt;AIRTwitterDirectMessage&gt;, errorMessage:String):void</code>.
+         */
+        public static function getDirectMessages( count:uint = 20, sinceID:Number = -1, maxID:Number = -1, callback:Function = null ):void {
+            if( !isSupported ) return;
+            validateExtensionContext();
+
+            mContext.call( "getDirectMessages", count, sinceID, maxID, registerCallback( callback ) );
+        }
+
+        /**
+         * Returns the <code>count</code> most recent direct messages sent by the authenticated user.
+         * @param count Specifies the number of records to retrieve. Must be less than or equal to 200.
+         * @param sinceID Returns results with an ID greater than (that is, more recent than) the specified ID.
+         * @param maxID Returns results with an ID less than (that is, older than) or equal to the specified ID.
+         * @param page Specifies the page of results to retrieve.
+         * @param callback Function with signature <code>callback(messages:Vector.&lt;AIRTwitterDirectMessage&gt;, errorMessage:String):void</code>.
+         */
+        public static function getSentDirectMessages( count:uint = 20, sinceID:Number = -1, maxID:Number = -1, page:uint = 1, callback:Function = null ):void {
+            if( !isSupported ) return;
+            validateExtensionContext();
+
+            mContext.call( "getSentDirectMessages", count, sinceID, maxID, page, registerCallback( callback ) );
+        }
+
+        /**
          * Disposes native extension context.
          */
         public static function dispose():void {
@@ -564,7 +628,7 @@ package com.marpies.ane.twitter {
          */
 
         public static function get version():String {
-            return "0.5.7-beta";
+            return "0.6.0-beta";
         }
 
         /**
@@ -642,6 +706,13 @@ package com.marpies.ane.twitter {
             mContext.call( "unfollowUser", userID, screenName, registerCallback( callback ) );
         }
 
+        private static function sendDirectMessageInternal( text:String, userID:Number, screenName:String, callback:Function ):void {
+            if( !isSupported ) return;
+            validateExtensionContext();
+
+            mContext.call( "sendDirectMessage", text, userID, screenName, registerCallback( callback ) );
+        }
+
         /**
          * Registers given callback and generates ID which is used to look the callback up when it is time to call it.
          * @param callback Function to register.
@@ -702,7 +773,7 @@ package com.marpies.ane.twitter {
             user.ns_airtwitter_internal::tweetsCount = json.tweetsCount;
             user.ns_airtwitter_internal::favoritesCount = json.favoritesCount;
             user.ns_airtwitter_internal::followersCount = json.followersCount;
-            user.ns_airtwitter_internal::friendsCount = json.followingsCount;
+            user.ns_airtwitter_internal::friendsCount = json.friendsCount;
             user.ns_airtwitter_internal::profileImageURL = json.profileImageURL;
             user.ns_airtwitter_internal::isProtected = json.isProtected;
             user.ns_airtwitter_internal::isVerified = json.isVerified;
@@ -741,6 +812,29 @@ package com.marpies.ane.twitter {
                 status.ns_airtwitter_internal::user = getUserFromJSON( json.user );
             }
             return status;
+        }
+
+        private static function getDirectMessagesFromJSONArray( jsonArray:Array ):Vector.<AIRTwitterDirectMessage> {
+            const length:uint = jsonArray.length;
+            const result:Vector.<AIRTwitterDirectMessage> = new <AIRTwitterDirectMessage>[];
+            for( var i:uint = 0; i < length; i++ ) {
+                var messageInfo:Object = jsonArray[i];
+                if( messageInfo is String ) {
+                    messageInfo = JSON.parse( String( messageInfo ) );
+                }
+                result[result.length] = getDirectMessageFromJSON( messageInfo );
+            }
+            return result;
+        }
+
+        private static function getDirectMessageFromJSON( json:Object ):AIRTwitterDirectMessage {
+            const dm:AIRTwitterDirectMessage = new AIRTwitterDirectMessage();
+            dm.ns_airtwitter_internal::id = json.id;
+            dm.ns_airtwitter_internal::createdAt = json.createdAt;
+            dm.ns_airtwitter_internal::text = json.text;
+            dm.ns_airtwitter_internal::recipient = getUserFromJSON( json.recipient );
+            dm.ns_airtwitter_internal::sender = getUserFromJSON( json.sender );
+            return dm;
         }
 
         private static function onStatus( event:StatusEvent ):void {
@@ -796,7 +890,7 @@ package com.marpies.ane.twitter {
                     log( "Status update success " + json.id );
                     if( callback != null ) {
                         /* JSON will contain status info */
-                        if( json.success != undefined ) {
+                        if( "success" in json ) {
                             callback( getStatusFromJSON( json ), null );
                         }
                         /* Status update did happen but there was an error parsing the status info */
@@ -814,7 +908,6 @@ package com.marpies.ane.twitter {
                     return;
 
                 case USERS_QUERY_SUCCESS:
-                    json = JSON.parse( event.level );
                     log( "Users query success" );
                     if( callback != null ) {
                         const users:Vector.<AIRTwitterUser> = getUsersFromJSONArray( json.users as Array );
@@ -825,7 +918,6 @@ package com.marpies.ane.twitter {
                     return;
 
                 case USERS_QUERY_ERROR:
-                    json = JSON.parse( event.level );
                     log( "Users query error " + json.errorMessage );
                     if( callback != null ) {
                         callback( null, 0, 0, json.errorMessage );
@@ -833,7 +925,6 @@ package com.marpies.ane.twitter {
                     return;
 
                 case TIMELINE_QUERY_SUCCESS:
-                    json = JSON.parse( event.level );
                     log( "Timeline query success" );
                     if( callback != null ) {
                         const statuses:Vector.<AIRTwitterStatus> = getStatusesFromJSONArray( json.statuses as Array );
@@ -842,7 +933,6 @@ package com.marpies.ane.twitter {
                     return;
 
                 case TIMELINE_QUERY_ERROR:
-                    json = JSON.parse( event.level );
                     log( "Timeline query error " + json.errorMessage );
                     if( callback != null ) {
                         callback( null, json.errorMessage );
@@ -850,11 +940,10 @@ package com.marpies.ane.twitter {
                     return;
 
                 case USER_QUERY_SUCCESS:
-                    json = JSON.parse( event.level );
                     log( "User query success" );
                     if( callback != null ) {
                         /* JSON will contain target user info */
-                        if( json.success != undefined ) {
+                        if( "success" in json ) {
                             const user:AIRTwitterUser = getUserFromJSON( json );
                             /* Cache the user object if the query returned info for logged in user */
                             if( json.loggedInUser ) {
@@ -870,8 +959,44 @@ package com.marpies.ane.twitter {
                     return;
 
                 case USER_QUERY_ERROR:
-                    json = JSON.parse( event.level );
                     log( "User query error " + json.errorMessage );
+                    if( callback != null ) {
+                        callback( null, json.errorMessage );
+                    }
+                    return;
+
+                case DIRECT_MESSAGE_QUERY_SUCCESS:
+                    log( "Direct message query success" );
+                    if( callback != null ) {
+                        /* JSON will contain target message info */
+                        if( "success" in json ) {
+                            const message:AIRTwitterDirectMessage = getDirectMessageFromJSON( json );
+                            callback( message, null );
+                        }
+                        /* User query did succeed but there was an error parsing the message info */
+                        else {
+                            callback( null, json.errorMessage );
+                        }
+                    }
+                    return;
+
+                case DIRECT_MESSAGE_QUERY_ERROR:
+                    log( "Direct message query error " + json.errorMessage );
+                    if( callback != null ) {
+                        callback( null, json.errorMessage );
+                    }
+                    return;
+
+                case DIRECT_MESSAGES_QUERY_SUCCESS:
+                    log( "Direct messages query success" );
+                    if( callback != null ) {
+                        const messages:Vector.<AIRTwitterDirectMessage> = getDirectMessagesFromJSONArray( json.messages as Array );
+                        callback( messages, null );
+                    }
+                    return;
+
+                case DIRECT_MESSAGES_QUERY_ERROR:
+                    log( "Direct messages query error " + json.errorMessage );
                     if( callback != null ) {
                         callback( null, json.errorMessage );
                     }

@@ -50,6 +50,10 @@ public class AIRTwitterExtensionContext extends FREContext {
 		functions.put( "undoFavoriteStatus", new UndoFavoriteStatusFunction() );
 		functions.put( "deleteStatus", new DeleteStatusFunction() );
 
+		functions.put( "sendDirectMessage", new SendDirectMessageFunction() );
+		functions.put( "getDirectMessages", new GetDirectMessagesFunction() );
+		functions.put( "getSentDirectMessages", new GetSentDirectMessagesFunction() );
+
 		functions.put( "applicationOpenURL", new ApplicationOpenURLFunction() );
 
 		return functions;
