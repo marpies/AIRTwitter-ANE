@@ -47,6 +47,8 @@ public class AIRTwitterExtensionContext extends FREContext {
 
 		functions.put( "retweetStatus", new RetweetStatusFunction() );
 		functions.put( "favoriteStatus", new FavoriteStatusFunction() );
+		functions.put( "undoFavoriteStatus", new UndoFavoriteStatusFunction() );
+		functions.put( "deleteStatus", new DeleteStatusFunction() );
 
 		functions.put( "applicationOpenURL", new ApplicationOpenURLFunction() );
 

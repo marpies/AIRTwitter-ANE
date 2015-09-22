@@ -187,9 +187,13 @@ The ANE has been written by [Marcel Piestansky](https://twitter.com/marpies) and
 
 ## Change log
 
-#### September 22, 2015 (v0.5.6-beta)
+#### September 22, 2015
 
-* ADDED `loginWithAccount` method for logging in using an account set in the iOS settings
+* v0.5.7-beta
+  * ADDED `undoFavoriteStatusWithID` and `deleteStatusWithID` methods
+
+* v0.5.6-beta
+  * ADDED `loginWithAccount` method for logging in using an account set in the iOS settings
 
 #### September 21, 2015 (v0.5.4-beta)
 

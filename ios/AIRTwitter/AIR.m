@@ -28,6 +28,8 @@
 #import "Functions/UnfollowUserFunction.h"
 #import "Functions/RetweetStatusFunction.h"
 #import "Functions/FavoriteStatusFunction.h"
+#import "Functions/UndoFavoriteStatusFunction.h"
+#import "Functions/DeleteStatusFunction.h"
 #import "Functions/GetLoggedInUserFunction.h"
 #import "Functions/ApplicationOpenURLFunction.h"
 #import "Functions/LoginWithAccount.h"
@@ -79,7 +81,7 @@ void AIRTwitterContextInitializer( void* extData,
                                   FREContext ctx,
                                   uint32_t* numFunctionsToSet,
                                   const FRENamedFunction** functionsToSet ) {
-    uint32_t numFunctions = 17;
+    uint32_t numFunctions = 19;
     *numFunctionsToSet = numFunctions;
     
     FRENamedFunction* functionArray = (FRENamedFunction*) malloc( sizeof( FRENamedFunction ) * numFunctions );
@@ -103,6 +105,8 @@ void AIRTwitterContextInitializer( void* extData,
 
     AIRTwitterAddFunction( functionArray, "retweetStatus", &retweetStatus, &index );
     AIRTwitterAddFunction( functionArray, "favoriteStatus", &favoriteStatus, &index );
+    AIRTwitterAddFunction( functionArray, "undoFavoriteStatus", &undoFavoriteStatus, &index );
+    AIRTwitterAddFunction( functionArray, "deleteStatus", &deleteStatus, &index );
 
     AIRTwitterAddFunction( functionArray, "applicationOpenURL", &applicationOpenURL, &index );
     

@@ -191,9 +191,7 @@ package com.marpies.ane.twitter {
 
             if( mLoggedInUser ) return mLoggedInUser;
 
-            const callbackID:int = registerCallback( callback );
-
-            mContext.call( "getLoggedInUser", callbackID );
+            mContext.call( "getLoggedInUser", registerCallback( callback ) );
             return null;
         }
 
@@ -211,9 +209,20 @@ package com.marpies.ane.twitter {
             if( !text && (!media || media.length == 0) ) throw ArgumentError( "Either parameter text or media must be set." );
             if( media && media.length > 4 ) throw new Error( "Maximum number of media files is 4." );
 
-            const callbackID:int = registerCallback( callback );
+            mContext.call( "updateStatus", text, registerCallback( callback ), inReplyToStatusID, media );
+        }
 
-            mContext.call( "updateStatus", text, callbackID, inReplyToStatusID, media );
+        /**
+         * Deletes status with given ID.
+         * @param statusID ID of the status to delete.
+         * @param callback Function with signature <code>callback(deletedStatus:AIRTwitterStatus, errorMessage:String):void</code>.
+         */
+        public static function deleteStatusWithID( statusID:Number, callback:Function ):void {
+            if( !isSupported ) return;
+            validateExtensionContext();
+            validateStatusID( statusID );
+
+            mContext.call( "deleteStatus", statusID, registerCallback( callback ) );
         }
 
         /**
@@ -226,9 +235,7 @@ package com.marpies.ane.twitter {
             validateExtensionContext();
             validateStatusID( statusID );
 
-            const callbackID:int = registerCallback( callback );
-
-            mContext.call( "retweetStatus", statusID, callbackID );
+            mContext.call( "retweetStatus", statusID, registerCallback( callback ) );
         }
 
         /**
@@ -241,9 +248,20 @@ package com.marpies.ane.twitter {
             validateExtensionContext();
             validateStatusID( statusID );
 
-            const callbackID:int = registerCallback( callback );
+            mContext.call( "favoriteStatus", statusID, registerCallback( callback ) );
+        }
 
-            mContext.call( "favoriteStatus", statusID, callbackID );
+        /**
+         * Removes status with given ID from favorites.
+         * @param statusID ID of the status to retweet.
+         * @param callback Function with signature <code>callback(unfavoritedStatus:AIRTwitterStatus, errorMessage:String):void</code>
+         */
+        public static function undoFavoriteStatusWithID( statusID:Number, callback:Function = null ):void {
+            if( !isSupported ) return;
+            validateExtensionContext();
+            validateStatusID( statusID );
+
+            mContext.call( "undoFavoriteStatus", statusID, registerCallback( callback ) );
         }
 
         /**
@@ -308,9 +326,7 @@ package com.marpies.ane.twitter {
 
             if( count > 200 || count < 1 ) throw new RangeError( "Value of parameter count must be between 1-200" );
 
-            const callbackID:int = registerCallback( callback );
-
-            mContext.call( "getHomeTimeline", count, sinceID, maxID, excludeReplies, callbackID );
+            mContext.call( "getHomeTimeline", count, sinceID, maxID, excludeReplies, registerCallback( callback ) );
         }
 
         /**
@@ -548,7 +564,7 @@ package com.marpies.ane.twitter {
          */
 
         public static function get version():String {
-            return "0.5.6-beta";
+            return "0.5.7-beta";
         }
 
         /**
@@ -588,54 +604,42 @@ package com.marpies.ane.twitter {
             if( !isSupported ) return;
             validateExtensionContext();
 
-            const callbackID:int = registerCallback( callback );
-
-            mContext.call( "getFollowers", cursor, userID, screenName, callbackID );
+            mContext.call( "getFollowers", cursor, userID, screenName, registerCallback( callback ) );
         }
 
         private static function getUserTimelineInternal( count:uint = 20, sinceID:Number = -1, maxID:Number = -1, excludeReplies:Boolean = false, userID:Number = -1, screenName:String = null, callback:Function = null ):void {
             if( !isSupported ) return;
             validateExtensionContext();
 
-            const callbackID:int = registerCallback( callback );
-
-            mContext.call( "getUserTimeline", count, sinceID, maxID, excludeReplies, userID, screenName, callbackID );
+            mContext.call( "getUserTimeline", count, sinceID, maxID, excludeReplies, userID, screenName, registerCallback( callback ) );
         }
 
         private static function getFavoritesInternal( count:uint = 20, sinceID:Number = -1, maxID:Number = -1, userID:Number = -1, screenName:String = null, callback:Function = null ):void {
             if( !isSupported ) return;
             validateExtensionContext();
 
-            const callbackID:int = registerCallback( callback );
-
-            mContext.call( "getFavorites", count, sinceID, maxID, userID, screenName, callbackID );
+            mContext.call( "getFavorites", count, sinceID, maxID, userID, screenName, registerCallback( callback ) );
         }
 
         private static function getFriendsInternal( cursor:Number = -1, userID:Number = -1, screenName:String = null, callback:Function = null ):void {
             if( !isSupported ) return;
             validateExtensionContext();
 
-            const callbackID:int = registerCallback( callback );
-
-            mContext.call( "getFriends", cursor, userID, screenName, callbackID );
+            mContext.call( "getFriends", cursor, userID, screenName, registerCallback( callback ) );
         }
 
         private static function followUserInternal( userID:Number = -1, screenName:String = null, enableNotifications:Boolean = false, callback:Function = null ):void {
             if( !isSupported ) return;
             validateExtensionContext();
 
-            const callbackID:int = registerCallback( callback );
-
-            mContext.call( "followUser", userID, screenName, enableNotifications, callbackID );
+            mContext.call( "followUser", userID, screenName, enableNotifications, registerCallback( callback ) );
         }
 
         private static function unfollowUserInternal( userID:Number = -1, screenName:String = null, callback:Function = null ):void {
             if( !isSupported ) return;
             validateExtensionContext();
 
-            const callbackID:int = registerCallback( callback );
-
-            mContext.call( "unfollowUser", userID, screenName, callbackID );
+            mContext.call( "unfollowUser", userID, screenName, registerCallback( callback ) );
         }
 
         /**
