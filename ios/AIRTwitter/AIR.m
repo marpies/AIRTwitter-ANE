@@ -34,6 +34,7 @@
 #import "Functions/GetDirectMessagesFunction.h"
 #import "Functions/GetSentDirectMessagesFunction.h"
 #import "Functions/GetLoggedInUserFunction.h"
+#import "Functions/GetUserFunction.h"
 #import "Functions/ApplicationOpenURLFunction.h"
 #import "Functions/LoginWithAccount.h"
 #import "Functions/IsSystemAccountAvailableFunction.h"
@@ -84,7 +85,7 @@ void AIRTwitterContextInitializer( void* extData,
                                   FREContext ctx,
                                   uint32_t* numFunctionsToSet,
                                   const FRENamedFunction** functionsToSet ) {
-    uint32_t numFunctions = 22;
+    uint32_t numFunctions = 23;
     *numFunctionsToSet = numFunctions;
     
     FRENamedFunction* functionArray = (FRENamedFunction*) malloc( sizeof( FRENamedFunction ) * numFunctions );
@@ -102,6 +103,7 @@ void AIRTwitterContextInitializer( void* extData,
     AIRTwitterAddFunction( functionArray, "getFavorites", &getFavorites, &index );
     AIRTwitterAddFunction( functionArray, "getFriends", &getFriends, &index );
     AIRTwitterAddFunction( functionArray, "getLoggedInUser", &getLoggedInUser, &index );
+    AIRTwitterAddFunction( functionArray, "getUser", &getUser, &index );
 
     AIRTwitterAddFunction( functionArray, "followUser", &followUser, &index );
     AIRTwitterAddFunction( functionArray, "unfollowUser", &unfollowUser, &index );

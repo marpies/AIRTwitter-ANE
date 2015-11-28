@@ -186,6 +186,10 @@ The ANE has been written by [Marcel Piestansky](https://twitter.com/marpies) and
 
 ## Change log
 
+#### November 28, 2015 (v0.6.1-beta)
+
+* ADDED `getUserForID` and `getUserForScreenName` methods
+
 #### September 22, 2015
 
 * v0.6.0-beta

@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2015 Marcel Piestansky (http://marpies.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,7 +18,6 @@ package com.marpies.ane.twitter.functions;
 
 import com.adobe.fre.FREContext;
 import com.adobe.fre.FREObject;
-import com.adobe.fre.FREWrongThreadException;
 import com.marpies.ane.twitter.data.AIRTwitterEvent;
 import com.marpies.ane.twitter.data.TwitterAPI;
 import com.marpies.ane.twitter.utils.AIR;
@@ -28,39 +27,25 @@ import com.marpies.ane.twitter.utils.UserUtils;
 import twitter4j.*;
 import twitter4j.auth.AccessToken;
 
-public class GetLoggedInUserFunction extends BaseFunction {
+public class GetUserFunction extends BaseFunction {
 
 	@Override
 	public FREObject call( FREContext context, FREObject[] args ) {
 		super.call( context, args );
 
-		mCallbackID = FREObjectUtils.getInt( args[0] );
+		long userID = FREObjectUtils.getDouble( args[0] ).longValue();
+		String screenName = (args[1] == null) ? null : FREObjectUtils.getString( args[1] );
+		mCallbackID = FREObjectUtils.getInt( args[2] );
 
-		User user = TwitterAPI.getLoggedInUser();
-
-		/* Return cached object */
-		if( user != null ) {
-			try {
-				dispatchUser( user );
-			} catch( Exception e ) {
-				e.printStackTrace();
-				AIR.dispatchEvent( AIRTwitterEvent.USER_QUERY_ERROR, StringUtils.getEventErrorJSON(
-						mCallbackID, e.getMessage()
-				) );
-			}
-		}
-		/* Request user info */
-		else if( TwitterAPI.hasAccessTokens() ) {
-			AccessToken accessToken = TwitterAPI.getAccessToken();
-			AsyncTwitter twitter = TwitterAPI.getAsyncInstance( accessToken );
-			twitter.addListener( this );
-			twitter.showUser( accessToken.getUserId() );
-		}
-		/* User not logged in, error */
-		else {
-			AIR.dispatchEvent( AIRTwitterEvent.USER_QUERY_ERROR, StringUtils.getEventErrorJSON(
-			        mCallbackID, "User is not logged in."
-			) );
+		AccessToken accessToken = TwitterAPI.getAccessToken();
+		AsyncTwitter twitter = TwitterAPI.getAsyncInstance( accessToken );
+		twitter.addListener( this );
+		if( screenName != null ) {
+			AIR.log( "Getting user info for " + screenName );
+			twitter.showUser( screenName );
+		} else {
+			AIR.log( "Getting user info for userID: " + userID );
+			twitter.showUser( userID );
 		}
 
 		return null;
@@ -68,10 +53,12 @@ public class GetLoggedInUserFunction extends BaseFunction {
 
 	@Override
 	public void gotUserDetail( User user ) {
-		AIR.log( "Successfully retrieved logged in user info" );
-		TwitterAPI.setLoggedInUser( user );
+		AIR.log( "Successfully retrieved user info" );
 		try {
-			dispatchUser( user );
+			JSONObject userJSON = UserUtils.getJSON( user );
+			userJSON.put( "callbackID", mCallbackID );
+			userJSON.put( "success", true );
+			AIR.dispatchEvent( AIRTwitterEvent.USER_QUERY_SUCCESS, userJSON.toString() );
 		} catch( JSONException e ) {
 			AIR.dispatchEvent( AIRTwitterEvent.USER_QUERY_SUCCESS, StringUtils.getEventErrorJSON(
 					mCallbackID, "Error parsing returned user info."
@@ -87,14 +74,6 @@ public class GetLoggedInUserFunction extends BaseFunction {
 					mCallbackID, te.getMessage()
 			) );
 		}
-	}
-
-	private void dispatchUser( User user ) throws JSONException {
-		JSONObject userJSON = UserUtils.getJSON( user );
-		userJSON.put( "callbackID", mCallbackID );
-		userJSON.put( "success", true );
-		userJSON.put( "loggedInUser", true );	// So that we can cache the user object in AS3
-		AIR.dispatchEvent( AIRTwitterEvent.USER_QUERY_SUCCESS, userJSON.toString() );
 	}
 
 }

@@ -399,6 +399,28 @@ package com.marpies.ane.twitter {
         }
 
         /**
+         * Requests info for user with given ID.
+         * @param userID ID of the user for whom info to request the info.
+         * @param callback Function with signature <code>callback(user:AIRTwitterUser, errorMessage:String):void</code>.
+         */
+        public static function getUserForID( userID:Number, callback:Function = null ):void {
+            validateUserID( userID );
+
+            getUserInternal( userID, null, callback );
+        }
+
+        /**
+         * Requests info for user with given screen name.
+         * @param screenName Screen name of the user for whom info to request the info.
+         * @param callback Function with signature <code>callback(user:AIRTwitterUser, errorMessage:String):void</code>.
+         */
+        public static function getUserForScreenName( screenName:String, callback:Function = null ):void {
+            validateScreenName( screenName );
+
+            getUserInternal( -1, screenName, callback );
+        }
+
+        /**
          * Requests favorite statuses for logged in user user.
          * @param count Specifies the number of tweets to retrieve. Must be less than or equal to 200.
          *              The value of <code>count</code> is best thought of as a limit to the number of tweets
@@ -628,7 +650,7 @@ package com.marpies.ane.twitter {
          */
 
         public static function get version():String {
-            return "0.6.0-beta";
+            return "0.6.1-beta";
         }
 
         /**
@@ -676,6 +698,13 @@ package com.marpies.ane.twitter {
             validateExtensionContext();
 
             mContext.call( "getUserTimeline", count, sinceID, maxID, excludeReplies, userID, screenName, registerCallback( callback ) );
+        }
+
+        private static function getUserInternal( userID:Number = -1, screenName:String = null, callback:Function = null ):void {
+            if( !isSupported ) return;
+            validateExtensionContext();
+
+            mContext.call( "getUser", userID, screenName, registerCallback( callback ) );
         }
 
         private static function getFavoritesInternal( count:uint = 20, sinceID:Number = -1, maxID:Number = -1, userID:Number = -1, screenName:String = null, callback:Function = null ):void {

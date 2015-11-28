@@ -41,6 +41,7 @@ public class AIRTwitterExtensionContext extends FREContext {
 		functions.put( "getFavorites", new GetFavoritesFunction() );
 		functions.put( "getFriends", new GetFriendsFunction() );
 		functions.put( "getLoggedInUser", new GetLoggedInUserFunction() );
+		functions.put( "getUser", new GetUserFunction() );
 
 		functions.put( "followUser", new FollowUserFunction() );
 		functions.put( "unfollowUser", new UnfollowUserFunction() );
