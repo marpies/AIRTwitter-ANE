@@ -50,6 +50,7 @@ public class DirectMessageUtils {
 	public static JSONObject getJSON( DirectMessage message ) throws JSONException {
 		JSONObject dmJSON = new twitter4j.JSONObject();
 		dmJSON.put( "id", message.getId() );
+		dmJSON.put( "idStr", String.valueOf( message.getId() ) );
 		dmJSON.put( "text", message.getText() );
 		dmJSON.put( "createdAt", message.getCreatedAt() );
 		dmJSON.put( "recipient", UserUtils.getJSON( message.getRecipient() ) );

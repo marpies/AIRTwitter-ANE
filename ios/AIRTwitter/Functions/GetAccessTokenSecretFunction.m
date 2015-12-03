@@ -14,6 +14,14 @@
  * limitations under the License.
  */
 
-#import "FlashRuntimeExtensions.h"
+#import "GetAccessTokenSecretFunction.h"
+#import "FREObjectUtils.h"
+#import "AIRTwitter.h"
 
-FREObject undoFavoriteStatus( FREContext context, void* functionData, uint32_t argc, FREObject argv[] );
+FREObject getAccessTokenSecret( FREContext context, void* functionData, uint32_t argc, FREObject argv[] ) {
+    NSString* accessTokenSecret = [AIRTwitter accessTokenSecret];
+    if( accessTokenSecret ) {
+        return [FREObjectUtils getFREObjectFromNSString:accessTokenSecret];
+    }
+    return nil;
+}

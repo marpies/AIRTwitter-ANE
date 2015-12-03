@@ -35,8 +35,8 @@ public class GetUserTimelineFunction extends BaseFunction {
 		super.call( context, args );
 
 		int count = FREObjectUtils.getInt( args[0] );
-		long sinceID = FREObjectUtils.getDouble( args[1] ).longValue();
-		long maxID = FREObjectUtils.getDouble( args[2] ).longValue();
+		long sinceID = (args[1] == null) ? -1 : Long.valueOf( FREObjectUtils.getString( args[1] ) );
+		long maxID = (args[2] == null) ? -1 : Long.valueOf( FREObjectUtils.getString( args[2] ) );
 		mExcludeReplies = FREObjectUtils.getBoolean( args[3] );
 		long userID = FREObjectUtils.getDouble( args[4] ).longValue();
 		String screenName = (args[5] == null) ? null : FREObjectUtils.getString( args[5] );

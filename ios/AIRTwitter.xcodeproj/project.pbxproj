@@ -18,13 +18,14 @@
 		320849A5E7EAC4D5CC7E09E1 /* StringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3208464DAD0026DD946B6BB4 /* StringUtils.m */; };
 		32084A979A3C1FF4D3472AE2 /* GetUserTimelineFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = 320840EAED7ED84523AA50BA /* GetUserTimelineFunction.m */; };
 		32084B8C8D156226A305DBA1 /* StatusUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3208445BBEEEFE301C581CC9 /* StatusUtils.m */; };
-		32084CCC7D65E38C62696A2C /* GetFavoritesFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = 32084BA92BEE7C238D196447 /* GetFavoritesFunction.m */; };
 		32084D480A62443BFBAF59B0 /* GetHomeTimelineFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = 32084C91E12E81F5F086F646 /* GetHomeTimelineFunction.m */; };
-		32084DC5F105A0C98A9F098B /* FavoriteStatusFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = 320843CD9CBC29CFE5009C5D /* FavoriteStatusFunction.m */; };
 		32084DD1AAB456DA52ACD847 /* LogoutFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = 32084023811B564066379C56 /* LogoutFunction.m */; };
 		32084E385E9628C816F3B679 /* FollowUserFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = 32084BEFA8F3B8E9CC914D50 /* FollowUserFunction.m */; };
 		32084FA4994E3FE3C195A595 /* AIRTwitterUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3208400EC6D8C5E446AEFA9B /* AIRTwitterUser.m */; };
 		32084FEC6DF5E508362367F2 /* AccountSelectionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3208431AD4464840D7B3B9CA /* AccountSelectionHelper.m */; };
+		C30632BD1C0F617F00B79DBB /* GetLikesFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = C30632B81C0F617F00B79DBB /* GetLikesFunction.m */; };
+		C30632BE1C0F617F00B79DBB /* LikeStatusFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = C30632BA1C0F617F00B79DBB /* LikeStatusFunction.m */; };
+		C30632BF1C0F617F00B79DBB /* UndoLikeStatusFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = C30632BC1C0F617F00B79DBB /* UndoLikeStatusFunction.m */; };
 		C31AD2BA1B8E21F90042555C /* AIR.m in Sources */ = {isa = PBXBuildFile; fileRef = C31AD2B91B8E21F90042555C /* AIR.m */; };
 		C31AD2BD1B8E258D0042555C /* UpdateStatusFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = C31AD2BC1B8E258D0042555C /* UpdateStatusFunction.m */; };
 		C31AD2C31B8E3FC00042555C /* MediaSource.m in Sources */ = {isa = PBXBuildFile; fileRef = C31AD2C21B8E3FC00042555C /* MediaSource.m */; };
@@ -54,12 +55,13 @@
 		C35332371B7BCFA0003A7521 /* LoginFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = C35332361B7BCFA0003A7521 /* LoginFunction.m */; };
 		C370A3011C09D924005B7546 /* GetUserFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = C370A3001C09D924005B7546 /* GetUserFunction.m */; };
 		C386548A1BB0A7B3000CA4F6 /* IsSystemAccountAvailableFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = C38654891BB0A7B3000CA4F6 /* IsSystemAccountAvailableFunction.m */; };
-		C386548E1BB166DF000CA4F6 /* UndoFavoriteStatusFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = C386548D1BB166DF000CA4F6 /* UndoFavoriteStatusFunction.m */; };
 		C38654911BB16AB8000CA4F6 /* DeleteStatusFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = C38654901BB16AB8000CA4F6 /* DeleteStatusFunction.m */; };
 		C38654941BB1759E000CA4F6 /* SendDirectMessageFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = C38654931BB1759E000CA4F6 /* SendDirectMessageFunction.m */; };
 		C38654971BB17647000CA4F6 /* DirectMessageUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C38654961BB17647000CA4F6 /* DirectMessageUtils.m */; };
 		C386549A1BB1A684000CA4F6 /* GetDirectMessagesFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = C38654991BB1A684000CA4F6 /* GetDirectMessagesFunction.m */; };
 		C386549D1BB1A942000CA4F6 /* GetSentDirectMessagesFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = C386549C1BB1A942000CA4F6 /* GetSentDirectMessagesFunction.m */; };
+		C3CFD37E1C0F142C0050ADE3 /* GetAccessTokenFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = C3CFD37D1C0F142C0050ADE3 /* GetAccessTokenFunction.m */; };
+		C3CFD3811C0F57770050ADE3 /* GetAccessTokenSecretFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = C3CFD3801C0F57770050ADE3 /* GetAccessTokenSecretFunction.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -81,7 +83,6 @@
 		320840EAED7ED84523AA50BA /* GetUserTimelineFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetUserTimelineFunction.m; sourceTree = "<group>"; };
 		32084285331D63AE4CED53AD /* GetFriendsFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetFriendsFunction.m; sourceTree = "<group>"; };
 		3208431AD4464840D7B3B9CA /* AccountSelectionHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountSelectionHelper.m; sourceTree = "<group>"; };
-		320843CD9CBC29CFE5009C5D /* FavoriteStatusFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteStatusFunction.m; sourceTree = "<group>"; };
 		3208443DDA97599BA3040654 /* LogoutFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogoutFunction.h; sourceTree = "<group>"; };
 		3208443DED1BB3CD6A7A8241 /* GetFollowersFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetFollowersFunction.h; sourceTree = "<group>"; };
 		320844593AA41D34808E9CEA /* LoginWithAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginWithAccount.h; sourceTree = "<group>"; };
@@ -91,16 +92,13 @@
 		3208464DAD0026DD946B6BB4 /* StringUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StringUtils.m; sourceTree = "<group>"; };
 		320846616B69AA77EF9746CD /* AccountSelectionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountSelectionHelper.h; sourceTree = "<group>"; };
 		320846EB392348F3131BC04C /* GetLoggedInUserFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetLoggedInUserFunction.h; sourceTree = "<group>"; };
-		3208475190DA584E2E3A774E /* FavoriteStatusFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoriteStatusFunction.h; sourceTree = "<group>"; };
 		3208481F1E3C74BFC8E5641D /* RetweetStatusFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RetweetStatusFunction.m; sourceTree = "<group>"; };
 		320848D39A2E0BCDDB8F2A8A /* MediaSourceProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaSourceProcessor.m; sourceTree = "<group>"; };
 		320848F99648FC51C8DE3FD4 /* StatusUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusUtils.h; sourceTree = "<group>"; };
 		320849299B391083A05951B1 /* GetFriendsFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetFriendsFunction.h; sourceTree = "<group>"; };
 		32084996F6822AD335452FFB /* UnfollowUserFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnfollowUserFunction.h; sourceTree = "<group>"; };
 		320849D92223DDEECD1D16BA /* GetHomeTimelineFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetHomeTimelineFunction.h; sourceTree = "<group>"; };
-		32084A24F20C172A01D16710 /* GetFavoritesFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetFavoritesFunction.h; sourceTree = "<group>"; };
 		32084B2812EA992196B7B7BA /* StringUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringUtils.h; sourceTree = "<group>"; };
-		32084BA92BEE7C238D196447 /* GetFavoritesFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetFavoritesFunction.m; sourceTree = "<group>"; };
 		32084BB4D99D459AC8EB9B46 /* RetweetStatusFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RetweetStatusFunction.h; sourceTree = "<group>"; };
 		32084BEFA8F3B8E9CC914D50 /* FollowUserFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowUserFunction.m; sourceTree = "<group>"; };
 		32084C07A5E61AEE174B9DF0 /* MediaSourceProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaSourceProcessor.h; sourceTree = "<group>"; };
@@ -112,6 +110,12 @@
 		32084DBA94507493E71C6417 /* UnfollowUserFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnfollowUserFunction.m; sourceTree = "<group>"; };
 		32084E52B8AB17233CB58058 /* UserUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserUtils.m; sourceTree = "<group>"; };
 		32084FE16910811E2A7F3196 /* GetFollowersFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetFollowersFunction.m; sourceTree = "<group>"; };
+		C30632B71C0F617F00B79DBB /* GetLikesFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetLikesFunction.h; sourceTree = "<group>"; };
+		C30632B81C0F617F00B79DBB /* GetLikesFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetLikesFunction.m; sourceTree = "<group>"; };
+		C30632B91C0F617F00B79DBB /* LikeStatusFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LikeStatusFunction.h; sourceTree = "<group>"; };
+		C30632BA1C0F617F00B79DBB /* LikeStatusFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LikeStatusFunction.m; sourceTree = "<group>"; };
+		C30632BB1C0F617F00B79DBB /* UndoLikeStatusFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UndoLikeStatusFunction.h; sourceTree = "<group>"; };
+		C30632BC1C0F617F00B79DBB /* UndoLikeStatusFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UndoLikeStatusFunction.m; sourceTree = "<group>"; };
 		C31AD2B81B8E21F90042555C /* AIR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIR.h; sourceTree = "<group>"; };
 		C31AD2B91B8E21F90042555C /* AIR.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AIR.m; sourceTree = "<group>"; };
 		C31AD2BB1B8E258D0042555C /* UpdateStatusFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateStatusFunction.h; sourceTree = "<group>"; };
@@ -171,8 +175,6 @@
 		C370A3001C09D924005B7546 /* GetUserFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetUserFunction.m; sourceTree = "<group>"; };
 		C38654881BB0A7B3000CA4F6 /* IsSystemAccountAvailableFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IsSystemAccountAvailableFunction.h; sourceTree = "<group>"; };
 		C38654891BB0A7B3000CA4F6 /* IsSystemAccountAvailableFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IsSystemAccountAvailableFunction.m; sourceTree = "<group>"; };
-		C386548C1BB166DF000CA4F6 /* UndoFavoriteStatusFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UndoFavoriteStatusFunction.h; sourceTree = "<group>"; };
-		C386548D1BB166DF000CA4F6 /* UndoFavoriteStatusFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UndoFavoriteStatusFunction.m; sourceTree = "<group>"; };
 		C386548F1BB16AB8000CA4F6 /* DeleteStatusFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteStatusFunction.h; sourceTree = "<group>"; };
 		C38654901BB16AB8000CA4F6 /* DeleteStatusFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteStatusFunction.m; sourceTree = "<group>"; };
 		C38654921BB1759E000CA4F6 /* SendDirectMessageFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendDirectMessageFunction.h; sourceTree = "<group>"; };
@@ -183,6 +185,10 @@
 		C38654991BB1A684000CA4F6 /* GetDirectMessagesFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetDirectMessagesFunction.m; sourceTree = "<group>"; };
 		C386549B1BB1A942000CA4F6 /* GetSentDirectMessagesFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetSentDirectMessagesFunction.h; sourceTree = "<group>"; };
 		C386549C1BB1A942000CA4F6 /* GetSentDirectMessagesFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetSentDirectMessagesFunction.m; sourceTree = "<group>"; };
+		C3CFD37C1C0F142C0050ADE3 /* GetAccessTokenFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetAccessTokenFunction.h; sourceTree = "<group>"; };
+		C3CFD37D1C0F142C0050ADE3 /* GetAccessTokenFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetAccessTokenFunction.m; sourceTree = "<group>"; };
+		C3CFD37F1C0F57770050ADE3 /* GetAccessTokenSecretFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetAccessTokenSecretFunction.h; sourceTree = "<group>"; };
+		C3CFD3801C0F57770050ADE3 /* GetAccessTokenSecretFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetAccessTokenSecretFunction.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -307,6 +313,12 @@
 		C35332291B7BCF18003A7521 /* Functions */ = {
 			isa = PBXGroup;
 			children = (
+				C30632B71C0F617F00B79DBB /* GetLikesFunction.h */,
+				C30632B81C0F617F00B79DBB /* GetLikesFunction.m */,
+				C30632B91C0F617F00B79DBB /* LikeStatusFunction.h */,
+				C30632BA1C0F617F00B79DBB /* LikeStatusFunction.m */,
+				C30632BB1C0F617F00B79DBB /* UndoLikeStatusFunction.h */,
+				C30632BC1C0F617F00B79DBB /* UndoLikeStatusFunction.m */,
 				C31AD2BB1B8E258D0042555C /* UpdateStatusFunction.h */,
 				C31AD2BC1B8E258D0042555C /* UpdateStatusFunction.m */,
 				C32F09151B7BEDA900BF4E4E /* ApplicationOpenURLFunction.h */,
@@ -325,8 +337,6 @@
 				32084C91E12E81F5F086F646 /* GetHomeTimelineFunction.m */,
 				320845135A8AAE1ACF675D91 /* GetUserTimelineFunction.h */,
 				320840EAED7ED84523AA50BA /* GetUserTimelineFunction.m */,
-				32084A24F20C172A01D16710 /* GetFavoritesFunction.h */,
-				32084BA92BEE7C238D196447 /* GetFavoritesFunction.m */,
 				320849299B391083A05951B1 /* GetFriendsFunction.h */,
 				32084285331D63AE4CED53AD /* GetFriendsFunction.m */,
 				32084C8DB768C6E0144683D7 /* FollowUserFunction.h */,
@@ -335,14 +345,10 @@
 				32084DBA94507493E71C6417 /* UnfollowUserFunction.m */,
 				32084BB4D99D459AC8EB9B46 /* RetweetStatusFunction.h */,
 				3208481F1E3C74BFC8E5641D /* RetweetStatusFunction.m */,
-				3208475190DA584E2E3A774E /* FavoriteStatusFunction.h */,
-				320843CD9CBC29CFE5009C5D /* FavoriteStatusFunction.m */,
 				320844593AA41D34808E9CEA /* LoginWithAccount.h */,
 				32084C34ABA8ABB484C9E957 /* LoginWithAccount.m */,
 				C38654881BB0A7B3000CA4F6 /* IsSystemAccountAvailableFunction.h */,
 				C38654891BB0A7B3000CA4F6 /* IsSystemAccountAvailableFunction.m */,
-				C386548C1BB166DF000CA4F6 /* UndoFavoriteStatusFunction.h */,
-				C386548D1BB166DF000CA4F6 /* UndoFavoriteStatusFunction.m */,
 				C386548F1BB16AB8000CA4F6 /* DeleteStatusFunction.h */,
 				C38654901BB16AB8000CA4F6 /* DeleteStatusFunction.m */,
 				C38654921BB1759E000CA4F6 /* SendDirectMessageFunction.h */,
@@ -353,6 +359,10 @@
 				C386549C1BB1A942000CA4F6 /* GetSentDirectMessagesFunction.m */,
 				C370A2FF1C09D924005B7546 /* GetUserFunction.h */,
 				C370A3001C09D924005B7546 /* GetUserFunction.m */,
+				C3CFD37C1C0F142C0050ADE3 /* GetAccessTokenFunction.h */,
+				C3CFD37D1C0F142C0050ADE3 /* GetAccessTokenFunction.m */,
+				C3CFD37F1C0F57770050ADE3 /* GetAccessTokenSecretFunction.h */,
+				C3CFD3801C0F57770050ADE3 /* GetAccessTokenSecretFunction.m */,
 			);
 			path = Functions;
 			sourceTree = "<group>";
@@ -427,6 +437,7 @@
 			files = (
 				C353322C1B7BCF18003A7521 /* FREObjectUtils.m in Sources */,
 				C353321B1B7BCEF4003A7521 /* NSString+STTwitter.m in Sources */,
+				C30632BF1C0F617F00B79DBB /* UndoLikeStatusFunction.m in Sources */,
 				C353321F1B7BCEF4003A7521 /* STTwitterHTML.m in Sources */,
 				C31AD2BA1B8E21F90042555C /* AIR.m in Sources */,
 				C353321D1B7BCEF4003A7521 /* STTwitterAPI.m in Sources */,
@@ -453,25 +464,26 @@
 				C31AD2C31B8E3FC00042555C /* MediaSource.m in Sources */,
 				C35332241B7BCEF4003A7521 /* BAVPlistNode.m in Sources */,
 				C386549A1BB1A684000CA4F6 /* GetDirectMessagesFunction.m in Sources */,
-				C386548E1BB166DF000CA4F6 /* UndoFavoriteStatusFunction.m in Sources */,
 				C35332221B7BCEF4003A7521 /* STTwitterOSRequest.m in Sources */,
 				C386549D1BB1A942000CA4F6 /* GetSentDirectMessagesFunction.m in Sources */,
 				320849A5E7EAC4D5CC7E09E1 /* StringUtils.m in Sources */,
+				C3CFD37E1C0F142C0050ADE3 /* GetAccessTokenFunction.m in Sources */,
 				32084B8C8D156226A305DBA1 /* StatusUtils.m in Sources */,
+				C30632BD1C0F617F00B79DBB /* GetLikesFunction.m in Sources */,
 				320848891D1DC65F89F889D4 /* MediaSourceProcessor.m in Sources */,
 				32084DD1AAB456DA52ACD847 /* LogoutFunction.m in Sources */,
 				32084368787D716E2639247F /* GetLoggedInUserFunction.m in Sources */,
 				32084FA4994E3FE3C195A595 /* AIRTwitterUser.m in Sources */,
 				320846E4056A9D3093A61CDC /* GetFollowersFunction.m in Sources */,
 				3208415DEB7465DF12F2A9EE /* UserUtils.m in Sources */,
+				C30632BE1C0F617F00B79DBB /* LikeStatusFunction.m in Sources */,
 				32084D480A62443BFBAF59B0 /* GetHomeTimelineFunction.m in Sources */,
 				32084A979A3C1FF4D3472AE2 /* GetUserTimelineFunction.m in Sources */,
-				32084CCC7D65E38C62696A2C /* GetFavoritesFunction.m in Sources */,
+				C3CFD3811C0F57770050ADE3 /* GetAccessTokenSecretFunction.m in Sources */,
 				3208418C92E5314AF47B0981 /* GetFriendsFunction.m in Sources */,
 				32084E385E9628C816F3B679 /* FollowUserFunction.m in Sources */,
 				320844BF5BE582023B3513BA /* UnfollowUserFunction.m in Sources */,
 				320846E2628790EA7A45B974 /* RetweetStatusFunction.m in Sources */,
-				32084DC5F105A0C98A9F098B /* FavoriteStatusFunction.m in Sources */,
 				32084516213F52B83F151D06 /* LoginWithAccount.m in Sources */,
 				32084FEC6DF5E508362367F2 /* AccountSelectionHelper.m in Sources */,
 			);

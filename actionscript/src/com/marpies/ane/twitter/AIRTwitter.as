@@ -49,7 +49,7 @@ package com.marpies.ane.twitter {
         private static const USERS_QUERY_SUCCESS:String = "usersQuerySuccess";
         private static const USERS_QUERY_ERROR:String = "usersQueryError";
 
-        /* Event name for queries that return list with statuses (getHomeTimeline, getFavorites...) */
+        /* Event name for queries that return list with statuses (getHomeTimeline, getLikes...) */
         private static const TIMELINE_QUERY_SUCCESS:String = "timelineQuerySuccess";
         private static const TIMELINE_QUERY_ERROR:String = "timelineQueryError";
 
@@ -211,7 +211,7 @@ package com.marpies.ane.twitter {
          * @param inReplyToStatusID ID of the status to which will be replied.
          * @param media List of media files (<code>String</code> - URLs to local and remote images, <code>BitmapData</code>) - max. 4.
          */
-        public static function updateStatus( text:String, callback:Function = null, inReplyToStatusID:Number = -1, media:Array = null ):void {
+        public static function updateStatus( text:String, callback:Function = null, inReplyToStatusID:String = null, media:Array = null ):void {
             if( !isSupported ) return;
             validateExtensionContext();
 
@@ -226,7 +226,7 @@ package com.marpies.ane.twitter {
          * @param statusID ID of the status to delete.
          * @param callback Function with signature <code>callback(deletedStatus:AIRTwitterStatus, errorMessage:String):void</code>.
          */
-        public static function deleteStatusWithID( statusID:Number, callback:Function ):void {
+        public static function deleteStatusWithID( statusID:String, callback:Function ):void {
             if( !isSupported ) return;
             validateExtensionContext();
             validateStatusID( statusID );
@@ -239,7 +239,7 @@ package com.marpies.ane.twitter {
          * @param statusID ID of the status to retweet.
          * @param callback Function with signature <code>callback(retweetedStatus:AIRTwitterStatus, errorMessage:String):void</code>
          */
-        public static function retweetStatusWithID( statusID:Number, callback:Function = null ):void {
+        public static function retweetStatusWithID( statusID:String, callback:Function = null ):void {
             if( !isSupported ) return;
             validateExtensionContext();
             validateStatusID( statusID );
@@ -248,29 +248,29 @@ package com.marpies.ane.twitter {
         }
 
         /**
-         * Favorites status with given ID.
+         * Likes status with given ID.
          * @param statusID ID of the status to retweet.
-         * @param callback Function with signature <code>callback(favoritedStatus:AIRTwitterStatus, errorMessage:String):void</code>
+         * @param callback Function with signature <code>callback(likedStatus:AIRTwitterStatus, errorMessage:String):void</code>
          */
-        public static function favoriteStatusWithID( statusID:Number, callback:Function = null ):void {
+        public static function likeStatusWithID( statusID:String, callback:Function = null ):void {
             if( !isSupported ) return;
             validateExtensionContext();
             validateStatusID( statusID );
 
-            mContext.call( "favoriteStatus", statusID, registerCallback( callback ) );
+            mContext.call( "likeStatus", statusID, registerCallback( callback ) );
         }
 
         /**
-         * Removes status with given ID from favorites.
+         * Removes status with given ID from likes.
          * @param statusID ID of the status to retweet.
-         * @param callback Function with signature <code>callback(unfavoritedStatus:AIRTwitterStatus, errorMessage:String):void</code>
+         * @param callback Function with signature <code>callback(unlikedStatus:AIRTwitterStatus, errorMessage:String):void</code>
          */
-        public static function undoFavoriteStatusWithID( statusID:Number, callback:Function = null ):void {
+        public static function undoLikeStatusWithID( statusID:String, callback:Function = null ):void {
             if( !isSupported ) return;
             validateExtensionContext();
             validateStatusID( statusID );
 
-            mContext.call( "undoFavoriteStatus", statusID, registerCallback( callback ) );
+            mContext.call( "undoLikeStatus", statusID, registerCallback( callback ) );
         }
 
         /**
@@ -329,7 +329,7 @@ package com.marpies.ane.twitter {
          *                       parameter retrieves that many tweets before filtering out replies.
          * @param callback Function with signature <code>callback(statuses:Vector.&lt;AIRTwitterStatus&gt;, errorMessage:String):void</code>.
          */
-        public static function getHomeTimeline( count:uint = 20, sinceID:Number = -1, maxID:Number = -1, excludeReplies:Boolean = false, callback:Function = null ):void {
+        public static function getHomeTimeline( count:uint = 20, sinceID:String = null, maxID:String = null, excludeReplies:Boolean = false, callback:Function = null ):void {
             if( !isSupported ) return;
             validateExtensionContext();
 
@@ -352,7 +352,7 @@ package com.marpies.ane.twitter {
          *                       parameter retrieves that many tweets before filtering out replies.
          * @param callback Function with signature <code>callback(statuses:Vector.&lt;AIRTwitterStatus&gt;, errorMessage:String):void</code>.
          */
-        public static function getUserTimeline( count:uint = 20, sinceID:Number = -1, maxID:Number = -1, excludeReplies:Boolean = false, callback:Function = null ):void {
+        public static function getUserTimeline( count:uint = 20, sinceID:String = null, maxID:String = null, excludeReplies:Boolean = false, callback:Function = null ):void {
             getUserTimelineInternal( count, sinceID, maxID, excludeReplies, -1, null, callback );
         }
 
@@ -371,7 +371,7 @@ package com.marpies.ane.twitter {
          *                       parameter retrieves that many tweets before filtering out replies.
          * @param callback Function with signature <code>callback(statuses:Vector.&lt;AIRTwitterStatus&gt;, errorMessage:String):void</code>.
          */
-        public static function getUserTimelineForUserID( userID:Number, count:uint = 20, sinceID:Number = -1, maxID:Number = -1, excludeReplies:Boolean = false, callback:Function = null ):void {
+        public static function getUserTimelineForUserID( userID:Number, count:uint = 20, sinceID:String = null, maxID:String = null, excludeReplies:Boolean = false, callback:Function = null ):void {
             validateUserID( userID );
 
             getUserTimelineInternal( count, sinceID, maxID, excludeReplies, userID, null, callback );
@@ -392,7 +392,7 @@ package com.marpies.ane.twitter {
          *                       parameter retrieves that many tweets before filtering out replies.
          * @param callback Function with signature <code>callback(statuses:Vector.&lt;AIRTwitterStatus&gt;, errorMessage:String):void</code>.
          */
-        public static function getUserTimelineForScreenName( screenName:String, count:uint = 20, sinceID:Number = -1, maxID:Number = -1, excludeReplies:Boolean = false, callback:Function = null ):void {
+        public static function getUserTimelineForScreenName( screenName:String, count:uint = 20, sinceID:String = null, maxID:String = null, excludeReplies:Boolean = false, callback:Function = null ):void {
             validateScreenName( screenName );
 
             getUserTimelineInternal( count, sinceID, maxID, excludeReplies, -1, screenName, callback );
@@ -421,7 +421,7 @@ package com.marpies.ane.twitter {
         }
 
         /**
-         * Requests favorite statuses for logged in user user.
+         * Requests liked statuses for logged in user user.
          * @param count Specifies the number of tweets to retrieve. Must be less than or equal to 200.
          *              The value of <code>count</code> is best thought of as a limit to the number of tweets
          *              to return because suspended or deleted content is removed after the count has been applied.
@@ -431,13 +431,13 @@ package com.marpies.ane.twitter {
          * @param maxID Returns results with an ID less than (that is, older than) or equal to the specified ID.
          * @param callback Function with signature <code>callback(statuses:Vector.&lt;AIRTwitterStatus&gt;, errorMessage:String):void</code>.
          */
-        public static function getFavorites( count:uint = 20, sinceID:Number = -1, maxID:Number = -1, callback:Function = null ):void {
-            getFavoritesInternal( count, sinceID, maxID, -1, null, callback );
+        public static function getLikes( count:uint = 20, sinceID:String = null, maxID:String = null, callback:Function = null ):void {
+            getLikesInternal( count, sinceID, maxID, -1, null, callback );
         }
 
         /**
-         * Requests favorite statuses for user with given ID.
-         * @param userID ID of the user for whom to request a list of favorite statuses.
+         * Requests liked statuses for user with given ID.
+         * @param userID ID of the user for whom to request a list of liked statuses.
          * @param count Specifies the number of tweets to retrieve. Must be less than or equal to 200.
          *              The value of <code>count</code> is best thought of as a limit to the number of tweets
          *              to return because suspended or deleted content is removed after the count has been applied.
@@ -447,15 +447,15 @@ package com.marpies.ane.twitter {
          * @param maxID Returns results with an ID less than (that is, older than) or equal to the specified ID.
          * @param callback Function with signature <code>callback(statuses:Vector.&lt;AIRTwitterStatus&gt;, errorMessage:String):void</code>.
          */
-        public static function getFavoritesForUserID( userID:Number, count:uint = 20, sinceID:Number = -1, maxID:Number = -1, callback:Function = null ):void {
+        public static function getLikesForUserID( userID:Number, count:uint = 20, sinceID:String = null, maxID:String = null, callback:Function = null ):void {
             validateUserID( userID );
 
-            getFavoritesInternal( count, sinceID, maxID, userID, null, callback );
+            getLikesInternal( count, sinceID, maxID, userID, null, callback );
         }
 
         /**
-         * Requests favorite statuses for user with given screen name.
-         * @param screenName Screen name of the user for whom to request a list of favorite statuses.
+         * Requests liked statuses for user with given screen name.
+         * @param screenName Screen name of the user for whom to request a list of liked statuses.
          * @param count Specifies the number of tweets to retrieve. Must be less than or equal to 200.
          *              The value of <code>count</code> is best thought of as a limit to the number of tweets
          *              to return because suspended or deleted content is removed after the count has been applied.
@@ -465,10 +465,10 @@ package com.marpies.ane.twitter {
          * @param maxID Returns results with an ID less than (that is, older than) or equal to the specified ID.
          * @param callback Function with signature <code>callback(statuses:Vector.&lt;AIRTwitterStatus&gt;, errorMessage:String):void</code>.
          */
-        public static function getFavoritesForScreenName( screenName:String, count:uint = 20, sinceID:Number = -1, maxID:Number = -1, callback:Function = null ):void {
+        public static function getLikesForScreenName( screenName:String, count:uint = 20, sinceID:String = null, maxID:String = null, callback:Function = null ):void {
             validateScreenName( screenName );
 
-            getFavoritesInternal( count, sinceID, maxID, -1, screenName, callback );
+            getLikesInternal( count, sinceID, maxID, -1, screenName, callback );
         }
 
         /**
@@ -600,7 +600,7 @@ package com.marpies.ane.twitter {
          * @param maxID Returns results with an ID less than (that is, older than) or equal to the specified ID.
          * @param callback Function with signature <code>callback(messages:Vector.&lt;AIRTwitterDirectMessage&gt;, errorMessage:String):void</code>.
          */
-        public static function getDirectMessages( count:uint = 20, sinceID:Number = -1, maxID:Number = -1, callback:Function = null ):void {
+        public static function getDirectMessages( count:uint = 20, sinceID:String = null, maxID:String = null, callback:Function = null ):void {
             if( !isSupported ) return;
             validateExtensionContext();
 
@@ -615,7 +615,7 @@ package com.marpies.ane.twitter {
          * @param page Specifies the page of results to retrieve.
          * @param callback Function with signature <code>callback(messages:Vector.&lt;AIRTwitterDirectMessage&gt;, errorMessage:String):void</code>.
          */
-        public static function getSentDirectMessages( count:uint = 20, sinceID:Number = -1, maxID:Number = -1, page:uint = 1, callback:Function = null ):void {
+        public static function getSentDirectMessages( count:uint = 20, sinceID:String = null, maxID:String = null, page:uint = 1, callback:Function = null ):void {
             if( !isSupported ) return;
             validateExtensionContext();
 
@@ -650,7 +650,7 @@ package com.marpies.ane.twitter {
          */
 
         public static function get version():String {
-            return "0.6.1-beta";
+            return "0.7.0-beta";
         }
 
         /**
@@ -679,6 +679,28 @@ package com.marpies.ane.twitter {
         }
 
         /**
+         * Access token.
+         * @return Access token, or <code>null</code> if user is not logged in.
+         */
+        public static function get accessToken():String {
+            if( !isSupported ) return null;
+            validateExtensionContext();
+
+            return mContext.call( "getAccessToken" ) as String;
+        }
+
+        /**
+         * Access token secret.
+         * @return Access token secret, or <code>null</code> if user is not logged in.
+         */
+        public static function get accessTokenSecret():String {
+            if( !isSupported ) return null;
+            validateExtensionContext();
+
+            return mContext.call( "getAccessTokenSecret" ) as String;
+        }
+
+        /**
          *
          *
          * Private API
@@ -693,7 +715,7 @@ package com.marpies.ane.twitter {
             mContext.call( "getFollowers", cursor, userID, screenName, registerCallback( callback ) );
         }
 
-        private static function getUserTimelineInternal( count:uint = 20, sinceID:Number = -1, maxID:Number = -1, excludeReplies:Boolean = false, userID:Number = -1, screenName:String = null, callback:Function = null ):void {
+        private static function getUserTimelineInternal( count:uint = 20, sinceID:String = null, maxID:String = null, excludeReplies:Boolean = false, userID:Number = -1, screenName:String = null, callback:Function = null ):void {
             if( !isSupported ) return;
             validateExtensionContext();
 
@@ -707,11 +729,11 @@ package com.marpies.ane.twitter {
             mContext.call( "getUser", userID, screenName, registerCallback( callback ) );
         }
 
-        private static function getFavoritesInternal( count:uint = 20, sinceID:Number = -1, maxID:Number = -1, userID:Number = -1, screenName:String = null, callback:Function = null ):void {
+        private static function getLikesInternal( count:uint = 20, sinceID:String = null, maxID:String = null, userID:Number = -1, screenName:String = null, callback:Function = null ):void {
             if( !isSupported ) return;
             validateExtensionContext();
 
-            mContext.call( "getFavorites", count, sinceID, maxID, userID, screenName, registerCallback( callback ) );
+            mContext.call( "getLikes", count, sinceID, maxID, userID, screenName, registerCallback( callback ) );
         }
 
         private static function getFriendsInternal( cursor:Number = -1, userID:Number = -1, screenName:String = null, callback:Function = null ):void {
@@ -800,7 +822,7 @@ package com.marpies.ane.twitter {
             user.ns_airtwitter_internal::createdAt = json.createdAt;
             user.ns_airtwitter_internal::description = json.description;
             user.ns_airtwitter_internal::tweetsCount = json.tweetsCount;
-            user.ns_airtwitter_internal::favoritesCount = json.favoritesCount;
+            user.ns_airtwitter_internal::likesCount = json.likesCount;
             user.ns_airtwitter_internal::followersCount = json.followersCount;
             user.ns_airtwitter_internal::friendsCount = json.friendsCount;
             user.ns_airtwitter_internal::profileImageURL = json.profileImageURL;
@@ -826,10 +848,11 @@ package com.marpies.ane.twitter {
         private static function getStatusFromJSON( json:Object ):AIRTwitterStatus {
             const status:AIRTwitterStatus = new AIRTwitterStatus();
             status.ns_airtwitter_internal::id = json.id;
+            status.ns_airtwitter_internal::idString = json.idStr;
             status.ns_airtwitter_internal::text = json.text;
             status.ns_airtwitter_internal::replyToUserID = json.replyToUserID;
             status.ns_airtwitter_internal::replyToStatusID = json.replyToStatusID;
-            status.ns_airtwitter_internal::favoriteCount = json.favoriteCount;
+            status.ns_airtwitter_internal::likesCount = json.likesCount;
             status.ns_airtwitter_internal::retweetCount = json.retweetCount;
             status.ns_airtwitter_internal::createdAt = json.createdAt;
             status.ns_airtwitter_internal::isRetweet = json.isRetweet;
@@ -859,6 +882,7 @@ package com.marpies.ane.twitter {
         private static function getDirectMessageFromJSON( json:Object ):AIRTwitterDirectMessage {
             const dm:AIRTwitterDirectMessage = new AIRTwitterDirectMessage();
             dm.ns_airtwitter_internal::id = json.id;
+            dm.ns_airtwitter_internal::idString = json.idStr;
             dm.ns_airtwitter_internal::createdAt = json.createdAt;
             dm.ns_airtwitter_internal::text = json.text;
             dm.ns_airtwitter_internal::recipient = getUserFromJSON( json.recipient );
@@ -916,13 +940,13 @@ package com.marpies.ane.twitter {
                     return;
 
                 case STATUS_QUERY_SUCCESS:
-                    log( "Status update success " + json.id );
+                    log( "Status query success" );
                     if( callback != null ) {
                         /* JSON will contain status info */
                         if( "success" in json ) {
                             callback( getStatusFromJSON( json ), null );
                         }
-                        /* Status update did happen but there was an error parsing the status info */
+                        /* Status query did happen but there was an error parsing the status info */
                         else {
                             callback( null, json.errorMessage );
                         }
@@ -930,7 +954,7 @@ package com.marpies.ane.twitter {
                     return;
 
                 case STATUS_QUERY_ERROR:
-                    log( "Status update error " + json.errorMessage );
+                    log( "Status query error " + json.errorMessage );
                     if( callback != null ) {
                         callback( null, json.errorMessage );
                     }
@@ -1042,8 +1066,9 @@ package com.marpies.ane.twitter {
             if( userID < 0 ) throw new ArgumentError( "Parameter userID must be greater than zero." );
         }
 
-        private static function validateStatusID( statusID:Number ):void {
-            if( statusID < 0 ) throw new ArgumentError( "Parameter statusID must be greater than zero." );
+        private static function validateStatusID( statusID:String ):void {
+            if( !statusID ) throw new ArgumentError( "Parameter statusID cannot be null." );
+            if( Number( statusID ) < 0 ) throw new ArgumentError( "Parameter statusID must be greater than zero." );
         }
 
         private static function validateScreenName( screenName:String ):void {

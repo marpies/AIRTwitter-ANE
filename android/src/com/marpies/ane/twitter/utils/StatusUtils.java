@@ -23,7 +23,7 @@ public class StatusUtils {
 
 	/**
 	 * Creates JSON from given response list and dispatches generic event.
-	 * Helper method for queries like getHomeTimeline, getFavorites...
+	 * Helper method for queries like getHomeTimeline, getLikes...
 	 * @param statuses
 	 * @param excludeReplies
 	 * @param callbackID
@@ -54,10 +54,11 @@ public class StatusUtils {
 	public static JSONObject getJSON( Status status ) throws JSONException {
 		JSONObject statusJSON = new JSONObject();
 		statusJSON.put( "id", status.getId() );
+		statusJSON.put( "idStr", String.valueOf( status.getId() ) );
 		statusJSON.put( "text", status.getText() );
 		statusJSON.put( "replyToUserID", status.getInReplyToUserId() );
 		statusJSON.put( "replyToStatusID", status.getInReplyToStatusId() );
-		statusJSON.put( "favoriteCount", status.getFavoriteCount() );
+		statusJSON.put( "likesCount", status.getFavoriteCount() );
 		statusJSON.put( "retweetCount", status.getRetweetCount() );
 		statusJSON.put( "isRetweet", status.isRetweet() );
 		statusJSON.put( "isSensitive", status.isPossiblySensitive() );
@@ -71,6 +72,20 @@ public class StatusUtils {
 			statusJSON.put( "user", UserUtils.getJSON( user ) );
 		}
 		return statusJSON;
+	}
+
+	public static void dispatchStatus( Status status, int callbackID ) {
+		try {
+			JSONObject statusJSON = StatusUtils.getJSON( status );
+			statusJSON.put( "callbackID", callbackID );
+			statusJSON.put( "success", "true" );
+			AIR.dispatchEvent( AIRTwitterEvent.STATUS_QUERY_SUCCESS, statusJSON.toString() );
+		} catch( JSONException e ) {
+			e.printStackTrace();
+			AIR.dispatchEvent( AIRTwitterEvent.STATUS_QUERY_SUCCESS,
+					StringUtils.getEventErrorJSON( callbackID, e.getMessage() )
+			);
+		}
 	}
 
 }

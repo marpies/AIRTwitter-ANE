@@ -29,8 +29,7 @@ void updateStatusWith(NSString* text, int callbackID, NSString* inReplyToStatusI
 FREObject updateStatus(FREContext context, void* functionData, uint32_t argc, FREObject argv[]) {
     NSString* text = (argv[0] == nil) ? nil : [FREObjectUtils getNSString:argv[0]];
     int callbackID = [FREObjectUtils getInt:argv[1]];
-    double statusIDDouble = [FREObjectUtils getDouble:argv[2]];
-    NSString* inReplyToStatusID = (statusIDDouble >= 0) ? [NSString stringWithFormat:@"%.f", statusIDDouble] : nil;
+    NSString* inReplyToStatusID = (argv[2] == nil) ? nil : [FREObjectUtils getNSString:argv[2]];
     NSArray* mediaSources = (argv[3] == nil) ? nil : [FREObjectUtils getMediaSourcesArray:argv[3]];
 
     /* Create NSData out of media files and upload to twitter */

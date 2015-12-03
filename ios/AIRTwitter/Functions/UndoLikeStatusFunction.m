@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#import "UndoFavoriteStatusFunction.h"
+#import "UndoLikeStatusFunction.h"
 #import "FREObjectUtils.h"
 #import "StringUtils.h"
 #import "AIRTwitterEvent.h"
@@ -22,13 +22,12 @@
 #import "StatusUtils.h"
 #import "AIRTwitter.h"
 
-FREObject undoFavoriteStatus( FREContext context, void* functionData, uint32_t argc, FREObject argv[] ) {
-    double statusIDDouble = [FREObjectUtils getDouble:argv[0]];
-    NSString* statusID = [NSString stringWithFormat:@"%.f", statusIDDouble];
+FREObject undoLikeStatus( FREContext context, void* functionData, uint32_t argc, FREObject argv[] ) {
+    NSString* statusID = [FREObjectUtils getNSString:argv[0]];
     int callbackID = [FREObjectUtils getInt:argv[1]];
     
     [[AIRTwitter api] postFavoriteDestroyWithStatusID:statusID includeEntities:nil successBlock:^(NSDictionary *status) {
-        [AIR log:[NSString stringWithFormat:@"Destroyed favorite status w/ message %@", status[@"text"]]];
+        [AIR log:[NSString stringWithFormat:@"Destroyed liked status w/ message %@", status[@"text"]]];
         NSMutableDictionary* statusJSON = [StatusUtils getJSON:status];
         statusJSON[@"callbackID"] = @(callbackID);
         statusJSON[@"success"] = @"true";
@@ -37,10 +36,10 @@ FREObject undoFavoriteStatus( FREContext context, void* functionData, uint32_t a
         if( jsonString ) {
             [AIR dispatchEvent:STATUS_QUERY_SUCCESS withMessage:jsonString];
         } else {
-            [AIR dispatchEvent:STATUS_QUERY_SUCCESS withMessage:[StringUtils getEventErrorJSONString:callbackID errorMessage:@"Successfully destroyed favorite status but could not parse returned status data."]];
+            [AIR dispatchEvent:STATUS_QUERY_SUCCESS withMessage:[StringUtils getEventErrorJSONString:callbackID errorMessage:@"Successfully destroyed liked status but could not parse returned status data."]];
         }
     } errorBlock:^(NSError *error) {
-        [AIR log:[NSString stringWithFormat:@"Error destroying favorite status: %@", error.localizedDescription]];
+        [AIR log:[NSString stringWithFormat:@"Error destroying liked status: %@", error.localizedDescription]];
         [AIR dispatchEvent:STATUS_QUERY_ERROR withMessage:[StringUtils getEventErrorJSONString:callbackID errorMessage:error.localizedDescription]];
     }];
 

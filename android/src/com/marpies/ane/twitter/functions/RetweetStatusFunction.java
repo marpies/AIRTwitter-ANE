@@ -32,7 +32,7 @@ public class RetweetStatusFunction extends BaseFunction {
 	public FREObject call( FREContext context, FREObject[] args ) {
 		super.call( context, args );
 
-		long statusID = FREObjectUtils.getDouble( args[0] ).longValue();
+		long statusID = Long.valueOf( FREObjectUtils.getString( args[0] ) );
 		mCallbackID = FREObjectUtils.getInt( args[1] );
 
 		AsyncTwitter twitter = TwitterAPI.getAsyncInstance( TwitterAPI.getAccessToken() );
@@ -45,17 +45,7 @@ public class RetweetStatusFunction extends BaseFunction {
 	@Override
 	public void retweetedStatus( Status retweetedStatus ) {
 		AIR.log( "Retweet of '" + retweetedStatus.getText() + "' success" );
-		try {
-			JSONObject statusJSON = StatusUtils.getJSON( retweetedStatus );
-			statusJSON.put( "callbackID", mCallbackID );
-			statusJSON.put( "success", "true" );
-			AIR.dispatchEvent( AIRTwitterEvent.STATUS_QUERY_SUCCESS, statusJSON.toString() );
-		} catch( JSONException e ) {
-			e.printStackTrace();
-			AIR.dispatchEvent( AIRTwitterEvent.STATUS_QUERY_SUCCESS,
-					StringUtils.getEventErrorJSON( mCallbackID, e.getMessage() )
-			);
-		}
+		StatusUtils.dispatchStatus( retweetedStatus, mCallbackID );
 	}
 
 	@Override

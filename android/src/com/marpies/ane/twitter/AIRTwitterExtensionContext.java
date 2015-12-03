@@ -38,7 +38,7 @@ public class AIRTwitterExtensionContext extends FREContext {
 		functions.put( "getFollowers", new GetFollowersFunction() );
 		functions.put( "getHomeTimeline", new GetHomeTimelineFunction() );
 		functions.put( "getUserTimeline", new GetUserTimelineFunction() );
-		functions.put( "getFavorites", new GetFavoritesFunction() );
+		functions.put( "getLikes", new GetLikesFunction() );
 		functions.put( "getFriends", new GetFriendsFunction() );
 		functions.put( "getLoggedInUser", new GetLoggedInUserFunction() );
 		functions.put( "getUser", new GetUserFunction() );
@@ -47,13 +47,16 @@ public class AIRTwitterExtensionContext extends FREContext {
 		functions.put( "unfollowUser", new UnfollowUserFunction() );
 
 		functions.put( "retweetStatus", new RetweetStatusFunction() );
-		functions.put( "favoriteStatus", new FavoriteStatusFunction() );
-		functions.put( "undoFavoriteStatus", new UndoFavoriteStatusFunction() );
+		functions.put( "likeStatus", new LikeStatusFunction() );
+		functions.put( "undoLikeStatus", new UndoLikeStatusFunction() );
 		functions.put( "deleteStatus", new DeleteStatusFunction() );
 
 		functions.put( "sendDirectMessage", new SendDirectMessageFunction() );
 		functions.put( "getDirectMessages", new GetDirectMessagesFunction() );
 		functions.put( "getSentDirectMessages", new GetSentDirectMessagesFunction() );
+
+		functions.put( "getAccessToken", new GetAccessTokenFunction() );
+		functions.put( "getAccessTokenSecret", new GetAccessTokenSecretFunction() );
 
 		functions.put( "applicationOpenURL", new ApplicationOpenURLFunction() );
 

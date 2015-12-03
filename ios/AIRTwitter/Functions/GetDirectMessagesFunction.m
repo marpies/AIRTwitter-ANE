@@ -24,10 +24,8 @@
 
 FREObject getDirectMessages( FREContext context, void* functionData, uint32_t argc, FREObject argv[] ) {
     NSString* count = [NSString stringWithFormat:@"%d", [FREObjectUtils getInt:argv[0]]];
-    double sinceIDDouble = [FREObjectUtils getDouble:argv[1]];
-    double maxIDDouble = [FREObjectUtils getDouble:argv[2]];
-    NSString* sinceID = (sinceIDDouble >= 0) ? [NSString stringWithFormat:@"%.f", sinceIDDouble] : nil;
-    NSString* maxID = (maxIDDouble >= 0) ? [NSString stringWithFormat:@"%.f", maxIDDouble] : nil;
+    NSString* sinceID = (argv[1] == nil) ? nil : [FREObjectUtils getNSString:argv[1]];
+    NSString* maxID = (argv[2] == nil) ? nil : [FREObjectUtils getNSString:argv[2]];
     int callbackID = [FREObjectUtils getInt:argv[3]];
     
     [[AIRTwitter api] getDirectMessagesSinceID:sinceID maxID:maxID count:count fullText:@(1) includeEntities:@(0) skipStatus:@(1) successBlock:^(NSArray *messages) {

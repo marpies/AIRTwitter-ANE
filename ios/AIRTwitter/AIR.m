@@ -22,19 +22,21 @@
 #import "Functions/GetFollowersFunction.h"
 #import "Functions/GetHomeTimelineFunction.h"
 #import "Functions/GetUserTimelineFunction.h"
-#import "Functions/GetFavoritesFunction.h"
+#import "Functions/GetLikesFunction.h"
 #import "Functions/GetFriendsFunction.h"
 #import "Functions/FollowUserFunction.h"
 #import "Functions/UnfollowUserFunction.h"
 #import "Functions/RetweetStatusFunction.h"
-#import "Functions/FavoriteStatusFunction.h"
-#import "Functions/UndoFavoriteStatusFunction.h"
+#import "Functions/LikeStatusFunction.h"
+#import "Functions/UndoLikeStatusFunction.h"
 #import "Functions/DeleteStatusFunction.h"
 #import "Functions/SendDirectMessageFunction.h"
 #import "Functions/GetDirectMessagesFunction.h"
 #import "Functions/GetSentDirectMessagesFunction.h"
 #import "Functions/GetLoggedInUserFunction.h"
 #import "Functions/GetUserFunction.h"
+#import "Functions/GetAccessTokenFunction.h"
+#import "Functions/GetAccessTokenSecretFunction.h"
 #import "Functions/ApplicationOpenURLFunction.h"
 #import "Functions/LoginWithAccount.h"
 #import "Functions/IsSystemAccountAvailableFunction.h"
@@ -85,7 +87,7 @@ void AIRTwitterContextInitializer( void* extData,
                                   FREContext ctx,
                                   uint32_t* numFunctionsToSet,
                                   const FRENamedFunction** functionsToSet ) {
-    uint32_t numFunctions = 23;
+    uint32_t numFunctions = 25;
     *numFunctionsToSet = numFunctions;
     
     FRENamedFunction* functionArray = (FRENamedFunction*) malloc( sizeof( FRENamedFunction ) * numFunctions );
@@ -100,7 +102,7 @@ void AIRTwitterContextInitializer( void* extData,
     AIRTwitterAddFunction( functionArray, "getFollowers", &getFollowers, &index );
     AIRTwitterAddFunction( functionArray, "getHomeTimeline", &getHomeTimeline, &index );
     AIRTwitterAddFunction( functionArray, "getUserTimeline", &getUserTimeline, &index );
-    AIRTwitterAddFunction( functionArray, "getFavorites", &getFavorites, &index );
+    AIRTwitterAddFunction( functionArray, "getLikes", &getLikes, &index );
     AIRTwitterAddFunction( functionArray, "getFriends", &getFriends, &index );
     AIRTwitterAddFunction( functionArray, "getLoggedInUser", &getLoggedInUser, &index );
     AIRTwitterAddFunction( functionArray, "getUser", &getUser, &index );
@@ -109,14 +111,17 @@ void AIRTwitterContextInitializer( void* extData,
     AIRTwitterAddFunction( functionArray, "unfollowUser", &unfollowUser, &index );
 
     AIRTwitterAddFunction( functionArray, "retweetStatus", &retweetStatus, &index );
-    AIRTwitterAddFunction( functionArray, "favoriteStatus", &favoriteStatus, &index );
-    AIRTwitterAddFunction( functionArray, "undoFavoriteStatus", &undoFavoriteStatus, &index );
+    AIRTwitterAddFunction( functionArray, "likeStatus", &likeStatus, &index );
+    AIRTwitterAddFunction( functionArray, "undoLikeStatus", &undoLikeStatus, &index );
     AIRTwitterAddFunction( functionArray, "deleteStatus", &deleteStatus, &index );
 
     AIRTwitterAddFunction( functionArray, "sendDirectMessage", &sendDirectMessage, &index );
     AIRTwitterAddFunction( functionArray, "getDirectMessages", &getDirectMessages, &index );
     AIRTwitterAddFunction( functionArray, "getSentDirectMessages", &getSentDirectMessages, &index );
-
+    
+    AIRTwitterAddFunction( functionArray, "getAccessToken", &getAccessToken, &index );
+    AIRTwitterAddFunction( functionArray, "getAccessTokenSecret", &getAccessTokenSecret, &index );
+    
     AIRTwitterAddFunction( functionArray, "applicationOpenURL", &applicationOpenURL, &index );
     
     AIRTwitterAddFunction( functionArray, "isSystemAccountAvailable", &isSystemAccountAvailable, &index );

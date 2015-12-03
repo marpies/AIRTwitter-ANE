@@ -23,8 +23,7 @@
 #import "AIRTwitter.h"
 
 FREObject deleteStatus( FREContext context, void* functionData, uint32_t argc, FREObject argv[] ) {
-    double statusIDDouble = [FREObjectUtils getDouble:argv[0]];
-    NSString* statusID = [NSString stringWithFormat:@"%.f", statusIDDouble];
+    NSString* statusID = [FREObjectUtils getNSString:argv[0]];
     int callbackID = [FREObjectUtils getInt:argv[1]];
     
     [[AIRTwitter api] postStatusesDestroy:statusID trimUser:@(0) successBlock:^(NSDictionary *status) {

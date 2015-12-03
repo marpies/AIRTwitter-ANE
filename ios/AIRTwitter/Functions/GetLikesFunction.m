@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#import "GetFavoritesFunction.h"
+#import "GetLikesFunction.h"
 #import "FREObjectUtils.h"
 #import "AIRTwitter.h"
 #import "StatusUtils.h"
@@ -22,12 +22,10 @@
 #import "AIR.h"
 #import "AIRTwitterEvent.h"
 
-FREObject getFavorites(FREContext context, void* functionData, uint32_t argc, FREObject* argv) {
+FREObject getLikes(FREContext context, void* functionData, uint32_t argc, FREObject* argv) {
     NSString* count = [NSString stringWithFormat:@"%d", [FREObjectUtils getInt:argv[0]]];
-    double sinceIDDouble = [FREObjectUtils getDouble:argv[1]];
-    double maxIDDouble = [FREObjectUtils getDouble:argv[2]];
-    NSString* sinceID = (sinceIDDouble >= 0) ? [NSString stringWithFormat:@"%.f", sinceIDDouble] : nil;
-    NSString* maxID = (maxIDDouble >= 0) ? [NSString stringWithFormat:@"%.f", maxIDDouble] : nil;
+    NSString* sinceID = (argv[1] == nil) ? nil : [FREObjectUtils getNSString:argv[1]];
+    NSString* maxID = (argv[2] == nil) ? nil : [FREObjectUtils getNSString:argv[2]];
     double userIDDouble = [FREObjectUtils getDouble:argv[3]];
     NSString* userID = (userIDDouble >= 0) ? [NSString stringWithFormat:@"%.f", userIDDouble] : [[AIRTwitter api] userID];
     NSString* screenName = (argv[4] == nil) ? nil : [FREObjectUtils getNSString:argv[4]];
@@ -43,7 +41,7 @@ FREObject getFavorites(FREContext context, void* functionData, uint32_t argc, FR
                                         [StatusUtils dispatchStatuses:statuses callbackID:callbackID];
                                     }
                                       errorBlock:^(NSError* error) {
-                                          [AIR log:[NSString stringWithFormat:@"GetFavorites error: %@", error.localizedDescription]];
+                                          [AIR log:[NSString stringWithFormat:@"GetLikes error: %@", error.localizedDescription]];
                                           [AIR dispatchEvent:TIMELINE_QUERY_ERROR withMessage:[StringUtils getEventErrorJSONString:callbackID errorMessage:error.localizedDescription]];
                                       }];
 

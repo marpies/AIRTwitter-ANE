@@ -5,8 +5,10 @@ The extension is built on top of [Twitter4j](http://twitter4j.org/en/index.html)
 ANE is currently in development and offers the following features:
 * User login via browser and using system account (iOS)
 * Updating status with text and images (URLs and BitmapData)
-* Retrieving home and user timelines, retweeting, creating favorite tweets
+* Retrieving home and user timelines, retweeting, liking tweets
 * Retrieving followers, friends, sending (un)follow requests
+* Retrieving info about users
+* Sending/reading direct messages
 
 The following is at the top of todo list:
 * Search
@@ -113,13 +115,13 @@ private function onTwitterLogin( errorMessage:String, wasCancelled:Boolean ):voi
 ```
 ...
 
-private var mMaxID:Number = -1;
-private var mSinceID:Number = -1;
+private var mMaxID:String = null;
+private var mSinceID:String = null;
 
 ...
 
 /* Loads the 20 newest tweets on our timeline */
-AIRTwitter.getHomeTimeline( 20, -1, -1, false, onTimelineRetrieved );
+AIRTwitter.getHomeTimeline( 20, null, null, false, onTimelineRetrieved );
 
 private function onTimelineRetrieved( statuses:Vector.<AIRTwitterStatus>, errorMessage:String ):void {
     if( errorMessage ) {
@@ -129,12 +131,12 @@ private function onTimelineRetrieved( statuses:Vector.<AIRTwitterStatus>, errorM
         for( var i:uint = 0; i < length; i++ ) {
             const status:AIRTwitterStatus = statuses[i];
             /* Save the newest status ID so that we have starting point to load newer statuses */
-            if( mSinceID < 0 && i == 0 ) {
-                mSinceID = status.id;
+            if( mSinceID == null && i == 0 ) {
+                mSinceID = status.idString;
             }
             /* Save the last status ID so that we have a starting point to load older statuses */
             if( i == (length - 1) ) {
-                mMaxID = status.id;
+                mMaxID = status.idString;
             }
             /* Add status to Feathers UI List */
             mStatusList.dataProvider.addItem( status );
@@ -146,12 +148,12 @@ private function onTimelineRetrieved( statuses:Vector.<AIRTwitterStatus>, errorM
 
 To load next (older) series of tweets call `getHomeTimeline` with the stored `mMaxID`
 ```
-AIRTwitter.getHomeTimeline( 20, -1, mMaxID, false, onTimelineRetrieved ); // The same callback can be used
+AIRTwitter.getHomeTimeline( 20, null, mMaxID, false, onTimelineRetrieved ); // The same callback can be used
 ```
 
 To load newer tweets call `getHomeTimeline` with the stored `mSinceID`
 ```
-AIRTwitter.getHomeTimeline( 20, mSinceID, -1, false, onRefreshedTimelineRetrieved );
+AIRTwitter.getHomeTimeline( 20, mSinceID, null, false, onRefreshedTimelineRetrieved );
 
 private function onRefreshedTimelineRetrieved( statuses:Vector.<AIRTwitterStatus>, errorMessage:String ):void {
     if( errorMessage ) {
@@ -163,10 +165,10 @@ private function onRefreshedTimelineRetrieved( statuses:Vector.<AIRTwitterStatus
             const status:AIRTwitterStatus = statuses[i];
             /* When querying timeline with sinceID param then the tweet with ID == sinceID is included
              * in the returned result, but it is already added in our list so we skip it */
-            if( status.id == mSinceID ) continue;
+            if( status.idString == mSinceID ) continue;
             /* Save the newest status ID so that we have a starting point to load newer statuses */
             if( i == 0 ) {
-                mSinceID = status.id;
+                mSinceID = status.idString;
             }
             /* Add to the top of the Feathers UI List */
             mStatusList.dataProvider.addItemAt( status, 0 );
@@ -185,6 +187,13 @@ ANT build scripts are available in the *build* directory. Edit *build.properties
 The ANE has been written by [Marcel Piestansky](https://twitter.com/marpies) and is distributed under [Apache License, version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html).
 
 ## Change log
+
+#### December 3, 2015 (v0.7.0-beta)
+
+* CHANGED data type of parameters `statusID`, `maxID` and `sinceID` to `String`
+* ADDED `idString` property to `AIRTwitterStatus` and `AIRTwitterDirectMessage`
+* ADDED `accessToken` and `accessTokenSecret` properties
+* RENAMED `favorite` methods to `like`
 
 #### November 28, 2015 (v0.6.1-beta)
 

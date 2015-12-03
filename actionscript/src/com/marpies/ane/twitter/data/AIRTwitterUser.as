@@ -24,7 +24,7 @@ package com.marpies.ane.twitter.data {
         private var mCreatedAt:String;
         private var mDescription:String;
         private var mTweetsCount:int;
-        private var mFavoritesCount:int;
+        private var mLikesCount:int;
         private var mFollowersCount:int;
         private var mFriendsCount:int;
         private var mProfileImageURL:String;
@@ -96,12 +96,12 @@ package com.marpies.ane.twitter.data {
             mTweetsCount = value;
         }
 
-        public function get favoritesCount():int {
-            return mFavoritesCount;
+        public function get likesCount():int {
+            return mLikesCount;
         }
 
-        ns_airtwitter_internal function set favoritesCount( value:int ):void {
-            mFavoritesCount = value;
+        ns_airtwitter_internal function set likesCount( value:int ):void {
+            mLikesCount = value;
         }
 
         public function get followersCount():int {

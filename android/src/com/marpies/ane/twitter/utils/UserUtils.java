@@ -62,7 +62,7 @@ public class UserUtils {
 		userJSON.put( "createdAt", user.getCreatedAt() );
 		userJSON.put( "description", user.getDescription() );
 		userJSON.put( "tweetsCount", user.getStatusesCount() );
-		userJSON.put( "favoritesCount", user.getFavouritesCount() );
+		userJSON.put( "likesCount", user.getFavouritesCount() );
 		userJSON.put( "followersCount", user.getFollowersCount() );
 		userJSON.put( "friendsCount", user.getFriendsCount() );
 		userJSON.put( "profileImageURL", user.getProfileImageURL() );

@@ -19,10 +19,11 @@ package com.marpies.ane.twitter.data {
     public class AIRTwitterStatus {
 
         private var mID:Number;
+        private var mIDString:String;
         private var mText:String;
         private var mReplyToUserID:Number;
         private var mReplyToStatusID:Number;
-        private var mFavoriteCount:uint;
+        private var mLikesCount:uint;
         private var mRetweetCount:uint;
         private var mCreatedAt:String;
         private var mIsRetweet:Boolean;
@@ -53,6 +54,17 @@ package com.marpies.ane.twitter.data {
          */
         ns_airtwitter_internal function set id( value:Number ):void {
             mID = value;
+        }
+
+        public function get idString():String {
+            return mIDString;
+        }
+
+        /**
+         * @private
+         */
+        ns_airtwitter_internal function set idString( value:String ):void {
+            mIDString = value;
         }
 
         public function get text():String {
@@ -88,15 +100,15 @@ package com.marpies.ane.twitter.data {
             mReplyToStatusID = value;
         }
 
-        public function get favoriteCount():uint {
-            return mFavoriteCount;
+        public function get likesCount():uint {
+            return mLikesCount;
         }
 
         /**
          * @private
          */
-        ns_airtwitter_internal function set favoriteCount( value:uint ):void {
-            mFavoriteCount = value;
+        ns_airtwitter_internal function set likesCount( value:uint ):void {
+            mLikesCount = value;
         }
 
         public function get retweetCount():uint {

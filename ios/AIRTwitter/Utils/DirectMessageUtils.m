@@ -49,6 +49,7 @@
 + (NSMutableDictionary*) getJSON:(NSDictionary*) message {
     NSMutableDictionary* dmJSON = [[NSMutableDictionary alloc] init];
     dmJSON[@"id"] = message[@"id_str"];
+    dmJSON[@"idStr"] = message[@"id_str"];
     dmJSON[@"text"] = message[@"text"];
     dmJSON[@"createdAt"] = message[@"created_at"];
     dmJSON[@"recipient"] = [UserUtils getTrimmedJSON:message[@"recipient"]];

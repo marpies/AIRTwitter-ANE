@@ -24,7 +24,7 @@
 
 /**
  * Creates JSON from given response list and dispatches generic event.
- * Helper method for queries like getHomeTimeline, getFavorites...
+ * Helper method for queries like getHomeTimeline, getLikes...
  */
 + (void) dispatchStatuses:(NSArray*) statuses callbackID:(int) callbackID {
     [AIR log:[NSString stringWithFormat:@"Got statuses query response with %lu tweets", (unsigned long)statuses.count]];
@@ -51,12 +51,13 @@
     NSNumber* isSensitive = status[@"possibly_sensitive"];
     NSMutableDictionary* statusJSON = [[NSMutableDictionary alloc] init];
     statusJSON[@"id"] = status[@"id"];
+    statusJSON[@"idStr"] = status[@"id_str"];
     statusJSON[@"text"] = status[@"text"];
     statusJSON[@"inReplyToUserID"] = status[@"in_reply_to_user_id"];
     statusJSON[@"inReplyToStatusID"] = status[@"in_reply_to_status_id"];
-    statusJSON[@"favoriteCount"] = status[@"favorite_count"];
+    statusJSON[@"likesCount"] = status[@"favorite_count"];
     statusJSON[@"retweetCount"] = status[@"retweet_count"];
-    statusJSON[@"isRetweet"] = status[@"retweeted"];    // todo: not sure
+    statusJSON[@"isRetweet"] = status[@"retweeted"];
     statusJSON[@"isSensitive"] = isSensitive ? isSensitive : @(0);
     statusJSON[@"createdAt"] = status[@"created_at"];
     id retweetedStatus = status[@"retweeted_status"];

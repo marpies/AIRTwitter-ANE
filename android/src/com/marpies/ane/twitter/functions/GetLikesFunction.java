@@ -26,15 +26,15 @@ import com.marpies.ane.twitter.utils.StatusUtils;
 import com.marpies.ane.twitter.utils.StringUtils;
 import twitter4j.*;
 
-public class GetFavoritesFunction extends BaseFunction {
+public class GetLikesFunction extends BaseFunction {
 
 	@Override
 	public FREObject call( FREContext context, FREObject[] args ) {
 		super.call( context, args );
 
 		int count = FREObjectUtils.getInt( args[0] );
-		long sinceID = FREObjectUtils.getDouble( args[1] ).longValue();
-		long maxID = FREObjectUtils.getDouble( args[2] ).longValue();
+		long sinceID = (args[1] == null) ? -1 : Long.valueOf( FREObjectUtils.getString( args[1] ) );
+		long maxID = (args[2] == null) ? -1 : Long.valueOf( FREObjectUtils.getString( args[2] ) );
 		long userID = FREObjectUtils.getDouble( args[3] ).longValue();
 		String screenName = (args[4] == null) ? null : FREObjectUtils.getString( args[4] );
 		mCallbackID = FREObjectUtils.getInt( args[5] );
@@ -74,7 +74,7 @@ public class GetFavoritesFunction extends BaseFunction {
 	@Override
 	public void onException( TwitterException te, TwitterMethod method ) {
 		if( method == TwitterMethod.FAVORITES ) {
-			AIR.log( "FAVORITES ERROR " + te.getMessage() );
+			AIR.log( "Error retreiving liked statuses " + te.getMessage() );
 			AIR.dispatchEvent( AIRTwitterEvent.TIMELINE_QUERY_ERROR,
 					StringUtils.getEventErrorJSON( mCallbackID, te.getMessage() )
 			);

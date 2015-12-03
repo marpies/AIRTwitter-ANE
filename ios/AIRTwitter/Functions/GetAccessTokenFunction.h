@@ -14,23 +14,6 @@
  * limitations under the License.
  */
 
-#import "AIRTwitterUser.h"
+#import "FlashRuntimeExtensions.h"
 
-
-@implementation AIRTwitterUser
-
-@synthesize id;
-@synthesize name;
-@synthesize screenName;
-@synthesize createdAt;
-@synthesize description;
-@synthesize tweetsCount;
-@synthesize likesCount;
-@synthesize followersCount;
-@synthesize friendsCount;
-@synthesize profileImageURL;
-@synthesize isProtected;
-@synthesize isVerified;
-@synthesize location;
-
-@end
+FREObject getAccessToken( FREContext context, void* functionData, uint32_t argc, FREObject argv[] );

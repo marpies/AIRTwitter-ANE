@@ -61,7 +61,7 @@
     json[@"createdAt"] = user.createdAt;
     json[@"description"] = user.description;
     json[@"tweetsCount"] = user.tweetsCount;
-    json[@"favoritesCount"] = user.favoritesCount;
+    json[@"likesCount"] = user.likesCount;
     json[@"followersCount"] = user.followersCount;
     json[@"friendsCount"] = user.friendsCount;
     json[@"profileImageURL"] = user.profileImageURL;
@@ -79,7 +79,7 @@
     userJSON[@"createdAt"] = json[@"created_at"];
     userJSON[@"description"] = json[@"description"];
     userJSON[@"tweetsCount"] = json[@"statuses_count"];
-    userJSON[@"favoritesCount"] = json[@"favourites_count"];
+    userJSON[@"likesCount"] = json[@"favourites_count"];
     userJSON[@"followersCount"] = json[@"followers_count"];
     userJSON[@"friendsCount"] = json[@"friends_count"];
     userJSON[@"profileImageURL"] = json[@"profile_image_url_https"];
@@ -97,7 +97,7 @@
     user.createdAt = json[@"created_at"];
     user.description = json[@"description"];
     user.tweetsCount = json[@"statuses_count"];
-    user.favoritesCount = json[@"favourites_count"];
+    user.likesCount = json[@"favourites_count"];
     user.followersCount = json[@"followers_count"];
     user.friendsCount = json[@"friends_count"];
     user.profileImageURL = json[@"profile_image_url_https"];

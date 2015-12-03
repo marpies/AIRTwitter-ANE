@@ -36,7 +36,7 @@ public class UpdateStatusFunction extends BaseFunction {
 
 		String text = (args[0] == null) ? null : FREObjectUtils.getString( args[0] );
 		mCallbackID = FREObjectUtils.getInt( args[1] );
-		long inReplyToStatusID = FREObjectUtils.getDouble( args[2] ).longValue();
+		long inReplyToStatusID = (args[2] == null) ? -1 : Long.valueOf( FREObjectUtils.getString( args[2] ) );
 		final List<MediaSource> mediaSources = (args[3] == null) ? null : FREObjectUtils.getListOfMediaSource( (FREArray) args[3] );
 
 		final AsyncTwitter twitter = TwitterAPI.getAsyncInstance( TwitterAPI.getAccessToken() );

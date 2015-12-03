@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#import "FavoriteStatusFunction.h"
+#import "LikeStatusFunction.h"
 #import "FREObjectUtils.h"
 #import "StringUtils.h"
 #import "AIRTwitterEvent.h"
@@ -22,15 +22,14 @@
 #import "StatusUtils.h"
 #import "AIRTwitter.h"
 
-FREObject favoriteStatus(FREContext context, void* functionData, uint32_t argc, FREObject* argv) {
-    double statusIDDouble = [FREObjectUtils getDouble:argv[0]];
-    NSString* statusID = [NSString stringWithFormat:@"%.f", statusIDDouble];
+FREObject likeStatus(FREContext context, void* functionData, uint32_t argc, FREObject* argv) {
+    NSString* statusID = [FREObjectUtils getNSString:argv[0]];
     int callbackID = [FREObjectUtils getInt:argv[1]];
 
     [[AIRTwitter api] postFavoriteCreateWithStatusID:statusID
                                      includeEntities:nil
                                         successBlock:^(NSDictionary* status) {
-                                            [AIR log:[NSString stringWithFormat:@"Favorited status w/ message %@", status[@"text"]]];
+                                            [AIR log:[NSString stringWithFormat:@"Liked status w/ message %@", status[@"text"]]];
                                             NSMutableDictionary* statusJSON = [StatusUtils getJSON:status];
                                             statusJSON[@"callbackID"] = @(callbackID);
                                             statusJSON[@"success"] = @"true";
@@ -39,11 +38,11 @@ FREObject favoriteStatus(FREContext context, void* functionData, uint32_t argc, 
                                             if( jsonString ) {
                                                 [AIR dispatchEvent:STATUS_QUERY_SUCCESS withMessage:jsonString];
                                             } else {
-                                                [AIR dispatchEvent:STATUS_QUERY_SUCCESS withMessage:[StringUtils getEventErrorJSONString:callbackID errorMessage:@"Successfully favorited status but could not parse returned status data."]];
+                                                [AIR dispatchEvent:STATUS_QUERY_SUCCESS withMessage:[StringUtils getEventErrorJSONString:callbackID errorMessage:@"Successfully liked status but could not parse returned status data."]];
                                             }
                                         }
                                           errorBlock:^(NSError* error) {
-                                              [AIR log:[NSString stringWithFormat:@"Error creating favorite status: %@", error.localizedDescription]];
+                                              [AIR log:[NSString stringWithFormat:@"Error liking status: %@", error.localizedDescription]];
                                               [AIR dispatchEvent:STATUS_QUERY_ERROR withMessage:[StringUtils getEventErrorJSONString:callbackID errorMessage:error.localizedDescription]];
                                           }];
     return nil;
