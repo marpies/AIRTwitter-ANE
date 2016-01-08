@@ -18,7 +18,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@interface BitmapDataUtils : NSObject
+@interface MPBitmapDataUtils : NSObject
 
 + (UIImage*) getUIImageFromFREBitmapData:(FREBitmapData2) bitmapData;
 

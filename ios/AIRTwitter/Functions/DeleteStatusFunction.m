@@ -15,32 +15,31 @@
  */
 
 #import "DeleteStatusFunction.h"
-#import "FREObjectUtils.h"
-#import "StringUtils.h"
+#import "MPFREObjectUtils.h"
+#import "MPStringUtils.h"
 #import "AIRTwitterEvent.h"
-#import "AIR.h"
 #import "StatusUtils.h"
 #import "AIRTwitter.h"
 
-FREObject deleteStatus( FREContext context, void* functionData, uint32_t argc, FREObject argv[] ) {
-    NSString* statusID = [FREObjectUtils getNSString:argv[0]];
-    int callbackID = [FREObjectUtils getInt:argv[1]];
+FREObject tw_deleteStatus( FREContext context, void* functionData, uint32_t argc, FREObject* argv ) {
+    NSString* statusID = [MPFREObjectUtils getNSString:argv[0]];
+    int callbackID = [MPFREObjectUtils getInt:argv[1]];
     
     [[AIRTwitter api] postStatusesDestroy:statusID trimUser:@(0) successBlock:^(NSDictionary *status) {
-        [AIR log:[NSString stringWithFormat:@"Destroyed status w/ message %@", status[@"text"]]];
+        [AIRTwitter log:[NSString stringWithFormat:@"Destroyed status w/ message %@", status[@"text"]]];
         NSMutableDictionary* statusJSON = [StatusUtils getJSON:status];
         statusJSON[@"callbackID"] = @(callbackID);
         statusJSON[@"success"] = @"true";
         /* Get JSON string from the status */
-        NSString* jsonString = [StringUtils getJSONString:statusJSON];
+        NSString* jsonString = [MPStringUtils getJSONString:statusJSON];
         if( jsonString ) {
-            [AIR dispatchEvent:STATUS_QUERY_SUCCESS withMessage:jsonString];
+            [AIRTwitter dispatchEvent:STATUS_QUERY_SUCCESS withMessage:jsonString];
         } else {
-            [AIR dispatchEvent:STATUS_QUERY_SUCCESS withMessage:[StringUtils getEventErrorJSONString:callbackID errorMessage:@"Successfully destroyed status but could not parse returned status data."]];
+            [AIRTwitter dispatchEvent:STATUS_QUERY_SUCCESS withMessage:[MPStringUtils getEventErrorJSONString:callbackID errorMessage:@"Successfully destroyed status but could not parse returned status data."]];
         }
     } errorBlock:^(NSError *error) {
-        [AIR log:[NSString stringWithFormat:@"Error destroying status: %@", error.localizedDescription]];
-        [AIR dispatchEvent:STATUS_QUERY_ERROR withMessage:[StringUtils getEventErrorJSONString:callbackID errorMessage:error.localizedDescription]];
+        [AIRTwitter log:[NSString stringWithFormat:@"Error destroying status: %@", error.localizedDescription]];
+        [AIRTwitter dispatchEvent:STATUS_QUERY_ERROR withMessage:[MPStringUtils getEventErrorJSONString:callbackID errorMessage:error.localizedDescription]];
     }];
     return nil;
 }

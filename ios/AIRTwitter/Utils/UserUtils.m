@@ -16,9 +16,9 @@
 
 #import "UserUtils.h"
 #import "AIRTwitterUser.h"
-#import "StringUtils.h"
+#import "MPStringUtils.h"
 #import "AIRTwitterEvent.h"
-#import "AIR.h"
+#import "AIRTwitter.h"
 
 
 @implementation UserUtils
@@ -28,7 +28,7 @@
  * Helper method for queries like getFollowers and getFriends.
  */
 + (void) dispatchUsers:(NSArray*) users previousCursor:(NSString*) previousCursor nextCursor:(NSString*) nextCursor callbackID:(int) callbackID {
-    [AIR log:[NSString stringWithFormat:@"Got users query response with %lu user(s)", users.count]];
+    [AIRTwitter log:[NSString stringWithFormat:@"Got users query response with %lu user(s)", users.count]];
     /* Create array of JSON users */
     NSMutableArray* jsonArray = [[NSMutableArray alloc] init];
     for( NSUInteger i = 0; i < users.count; i++ ) {
@@ -45,11 +45,11 @@
     result[@"callbackID"] = @(callbackID);
     result[@"users"] = jsonArray;
     /* Dispatch result in JSON format */
-    NSString* resultJSON = [StringUtils getJSONString:result];
+    NSString* resultJSON = [MPStringUtils getJSONString:result];
     if( resultJSON ) {
-        [AIR dispatchEvent:USERS_QUERY_SUCCESS withMessage:resultJSON];
+        [AIRTwitter dispatchEvent:USERS_QUERY_SUCCESS withMessage:resultJSON];
     } else {
-        [AIR dispatchEvent:USERS_QUERY_ERROR withMessage:[StringUtils getEventErrorJSONString:callbackID errorMessage:@"Users query succeeded but could not parse returned data."]];
+        [AIRTwitter dispatchEvent:USERS_QUERY_ERROR withMessage:[MPStringUtils getEventErrorJSONString:callbackID errorMessage:@"Users query succeeded but could not parse returned data."]];
     }
 }
 

@@ -16,4 +16,4 @@
 
 #import "FlashRuntimeExtensions.h"
 
-FREObject updateStatus( FREContext context, void* functionData, uint32_t argc, FREObject argv[] );
+FREObject tw_updateStatus( FREContext context, void* functionData, uint32_t argc, FREObject* argv );

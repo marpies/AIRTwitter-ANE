@@ -16,4 +16,4 @@
 
 #import "FlashRuntimeExtensions.h"
 
-FREObject deleteStatus( FREContext context, void* functionData, uint32_t argc, FREObject argv[] );
+FREObject tw_deleteStatus( FREContext context, void* functionData, uint32_t argc, FREObject* argv );

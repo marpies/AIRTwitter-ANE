@@ -15,34 +15,33 @@
  */
 
 #import "RetweetStatusFunction.h"
-#import "FREObjectUtils.h"
+#import "MPFREObjectUtils.h"
 #import "AIRTwitter.h"
-#import "AIR.h"
 #import "StatusUtils.h"
-#import "StringUtils.h"
+#import "MPStringUtils.h"
 #import "AIRTwitterEvent.h"
 
-FREObject retweetStatus(FREContext context, void* functionData, uint32_t argc, FREObject* argv) {
-    NSString* statusID = [FREObjectUtils getNSString:argv[0]];
-    int callbackID = [FREObjectUtils getInt:argv[1]];
+FREObject tw_retweetStatus( FREContext context, void* functionData, uint32_t argc, FREObject* argv ) {
+    NSString* statusID = [MPFREObjectUtils getNSString:argv[0]];
+    int callbackID = [MPFREObjectUtils getInt:argv[1]];
 
     [[AIRTwitter api] postStatusRetweetWithID:statusID
                                  successBlock:^(NSDictionary* status) {
-                                     [AIR log:[NSString stringWithFormat:@"Retweeted status w/ message %@", status[@"text"]]];
+                                     [AIRTwitter log:[NSString stringWithFormat:@"Retweeted status w/ message %@", status[@"text"]]];
                                      NSMutableDictionary* statusJSON = [StatusUtils getJSON:status];
                                      statusJSON[@"callbackID"] = @(callbackID);
                                      statusJSON[@"success"] = @"true";
                                      /* Get JSON string from the status */
-                                     NSString* jsonString = [StringUtils getJSONString:statusJSON];
+                                     NSString* jsonString = [MPStringUtils getJSONString:statusJSON];
                                      if( jsonString ) {
-                                         [AIR dispatchEvent:STATUS_QUERY_SUCCESS withMessage:jsonString];
+                                         [AIRTwitter dispatchEvent:STATUS_QUERY_SUCCESS withMessage:jsonString];
                                      } else {
-                                         [AIR dispatchEvent:STATUS_QUERY_SUCCESS withMessage:[StringUtils getEventErrorJSONString:callbackID errorMessage:@"Successfully retweeted status but could not parse returned status data."]];
+                                         [AIRTwitter dispatchEvent:STATUS_QUERY_SUCCESS withMessage:[MPStringUtils getEventErrorJSONString:callbackID errorMessage:@"Successfully retweeted status but could not parse returned status data."]];
                                      }
                                  }
                                    errorBlock:^(NSError* error) {
-                                       [AIR log:[NSString stringWithFormat:@"Error retweeting status: %@", error.localizedDescription]];
-                                       [AIR dispatchEvent:STATUS_QUERY_ERROR withMessage:[StringUtils getEventErrorJSONString:callbackID errorMessage:error.localizedDescription]];
+                                       [AIRTwitter log:[NSString stringWithFormat:@"Error retweeting status: %@", error.localizedDescription]];
+                                       [AIRTwitter dispatchEvent:STATUS_QUERY_ERROR withMessage:[MPStringUtils getEventErrorJSONString:callbackID errorMessage:error.localizedDescription]];
                                    }];
     return nil;
 }

@@ -14,18 +14,46 @@
  * limitations under the License.
  */
 
-#import "AIR.h"
 #import "AIRTwitter.h"
 #import "AIRTwitterEvent.h"
 #import "AIRTwitterUser.h"
+#import "FlashRuntimeExtensions.h"
+#import "Functions/InitFunction.h"
+#import "Functions/LoginFunction.h"
+#import "Functions/LogoutFunction.h"
+#import "Functions/UpdateStatusFunction.h"
+#import "Functions/GetFollowersFunction.h"
+#import "Functions/GetHomeTimelineFunction.h"
+#import "Functions/GetUserTimelineFunction.h"
+#import "Functions/GetLikesFunction.h"
+#import "Functions/GetFriendsFunction.h"
+#import "Functions/FollowUserFunction.h"
+#import "Functions/UnfollowUserFunction.h"
+#import "Functions/RetweetStatusFunction.h"
+#import "Functions/LikeStatusFunction.h"
+#import "Functions/UndoLikeStatusFunction.h"
+#import "Functions/DeleteStatusFunction.h"
+#import "Functions/SendDirectMessageFunction.h"
+#import "Functions/GetDirectMessagesFunction.h"
+#import "Functions/GetSentDirectMessagesFunction.h"
+#import "Functions/GetLoggedInUserFunction.h"
+#import "Functions/GetUserFunction.h"
+#import "Functions/GetAccessTokenFunction.h"
+#import "Functions/GetAccessTokenSecretFunction.h"
+#import "Functions/ApplicationOpenURLFunction.h"
+#import "Functions/LoginWithAccount.h"
+#import "Functions/IsSystemAccountAvailableFunction.h"
 
 static STTwitterAPI* mTwitter = nil;
 
-static NSString* mURLScheme = nil;
-static NSString* mConsumerKey = nil;
-static NSString* mConsumerSecret = nil;
+static NSString* mAIRTwitterURLScheme = nil;
+static NSString* mAIRTwitterConsumerKey = nil;
+static NSString* mAIRTwitterConsumerSecret = nil;
 
-static AIRTwitterUser* mLoggedInUser = nil;
+static AIRTwitterUser* mAIRTwitterLoggedInUser = nil;
+
+static BOOL airTwitterLogEnabled = NO;
+FREContext airTwitterContext = nil;
 
 @interface AIRTwitter ()
 @end
@@ -33,14 +61,14 @@ static AIRTwitterUser* mLoggedInUser = nil;
 @implementation AIRTwitter
 
 + (BOOL) initWithConsumerKey:(NSString*) key consumerSecret:(NSString*) secret urlScheme:(NSString*) urlScheme {
-    mURLScheme = urlScheme;
-    mConsumerKey = key;
-    mConsumerSecret = secret;
+    mAIRTwitterURLScheme = urlScheme;
+    mAIRTwitterConsumerKey = key;
+    mAIRTwitterConsumerSecret = secret;
 
     /* Check if we already have access token */
     NSString* accessToken = [self accessToken];
     if( accessToken ) {
-        [AIR log:@"Initializing STTwitter w/ key, secret and user's access tokens"];
+        [AIRTwitter log:@"Initializing STTwitter w/ key, secret and user's access tokens"];
         mTwitter = [STTwitterAPI twitterAPIWithOAuthConsumerKey:key consumerSecret:secret oauthToken:accessToken oauthTokenSecret:[self accessTokenSecret]];
         return YES;
     }
@@ -48,41 +76,41 @@ static AIRTwitterUser* mLoggedInUser = nil;
 }
 
 + (void) getAccessTokensForPIN:(NSString*) PIN {
-    [AIR log:@"Getting OAuth tokens for PIN"];
+    [AIRTwitter log:@"Getting OAuth tokens for PIN"];
 
     [mTwitter postAccessTokenRequestWithPIN:PIN successBlock:^(NSString* oauthToken, NSString* oauthTokenSecret, NSString* userID, NSString* screenName) {
-        [AIR log:@"Successfully retrieved access token"];
+        [AIRTwitter log:@"Successfully retrieved access token"];
         [self storeCredentials:screenName userID:userID accessToken:oauthToken accessTokenSecret:oauthTokenSecret];
         /* Dispatch login success */
-        [AIR dispatchEvent:LOGIN_SUCCESS];
+        [AIRTwitter dispatchEvent:LOGIN_SUCCESS];
     } errorBlock:^(NSError* error) {
-        [AIR log:[NSString stringWithFormat:@"Error retrieving access token: %@", error.localizedDescription]];
-        [AIR dispatchEvent:LOGIN_ERROR withMessage:error.localizedDescription];
+        [AIRTwitter log:[NSString stringWithFormat:@"Error retrieving access token: %@", error.localizedDescription]];
+        [AIRTwitter dispatchEvent:LOGIN_ERROR withMessage:error.localizedDescription];
     }];
 }
 
 + (void) verifySystemAccount:(ACAccount*) account {
     [[self api] postReverseOAuthTokenRequest:^(NSString *authenticationHeader) {
-        [AIR log:@"Authentication header retrieved."];
+        [AIRTwitter log:@"Authentication header retrieved."];
         mTwitter = [STTwitterAPI twitterAPIOSWithAccount:account];
         [mTwitter verifyCredentialsWithUserSuccessBlock:^(NSString *username, NSString *userID) {
-            [AIR log:@"Credentials for system account are valid."];
+            [AIRTwitter log:@"Credentials for system account are valid."];
             [mTwitter postReverseAuthAccessTokenWithAuthenticationHeader:authenticationHeader successBlock:^(NSString *oAuthToken, NSString *oAuthTokenSecret, NSString *userID, NSString *screenName) {
-                [AIR log:@"Access token for authentication header retrieved."];
+                [AIRTwitter log:@"Access token for authentication header retrieved."];
                 [self storeCredentials:username userID:userID accessToken:oAuthToken accessTokenSecret:oAuthTokenSecret];
                 /* Dispatch login success */
-                [AIR dispatchEvent:LOGIN_SUCCESS];
+                [AIRTwitter dispatchEvent:LOGIN_SUCCESS];
             } errorBlock:^(NSError *error) {
-                [AIR log:[NSString stringWithFormat:@"Error retrieving access token for authentication header: %@", error.localizedDescription]];
-                [AIR dispatchEvent:LOGIN_ERROR withMessage:error.localizedDescription];
+                [AIRTwitter log:[NSString stringWithFormat:@"Error retrieving access token for authentication header: %@", error.localizedDescription]];
+                [AIRTwitter dispatchEvent:LOGIN_ERROR withMessage:error.localizedDescription];
             }];
         } errorBlock:^(NSError *error) {
-            [AIR log:[NSString stringWithFormat:@"Error verifying system account credentials: %@", error.localizedDescription]];
-            [AIR dispatchEvent:LOGIN_ERROR withMessage:error.localizedDescription];
+            [AIRTwitter log:[NSString stringWithFormat:@"Error verifying system account credentials: %@", error.localizedDescription]];
+            [AIRTwitter dispatchEvent:LOGIN_ERROR withMessage:error.localizedDescription];
         }];
     } errorBlock:^(NSError *error) {
-        [AIR log:[NSString stringWithFormat:@"Error retrieving authentication header: %@", error.localizedDescription]];
-        [AIR dispatchEvent:LOGIN_ERROR withMessage:error.localizedDescription];
+        [AIRTwitter log:[NSString stringWithFormat:@"Error retrieving authentication header: %@", error.localizedDescription]];
+        [AIRTwitter dispatchEvent:LOGIN_ERROR withMessage:error.localizedDescription];
     }];
 }
 
@@ -99,12 +127,31 @@ static AIRTwitterUser* mLoggedInUser = nil;
 
 + (void) clearAccessTokens {
     mTwitter = nil;
-    mLoggedInUser = nil;
+    mAIRTwitterLoggedInUser = nil;
 
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
     [defaults removeObjectForKey:@"accessToken"];
     [defaults removeObjectForKey:@"accessTokenSecret"];
     [defaults synchronize];
+}
+
++ (void) dispatchEvent:(const NSString*) eventName {
+    [self dispatchEvent:eventName withMessage:@""];
+}
+
++ (void)dispatchEvent:(const NSString*) eventName withMessage:(NSString*) message {
+    NSString* messageText = message ? message : @"";
+    FREDispatchStatusEventAsync( airTwitterContext, (const uint8_t*) [eventName UTF8String], (const uint8_t*) [messageText UTF8String] );
+}
+
++ (void)log:(const NSString*) message {
+    if( airTwitterLogEnabled ) {
+        NSLog( @"[iOS-AIRTwitter] %@", message );
+    }
+}
+
++ (void)showLogs:(BOOL) showLogs {
+    airTwitterLogEnabled = showLogs;
 }
 
 /**
@@ -121,13 +168,13 @@ static AIRTwitterUser* mLoggedInUser = nil;
 
 + (STTwitterAPI*) api:(BOOL) newInstance {
     if( !mTwitter || newInstance ) {
-        mTwitter = [STTwitterAPI twitterAPIWithOAuthConsumerKey:mConsumerKey consumerSecret:mConsumerSecret];
+        mTwitter = [STTwitterAPI twitterAPIWithOAuthConsumerKey:mAIRTwitterConsumerKey consumerSecret:mAIRTwitterConsumerSecret];
     }
     return mTwitter;
 }
 
 + (NSString*) urlScheme {
-    return mURLScheme;
+    return mAIRTwitterURLScheme;
 }
 
 + (NSString*) accessToken {
@@ -143,16 +190,88 @@ static AIRTwitterUser* mLoggedInUser = nil;
  */
 
 + (AIRTwitterUser*) loggedInUser {
-    return mLoggedInUser;
+    return mAIRTwitterLoggedInUser;
 }
 
 + (void) setLoggedInUser:(AIRTwitterUser*) user {
-    mLoggedInUser = user;
+    mAIRTwitterLoggedInUser = user;
 }
 
 @end
 
+/**
+ *
+ *
+ * Context initialization
+ *
+ *
+ **/
 
+void AIRTwitterAddFunction( FRENamedFunction* array, const char* name, FREFunction function, uint32_t* index ) {
+    array[(*index)].name = (const uint8_t*) name;
+    array[(*index)].functionData = NULL;
+    array[(*index)].function = function;
+    (*index)++;
+}
+
+void AIRTwitterContextInitializer( void* extData,
+        const uint8_t* ctxType,
+        FREContext ctx,
+        uint32_t* numFunctionsToSet,
+        const FRENamedFunction** functionsToSet ) {
+    uint32_t numFunctions = 25;
+    *numFunctionsToSet = numFunctions;
+
+    FRENamedFunction* functionArray = (FRENamedFunction*) malloc( sizeof( FRENamedFunction ) * numFunctions );
+
+    uint32_t index = 0;
+    AIRTwitterAddFunction( functionArray, "init", &tw_init, &index );
+    AIRTwitterAddFunction( functionArray, "login", &tw_login, &index );
+    AIRTwitterAddFunction( functionArray, "loginWithAccount", &tw_loginWithAccount, &index );
+    AIRTwitterAddFunction( functionArray, "logout", &tw_logout, &index );
+
+    AIRTwitterAddFunction( functionArray, "updateStatus", &tw_updateStatus, &index );
+    AIRTwitterAddFunction( functionArray, "getFollowers", &tw_getFollowers, &index );
+    AIRTwitterAddFunction( functionArray, "getHomeTimeline", &tw_getHomeTimeline, &index );
+    AIRTwitterAddFunction( functionArray, "getUserTimeline", &tw_getUserTimeline, &index );
+    AIRTwitterAddFunction( functionArray, "getLikes", &tw_getLikes, &index );
+    AIRTwitterAddFunction( functionArray, "getFriends", &tw_getFriends, &index );
+    AIRTwitterAddFunction( functionArray, "getLoggedInUser", &tw_getLoggedInUser, &index );
+    AIRTwitterAddFunction( functionArray, "getUser", &tw_getUser, &index );
+
+    AIRTwitterAddFunction( functionArray, "followUser", &tw_followUser, &index );
+    AIRTwitterAddFunction( functionArray, "unfollowUser", &tw_unfollowUser, &index );
+
+    AIRTwitterAddFunction( functionArray, "retweetStatus", &tw_retweetStatus, &index );
+    AIRTwitterAddFunction( functionArray, "likeStatus", &tw_likeStatus, &index );
+    AIRTwitterAddFunction( functionArray, "undoLikeStatus", &tw_undoLikeStatus, &index );
+    AIRTwitterAddFunction( functionArray, "deleteStatus", &tw_deleteStatus, &index );
+
+    AIRTwitterAddFunction( functionArray, "sendDirectMessage", &tw_sendDirectMessage, &index );
+    AIRTwitterAddFunction( functionArray, "getDirectMessages", &tw_getDirectMessages, &index );
+    AIRTwitterAddFunction( functionArray, "getSentDirectMessages", &tw_getSentDirectMessages, &index );
+
+    AIRTwitterAddFunction( functionArray, "getAccessToken", &tw_getAccessToken, &index );
+    AIRTwitterAddFunction( functionArray, "getAccessTokenSecret", &tw_getAccessTokenSecret, &index );
+
+    AIRTwitterAddFunction( functionArray, "applicationOpenURL", &tw_applicationOpenURL, &index );
+
+    AIRTwitterAddFunction( functionArray, "isSystemAccountAvailable", &tw_isSystemAccountAvailable, &index );
+
+    *functionsToSet = functionArray;
+
+    airTwitterContext = ctx;
+}
+
+void AIRTwitterContextFinalizer( FREContext ctx ) { }
+
+void AIRTwitterInitializer( void** extDataToSet, FREContextInitializer* ctxInitializerToSet, FREContextFinalizer* ctxFinalizerToSet ) {
+    *extDataToSet = NULL;
+    *ctxInitializerToSet = &AIRTwitterContextInitializer;
+    *ctxFinalizerToSet = &AIRTwitterContextFinalizer;
+}
+
+void AIRTwitterFinalizer( void* extData ) { }
 
 
 

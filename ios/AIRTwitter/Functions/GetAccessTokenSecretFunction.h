@@ -16,4 +16,4 @@
 
 #import "FlashRuntimeExtensions.h"
 
-FREObject getAccessTokenSecret( FREContext context, void* functionData, uint32_t argc, FREObject argv[] );
+FREObject tw_getAccessTokenSecret( FREContext context, void* functionData, uint32_t argc, FREObject* argv );

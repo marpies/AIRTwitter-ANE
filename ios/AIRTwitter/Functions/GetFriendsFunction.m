@@ -15,19 +15,18 @@
  */
 
 #import "GetFriendsFunction.h"
-#import "FREObjectUtils.h"
+#import "MPFREObjectUtils.h"
 #import "AIRTwitter.h"
 #import "UserUtils.h"
-#import "StringUtils.h"
+#import "MPStringUtils.h"
 #import "AIRTwitterEvent.h"
-#import "AIR.h"
 
-FREObject getFriends(FREContext context, void* functionData, uint32_t argc, FREObject* argv) {
-    NSString* cursor = [NSString stringWithFormat:@"%.f", [FREObjectUtils getDouble:argv[0]]];
-    double userIDDouble = [FREObjectUtils getDouble:argv[1]];
+FREObject tw_getFriends( FREContext context, void* functionData, uint32_t argc, FREObject* argv ) {
+    NSString* cursor = [NSString stringWithFormat:@"%.f", [MPFREObjectUtils getDouble:argv[0]]];
+    double userIDDouble = [MPFREObjectUtils getDouble:argv[1]];
     NSString* userID = (userIDDouble >= 0) ? [NSString stringWithFormat:@"%.f", userIDDouble] : [[AIRTwitter api] userID];
-    NSString* screenName = (argv[2] == nil) ? nil : [FREObjectUtils getNSString:argv[2]];
-    int callbackID = [FREObjectUtils getInt:argv[3]];
+    NSString* screenName = (argv[2] == nil) ? nil : [MPFREObjectUtils getNSString:argv[2]];
+    int callbackID = [MPFREObjectUtils getInt:argv[3]];
 
     [[AIRTwitter api] getFriendsListForUserID:(screenName ? nil : userID)
                                  orScreenName:screenName
@@ -39,8 +38,8 @@ FREObject getFriends(FREContext context, void* functionData, uint32_t argc, FREO
                                      [UserUtils dispatchUsers:users previousCursor:previousCursor nextCursor:nextCursor callbackID:callbackID];
                                  }
                                    errorBlock:^(NSError* error) {
-                                       [AIR log:[NSString stringWithFormat:@"Friends error: %@", error.localizedDescription]];
-                                       [AIR dispatchEvent:USERS_QUERY_ERROR withMessage:[StringUtils getEventErrorJSONString:callbackID errorMessage:error.localizedDescription]];
+                                       [AIRTwitter log:[NSString stringWithFormat:@"Friends error: %@", error.localizedDescription]];
+                                       [AIRTwitter dispatchEvent:USERS_QUERY_ERROR withMessage:[MPStringUtils getEventErrorJSONString:callbackID errorMessage:error.localizedDescription]];
                                    }];
 
     return nil;

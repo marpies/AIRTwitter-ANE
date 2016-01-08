@@ -16,4 +16,4 @@
 
 #import "FlashRuntimeExtensions.h"
 
-FREObject loginWithAccount( FREContext context, void* functionData, uint32_t argc, FREObject* argv );
+FREObject tw_loginWithAccount( FREContext context, void* functionData, uint32_t argc, FREObject* argv );

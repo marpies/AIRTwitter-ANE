@@ -15,23 +15,22 @@
  */
 
 #import "GetDirectMessagesFunction.h"
-#import "FREObjectUtils.h"
+#import "MPFREObjectUtils.h"
 #import "AIRTwitter.h"
 #import "DirectMessageUtils.h"
-#import "AIR.h"
 #import "AIRTwitterEvent.h"
-#import "StringUtils.h"
+#import "MPStringUtils.h"
 
-FREObject getDirectMessages( FREContext context, void* functionData, uint32_t argc, FREObject argv[] ) {
-    NSString* count = [NSString stringWithFormat:@"%d", [FREObjectUtils getInt:argv[0]]];
-    NSString* sinceID = (argv[1] == nil) ? nil : [FREObjectUtils getNSString:argv[1]];
-    NSString* maxID = (argv[2] == nil) ? nil : [FREObjectUtils getNSString:argv[2]];
-    int callbackID = [FREObjectUtils getInt:argv[3]];
+FREObject tw_getDirectMessages( FREContext context, void* functionData, uint32_t argc, FREObject* argv ) {
+    NSString* count = [NSString stringWithFormat:@"%d", [MPFREObjectUtils getInt:argv[0]]];
+    NSString* sinceID = (argv[1] == nil) ? nil : [MPFREObjectUtils getNSString:argv[1]];
+    NSString* maxID = (argv[2] == nil) ? nil : [MPFREObjectUtils getNSString:argv[2]];
+    int callbackID = [MPFREObjectUtils getInt:argv[3]];
     
     [[AIRTwitter api] getDirectMessagesSinceID:sinceID maxID:maxID count:count fullText:@(1) includeEntities:@(0) skipStatus:@(1) successBlock:^(NSArray *messages) {
         [DirectMessageUtils dispatchDirectMesages:messages callbackID:callbackID];
     } errorBlock:^(NSError *error) {
-        [AIR dispatchEvent:DIRECT_MESSAGES_QUERY_ERROR withMessage:[StringUtils getEventErrorJSONString:callbackID errorMessage:error.localizedDescription]];
+        [AIRTwitter dispatchEvent:DIRECT_MESSAGES_QUERY_ERROR withMessage:[MPStringUtils getEventErrorJSONString:callbackID errorMessage:error.localizedDescription]];
     }];
     
     return nil;

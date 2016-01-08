@@ -16,4 +16,4 @@
 
 #import "FlashRuntimeExtensions.h"
 
-FREObject retweetStatus(FREContext context, void* functionData, uint32_t argc, FREObject* argv);
+FREObject tw_retweetStatus( FREContext context, void* functionData, uint32_t argc, FREObject* argv );

@@ -15,19 +15,18 @@
  */
 
 #import "GetHomeTimelineFunction.h"
-#import "FREObjectUtils.h"
+#import "MPFREObjectUtils.h"
 #import "AIRTwitter.h"
 #import "StatusUtils.h"
-#import "AIR.h"
 #import "AIRTwitterEvent.h"
-#import "StringUtils.h"
+#import "MPStringUtils.h"
 
-FREObject getHomeTimeline(FREContext context, void* functionData, uint32_t argc, FREObject* argv) {
-    NSString* count = [NSString stringWithFormat:@"%d", [FREObjectUtils getInt:argv[0]]];
-    NSString* sinceID = (argv[1] == nil) ? nil : [FREObjectUtils getNSString:argv[1]];
-    NSString* maxID = (argv[2] == nil) ? nil : [FREObjectUtils getNSString:argv[2]];
-    NSNumber* excludeReplies = @([FREObjectUtils getBOOL:argv[3]]);
-    int callbackID = [FREObjectUtils getInt:argv[4]];
+FREObject tw_getHomeTimeline( FREContext context, void* functionData, uint32_t argc, FREObject* argv ) {
+    NSString* count = [NSString stringWithFormat:@"%d", [MPFREObjectUtils getInt:argv[0]]];
+    NSString* sinceID = (argv[1] == nil) ? nil : [MPFREObjectUtils getNSString:argv[1]];
+    NSString* maxID = (argv[2] == nil) ? nil : [MPFREObjectUtils getNSString:argv[2]];
+    NSNumber* excludeReplies = @([MPFREObjectUtils getBOOL:argv[3]]);
+    int callbackID = [MPFREObjectUtils getInt:argv[4]];
 
     [[AIRTwitter api] getStatusesHomeTimelineWithCount:count
                                                sinceID:sinceID
@@ -40,8 +39,8 @@ FREObject getHomeTimeline(FREContext context, void* functionData, uint32_t argc,
                                               [StatusUtils dispatchStatuses:statuses callbackID:callbackID];
                                           }
                                             errorBlock:^(NSError* error) {
-                                                [AIR log:[NSString stringWithFormat:@"Home timeline error: %@", error.localizedDescription]];
-                                                [AIR dispatchEvent:TIMELINE_QUERY_ERROR withMessage:[StringUtils getEventErrorJSONString:callbackID errorMessage:error.localizedDescription]];
+                                                [AIRTwitter log:[NSString stringWithFormat:@"Home timeline error: %@", error.localizedDescription]];
+                                                [AIRTwitter dispatchEvent:TIMELINE_QUERY_ERROR withMessage:[MPStringUtils getEventErrorJSONString:callbackID errorMessage:error.localizedDescription]];
                                             }];
     return nil;
 }

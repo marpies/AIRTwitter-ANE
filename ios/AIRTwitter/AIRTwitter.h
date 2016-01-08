@@ -36,4 +36,16 @@
 + (AIRTwitterUser*) loggedInUser;
 + (void) setLoggedInUser:(AIRTwitterUser*) user;
 
+/**
+ * Helpers
+ */
+
++ (void) dispatchEvent:(const NSString*) eventName;
+
++ (void) dispatchEvent:(const NSString*) eventName withMessage:(NSString*) message;
+
++ (void)log:(const NSString*) message;
+
++ (void)showLogs:(BOOL) showLogs;
+
 @end

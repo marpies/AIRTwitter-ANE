@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-#ifndef AIRFacebook_FREObjectUtils_h
-#define AIRFacebook_FREObjectUtils_h
+#ifndef AIR_MPFREObjectUtils_h
+#define AIR_MPFREObjectUtils_h
 
 #import "FlashRuntimeExtensions.h"
 #import <Foundation/Foundation.h>
 
-@interface FREObjectUtils : NSObject
+@interface MPFREObjectUtils : NSObject
 
 /**
 * From FREObject to Objective C

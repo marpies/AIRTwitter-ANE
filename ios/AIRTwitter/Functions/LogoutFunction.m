@@ -15,10 +15,10 @@
  */
 
 #import "LogoutFunction.h"
-#import "FREObjectUtils.h"
+#import "MPFREObjectUtils.h"
 #import "AIRTwitter.h"
 
-FREObject logout( FREContext context, void* functionData, uint32_t argc, FREObject argv[] ) {
+FREObject tw_logout( FREContext context, void* functionData, uint32_t argc, FREObject* argv ) {
     if( [AIRTwitter accessToken] ) {
         [AIRTwitter clearAccessTokens];
     }

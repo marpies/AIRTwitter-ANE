@@ -14,16 +14,15 @@
  * limitations under the License.
  */
 
-#import "AIR.h"
 #import "AIRTwitter.h"
-#import "MediaSource.h"
+#import "MPMediaSource.h"
 #import "MediaSourceProcessor.h"
 
 @implementation MediaSourceProcessor
 
 + (void) process:(NSArray*) mediaSources completionHandler:(void (^)(NSArray* mediaIDs, NSString* errorMessage)) completionHandler {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        [AIR log:[NSString stringWithFormat:@"Writing %d media sources to files", mediaSources.count]];
+        [AIRTwitter log:[NSString stringWithFormat:@"Writing %lu media sources to files", (unsigned long) mediaSources.count]];
 
         /* Create NSData array from media sources */
         NSArray* mediaData = [self createDataFromMediaSources:mediaSources];
@@ -39,21 +38,21 @@
 + (NSArray*) createDataFromMediaSources:(NSArray*) mediaSources {
     NSMutableArray* mediaNSDataArray = [[NSMutableArray alloc] init];
     for( uint32_t i = 0; i < mediaSources.count; i++ ) {
-        MediaSource* media = mediaSources[i];
+        MPMediaSource* media = mediaSources[i];
         NSData* data = nil;
         if( media.isImage ) {
-            [AIR log:@"Creating NSData from UIImage"];
+            [AIRTwitter log:@"Creating NSData from UIImage"];
             data = UIImagePNGRepresentation(media.image);
         } else {
-            [AIR log:[NSString stringWithFormat:@"Creating NSData from URL %@", media.url]];
+            [AIRTwitter log:[NSString stringWithFormat:@"Creating NSData from URL %@", media.url]];
             NSURL* imageURL = [NSURL URLWithString:media.url];
             data = [NSData dataWithContentsOfURL:imageURL];
         }
         if( data ) {
-            [AIR log:@"Success creating NSData"];
+            [AIRTwitter log:@"Success creating NSData"];
             [mediaNSDataArray addObject:data];
         } else {
-            [AIR log:@"Error creating NSData"];
+            [AIRTwitter log:@"Error creating NSData"];
             return nil;
         }
     }
@@ -61,7 +60,7 @@
 }
 
 + (void) uploadData:(const NSArray*) mediaFiles completionHandler:(void (^)(NSArray* mediaIDs, NSString* errorMessage)) completionHandler {
-    [AIR log:@"Uploading to twitter"];
+    [AIRTwitter log:@"Uploading to twitter"];
     __block uint8_t mediaCounter = 0;
     __block NSMutableArray* mediaIDs = [[NSMutableArray alloc] init];
     __block NSString* uploadErrorMessage = nil;
@@ -70,12 +69,12 @@
         [[AIRTwitter api] postMediaUploadData:mediaFiles[i] fileName:@"media.png" uploadProgressBlock:^(NSInteger bytesWritten, NSInteger totalBytesWritten, NSInteger totalBytesExpectedToWrite) {
             // progress
         } successBlock:^(NSDictionary* imageDictionary, NSString* mediaID, NSString* size) {
-            [AIR log:[NSString stringWithFormat:@"Media upload success: %@", mediaID]];
+            [AIRTwitter log:[NSString stringWithFormat:@"Media upload success: %@", mediaID]];
             mediaCounter++;
             [mediaIDs addObject:mediaID];
             /* If finished uploading all the files */
             if( mediaCounter >= totalFiles ) {
-                [AIR log:[NSString stringWithFormat:@"Finished upload (in success) of %d media files", mediaCounter]];
+                [AIRTwitter log:[NSString stringWithFormat:@"Finished upload (in success) of %d media files", mediaCounter]];
                 /* Even though this file was uploaded successfully, there may have been an error with previous files */
                 if( !uploadErrorMessage ) {
                     /* Call the completion handler with the mediaIDs array and no error message */
@@ -87,11 +86,11 @@
             }
         } errorBlock:^(NSError* error) {
             uploadErrorMessage = [NSString stringWithFormat:@"Error uploading media: %@", error.localizedDescription];
-            [AIR log:uploadErrorMessage];
+            [AIRTwitter log:uploadErrorMessage];
             mediaCounter++;
             /* If finished uploading all the files */
             if( mediaCounter >= totalFiles ) {
-                [AIR log:[NSString stringWithFormat:@"Finished upload (with errors) of %d media files", mediaCounter]];
+                [AIRTwitter log:[NSString stringWithFormat:@"Finished upload (with errors) of %d media files", mediaCounter]];
                 /* Call the completion handler with error message and no mediaIDs array */
                 completionHandler( nil, uploadErrorMessage );
             }

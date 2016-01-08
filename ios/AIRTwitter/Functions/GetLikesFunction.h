@@ -16,4 +16,4 @@
 
 #import "FlashRuntimeExtensions.h"
 
-FREObject getLikes(FREContext context, void* functionData, uint32_t argc, FREObject* argv);
+FREObject tw_getLikes( FREContext context, void* functionData, uint32_t argc, FREObject* argv );

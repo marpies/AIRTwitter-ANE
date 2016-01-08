@@ -16,9 +16,9 @@
 
 #import "DirectMessageUtils.h"
 #import "UserUtils.h"
-#import "AIR.h"
 #import "AIRTwitterEvent.h"
-#import "StringUtils.h"
+#import "MPStringUtils.h"
+#import "AIRTwitter.h"
 
 @implementation DirectMessageUtils
 
@@ -27,7 +27,7 @@
  * Helper method for queries like getDirectMessages, getSentDirectMessages...
  */
 + (void) dispatchDirectMesages:(NSArray*) messages callbackID:(int) callbackID {
-    [AIR log:[NSString stringWithFormat:@"Got DMs query response with %lu messages", (unsigned long)messages.count]];
+    [AIRTwitter log:[NSString stringWithFormat:@"Got DMs query response with %lu messages", (unsigned long) messages.count]];
     /* Create array of direct messages */
     NSMutableArray* dms = [[NSMutableArray alloc] init];
     for( NSUInteger i = 0; i < messages.count; ++i ) {
@@ -38,11 +38,11 @@
     NSMutableDictionary* result = [[NSMutableDictionary alloc] init];
     result[@"messages"] = dms;
     result[@"callbackID"] = @(callbackID);
-    NSString* resultJSON = [StringUtils getJSONString:result];
+    NSString* resultJSON = [MPStringUtils getJSONString:result];
     if( resultJSON ) {
-        [AIR dispatchEvent:DIRECT_MESSAGES_QUERY_SUCCESS withMessage:resultJSON];
+        [AIRTwitter dispatchEvent:DIRECT_MESSAGES_QUERY_SUCCESS withMessage:resultJSON];
     } else {
-        [AIR dispatchEvent:DIRECT_MESSAGES_QUERY_ERROR withMessage:[StringUtils getEventErrorJSONString:callbackID errorMessage:@"Successfully retrieved direct messages but could not parse returned data."]];
+        [AIRTwitter dispatchEvent:DIRECT_MESSAGES_QUERY_ERROR withMessage:[MPStringUtils getEventErrorJSONString:callbackID errorMessage:@"Successfully retrieved direct messages but could not parse returned data."]];
     }
 }
 

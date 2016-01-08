@@ -16,4 +16,4 @@
 
 #import "FlashRuntimeExtensions.h"
 
-FREObject logout( FREContext context, void* functionData, uint32_t argc, FREObject argv[] );
+FREObject tw_logout( FREContext context, void* functionData, uint32_t argc, FREObject* argv );

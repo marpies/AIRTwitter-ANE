@@ -15,22 +15,21 @@
  */
 
 #import "GetUserTimelineFunction.h"
-#import "FREObjectUtils.h"
-#import "StringUtils.h"
+#import "MPFREObjectUtils.h"
+#import "MPStringUtils.h"
 #import "AIRTwitterEvent.h"
-#import "AIR.h"
 #import "StatusUtils.h"
 #import "AIRTwitter.h"
 
-FREObject getUserTimeline(FREContext context, void* functionData, uint32_t argc, FREObject* argv) {
-    NSString* count = [NSString stringWithFormat:@"%d", [FREObjectUtils getInt:argv[0]]];
-    NSString* sinceID = (argv[1] == nil) ? nil : [FREObjectUtils getNSString:argv[1]];
-    NSString* maxID = (argv[2] == nil) ? nil : [FREObjectUtils getNSString:argv[2]];
-    NSNumber* excludeReplies = @([FREObjectUtils getBOOL:argv[3]]);
-    double userIDDouble = [FREObjectUtils getDouble:argv[4]];
+FREObject tw_getUserTimeline( FREContext context, void* functionData, uint32_t argc, FREObject* argv ) {
+    NSString* count = [NSString stringWithFormat:@"%d", [MPFREObjectUtils getInt:argv[0]]];
+    NSString* sinceID = (argv[1] == nil) ? nil : [MPFREObjectUtils getNSString:argv[1]];
+    NSString* maxID = (argv[2] == nil) ? nil : [MPFREObjectUtils getNSString:argv[2]];
+    NSNumber* excludeReplies = @([MPFREObjectUtils getBOOL:argv[3]]);
+    double userIDDouble = [MPFREObjectUtils getDouble:argv[4]];
     NSString* userID = (userIDDouble >= 0) ? [NSString stringWithFormat:@"%.f", userIDDouble] : [[AIRTwitter api] userID];
-    NSString* screenName = (argv[5] == nil) ? nil : [FREObjectUtils getNSString:argv[5]];
-    int callbackID = [FREObjectUtils getInt:argv[6]];
+    NSString* screenName = (argv[5] == nil) ? nil : [MPFREObjectUtils getNSString:argv[5]];
+    int callbackID = [MPFREObjectUtils getInt:argv[6]];
 
     [[AIRTwitter api] getStatusesUserTimelineForUserID:(screenName ? nil : userID)
                                             screenName:screenName
@@ -45,8 +44,8 @@ FREObject getUserTimeline(FREContext context, void* functionData, uint32_t argc,
                                               [StatusUtils dispatchStatuses:statuses callbackID:callbackID];
                                           }
                                             errorBlock:^(NSError* error) {
-                                                [AIR log:[NSString stringWithFormat:@"User timeline error: %@", error.localizedDescription]];
-                                                [AIR dispatchEvent:TIMELINE_QUERY_ERROR withMessage:[StringUtils getEventErrorJSONString:callbackID errorMessage:error.localizedDescription]];
+                                                [AIRTwitter log:[NSString stringWithFormat:@"User timeline error: %@", error.localizedDescription]];
+                                                [AIRTwitter dispatchEvent:TIMELINE_QUERY_ERROR withMessage:[MPStringUtils getEventErrorJSONString:callbackID errorMessage:error.localizedDescription]];
                                             }];
     return nil;
 }

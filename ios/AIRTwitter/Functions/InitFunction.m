@@ -14,30 +14,29 @@
  * limitations under the License.
  */
 
-#import "AIR.h"
 #import "AIRTwitter.h"
 #import "InitFunction.h"
-#import "FREObjectUtils.h"
+#import "MPFREObjectUtils.h"
 #import "AIRTwitterEvent.h"
 
-FREObject init( FREContext context, void* functionData, uint32_t argc, FREObject argv[] ) {
-    NSString* key = [FREObjectUtils getNSString:argv[0]];
-    NSString* secret = [FREObjectUtils getNSString:argv[1]];
-    NSString* urlScheme = [FREObjectUtils getNSString:argv[2]];
-    BOOL showLogs = [FREObjectUtils getBOOL:argv[3]];
+FREObject tw_init( FREContext context, void* functionData, uint32_t argc, FREObject* argv ) {
+    NSString* key = [MPFREObjectUtils getNSString:argv[0]];
+    NSString* secret = [MPFREObjectUtils getNSString:argv[1]];
+    NSString* urlScheme = [MPFREObjectUtils getNSString:argv[2]];
+    BOOL showLogs = [MPFREObjectUtils getBOOL:argv[3]];
     
-    [AIR showLogs:showLogs];
+    [AIRTwitter showLogs:showLogs];
     /* If cached access tokens exist then verify credentials */
     if( [AIRTwitter initWithConsumerKey:key consumerSecret:secret urlScheme: urlScheme] ) {
         [[AIRTwitter api] verifyCredentialsWithUserSuccessBlock:^(NSString *username, NSString *userID) {
-            [AIR log:@"Verify credentials success"];
-            [AIR dispatchEvent:CREDENTIALS_CHECK withMessage:[NSString stringWithFormat:@"{ \"result\": \"valid\" }"]];
+            [AIRTwitter log:@"Verify credentials success"];
+            [AIRTwitter dispatchEvent:CREDENTIALS_CHECK withMessage:[NSString stringWithFormat:@"{ \"result\": \"valid\" }"]];
         } errorBlock:^(NSError *error) {
-            [AIR log:[NSString stringWithFormat:@"Verify credentials error %@", [error localizedDescription]]];
-            [AIR dispatchEvent:CREDENTIALS_CHECK withMessage:[NSString stringWithFormat:@"{ \"result\": \"invalid\" }"]];
+            [AIRTwitter log:[NSString stringWithFormat:@"Verify credentials error %@", [error localizedDescription]]];
+            [AIRTwitter dispatchEvent:CREDENTIALS_CHECK withMessage:[NSString stringWithFormat:@"{ \"result\": \"invalid\" }"]];
         }];
     } else {
-        [AIR dispatchEvent:CREDENTIALS_CHECK withMessage:[NSString stringWithFormat:@"{ \"result\": \"missing\" }"]];
+        [AIRTwitter dispatchEvent:CREDENTIALS_CHECK withMessage:[NSString stringWithFormat:@"{ \"result\": \"missing\" }"]];
     }
     
     return nil;

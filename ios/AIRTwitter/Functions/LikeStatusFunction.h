@@ -16,4 +16,4 @@
 
 #import "FlashRuntimeExtensions.h"
 
-FREObject likeStatus(FREContext context, void* functionData, uint32_t argc, FREObject* argv);
+FREObject tw_likeStatus( FREContext context, void* functionData, uint32_t argc, FREObject* argv );

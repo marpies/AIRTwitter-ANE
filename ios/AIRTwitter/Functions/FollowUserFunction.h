@@ -16,4 +16,4 @@
 
 #import "FlashRuntimeExtensions.h"
 
-FREObject followUser(FREContext context, void* functionData, uint32_t argc, FREObject* argv);
+FREObject tw_followUser( FREContext context, void* functionData, uint32_t argc, FREObject* argv );

@@ -16,4 +16,4 @@
 
 #import "FlashRuntimeExtensions.h"
 
-FREObject unfollowUser(FREContext context, void* functionData, uint32_t argc, FREObject* argv);
+FREObject tw_unfollowUser( FREContext context, void* functionData, uint32_t argc, FREObject* argv );

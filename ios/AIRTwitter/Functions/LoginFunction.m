@@ -14,23 +14,21 @@
  * limitations under the License.
  */
 
-#import "AIR.h"
 #import "AIRTwitter.h"
 #import "AIRTwitterEvent.h"
-#import "STTwitter.h"
 #import "LoginFunction.h"
-#import "FREObjectUtils.h"
+#import "MPFREObjectUtils.h"
 
 #import <UIKit/UIKit.h>
 
-FREObject login(FREContext context, void* functionData, uint32_t argc, FREObject argv[]) {
-    [AIR log:@"Attempting login"];
+FREObject tw_login( FREContext context, void* functionData, uint32_t argc, FREObject* argv ) {
+    [AIRTwitter log:@"Attempting login"];
     
-    BOOL forceLogin = [FREObjectUtils getBOOL:argv[0]];
+    BOOL forceLogin = [MPFREObjectUtils getBOOL:argv[0]];
 
     if( [AIRTwitter accessToken] ) {
-        [AIR log:@"User is already logged in."];
-        [AIR dispatchEvent:LOGIN_ERROR withMessage:@"User is already logged in."];
+        [AIRTwitter log:@"User is already logged in."];
+        [AIRTwitter dispatchEvent:LOGIN_ERROR withMessage:@"User is already logged in."];
     } else {
         [[AIRTwitter api:YES] postTokenRequest:^(NSURL* url, NSString* oauthToken) {
                     [[UIApplication sharedApplication] openURL:url];
@@ -39,8 +37,8 @@ FREObject login(FREContext context, void* functionData, uint32_t argc, FREObject
                                       screenName:nil
                                    oauthCallback:[NSString stringWithFormat:@"%@://twitter_access_tokens/", [AIRTwitter urlScheme]]
                                       errorBlock:^(NSError* error) {
-                                          [AIR log:[NSString stringWithFormat:@"Error logging in: %@", error.localizedDescription]];
-                                          [AIR dispatchEvent:LOGIN_ERROR withMessage:error.localizedDescription];
+                                          [AIRTwitter log:[NSString stringWithFormat:@"Error logging in: %@", error.localizedDescription]];
+                                          [AIRTwitter dispatchEvent:LOGIN_ERROR withMessage:error.localizedDescription];
                                       }];
     }
 

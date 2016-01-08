@@ -16,4 +16,4 @@
  
 #import "FlashRuntimeExtensions.h"
 
-FREObject init( FREContext context, void* functionData, uint32_t argc, FREObject argv[] );
+FREObject tw_init( FREContext context, void* functionData, uint32_t argc, FREObject* argv );

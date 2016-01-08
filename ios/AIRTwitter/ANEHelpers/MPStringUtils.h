@@ -15,12 +15,15 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
 
-@interface MediaSource : NSObject
+@interface MPStringUtils : NSObject
 
-@property (nonatomic) NSString* url;
-@property (nonatomic) UIImage* image;
-@property (nonatomic, readonly) BOOL isImage;
++ (NSString*) getEventErrorJSONString:(int) listenerID errorMessage:(NSString*) errorMessage;
+
++ (NSString*) getSingleValueJSONString:(int) listenerID key:(NSString*) key value:(NSString*) value;
+
++ (NSString*) getListenerJSONString:(int) listenerID;
+
++ (NSString*) getJSONString:(NSDictionary*) json;
 
 @end

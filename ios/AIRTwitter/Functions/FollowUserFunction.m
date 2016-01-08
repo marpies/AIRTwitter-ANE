@@ -15,38 +15,37 @@
  */
 
 #import "FollowUserFunction.h"
-#import "FREObjectUtils.h"
+#import "MPFREObjectUtils.h"
 #import "AIRTwitter.h"
-#import "AIR.h"
-#import "StringUtils.h"
+#import "MPStringUtils.h"
 #import "UserUtils.h"
 #import "AIRTwitterEvent.h"
 
-FREObject followUser(FREContext context, void* functionData, uint32_t argc, FREObject* argv) {
-    double userIDDouble = [FREObjectUtils getDouble:argv[0]];
+FREObject tw_followUser( FREContext context, void* functionData, uint32_t argc, FREObject* argv ) {
+    double userIDDouble = [MPFREObjectUtils getDouble:argv[0]];
     NSString* userID = (userIDDouble >= 0) ? [NSString stringWithFormat:@"%.f", userIDDouble] : nil;
-    NSString* screenName = (argv[1] == nil) ? nil : [FREObjectUtils getNSString:argv[1]];
-    BOOL enableNotifications = [FREObjectUtils getBOOL:argv[2]];
-    int callbackID = [FREObjectUtils getInt:argv[3]];
+    NSString* screenName = (argv[1] == nil) ? nil : [MPFREObjectUtils getNSString:argv[1]];
+    BOOL enableNotifications = [MPFREObjectUtils getBOOL:argv[2]];
+    int callbackID = [MPFREObjectUtils getInt:argv[3]];
 
     [[AIRTwitter api] postFriendshipsCreateForScreenName:screenName
                                                 orUserID:(screenName ? nil : userID)
                                      enableNotifications:@(enableNotifications)
                                             successBlock:^(NSDictionary* befriendedUser) {
-                                                [AIR log:[NSString stringWithFormat:@"Success following user %@", befriendedUser[@"screen_name"]]];
+                                                [AIRTwitter log:[NSString stringWithFormat:@"Success following user %@", befriendedUser[@"screen_name"]]];
                                                 NSMutableDictionary* userJSON = [UserUtils getTrimmedJSON:befriendedUser];
                                                 userJSON[@"callbackID"] = @(callbackID);
                                                 userJSON[@"success"] = @(true);
-                                                NSString* resultJSON = [StringUtils getJSONString:userJSON];
+                                                NSString* resultJSON = [MPStringUtils getJSONString:userJSON];
                                                 if( resultJSON ) {
-                                                    [AIR dispatchEvent:USER_QUERY_SUCCESS withMessage:resultJSON];
+                                                    [AIRTwitter dispatchEvent:USER_QUERY_SUCCESS withMessage:resultJSON];
                                                 } else {
-                                                    [AIR dispatchEvent:USER_QUERY_SUCCESS withMessage:[StringUtils getEventErrorJSONString:callbackID errorMessage:@"Follow query suceeded but could not parse returned user data."]];
+                                                    [AIRTwitter dispatchEvent:USER_QUERY_SUCCESS withMessage:[MPStringUtils getEventErrorJSONString:callbackID errorMessage:@"Follow query suceeded but could not parse returned user data."]];
                                                 }
                                             }
                                               errorBlock:^(NSError* error) {
-                                                  [AIR log:[NSString stringWithFormat:@"Error following user %@", error.localizedDescription]];
-                                                  [AIR dispatchEvent:USER_QUERY_ERROR withMessage:[StringUtils getEventErrorJSONString:callbackID errorMessage:error.localizedDescription]];
+                                                  [AIRTwitter log:[NSString stringWithFormat:@"Error following user %@", error.localizedDescription]];
+                                                  [AIRTwitter dispatchEvent:USER_QUERY_ERROR withMessage:[MPStringUtils getEventErrorJSONString:callbackID errorMessage:error.localizedDescription]];
                                               }];
 
     return nil;

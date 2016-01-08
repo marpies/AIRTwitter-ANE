@@ -15,21 +15,20 @@
  */
 
 #import "GetLikesFunction.h"
-#import "FREObjectUtils.h"
+#import "MPStringUtils.h"
+#import "MPFREObjectUtils.h"
 #import "AIRTwitter.h"
 #import "StatusUtils.h"
-#import "StringUtils.h"
-#import "AIR.h"
 #import "AIRTwitterEvent.h"
 
-FREObject getLikes(FREContext context, void* functionData, uint32_t argc, FREObject* argv) {
-    NSString* count = [NSString stringWithFormat:@"%d", [FREObjectUtils getInt:argv[0]]];
-    NSString* sinceID = (argv[1] == nil) ? nil : [FREObjectUtils getNSString:argv[1]];
-    NSString* maxID = (argv[2] == nil) ? nil : [FREObjectUtils getNSString:argv[2]];
-    double userIDDouble = [FREObjectUtils getDouble:argv[3]];
+FREObject tw_getLikes( FREContext context, void* functionData, uint32_t argc, FREObject* argv ) {
+    NSString* count = [NSString stringWithFormat:@"%d", [MPFREObjectUtils getInt:argv[0]]];
+    NSString* sinceID = (argv[1] == nil) ? nil : [MPFREObjectUtils getNSString:argv[1]];
+    NSString* maxID = (argv[2] == nil) ? nil : [MPFREObjectUtils getNSString:argv[2]];
+    double userIDDouble = [MPFREObjectUtils getDouble:argv[3]];
     NSString* userID = (userIDDouble >= 0) ? [NSString stringWithFormat:@"%.f", userIDDouble] : [[AIRTwitter api] userID];
-    NSString* screenName = (argv[4] == nil) ? nil : [FREObjectUtils getNSString:argv[4]];
-    int callbackID = [FREObjectUtils getInt:argv[5]];
+    NSString* screenName = (argv[4] == nil) ? nil : [MPFREObjectUtils getNSString:argv[4]];
+    int callbackID = [MPFREObjectUtils getInt:argv[5]];
 
     [[AIRTwitter api] getFavoritesListWithUserID:(screenName ? nil : userID)
                                     orScreenName:screenName
@@ -41,8 +40,8 @@ FREObject getLikes(FREContext context, void* functionData, uint32_t argc, FREObj
                                         [StatusUtils dispatchStatuses:statuses callbackID:callbackID];
                                     }
                                       errorBlock:^(NSError* error) {
-                                          [AIR log:[NSString stringWithFormat:@"GetLikes error: %@", error.localizedDescription]];
-                                          [AIR dispatchEvent:TIMELINE_QUERY_ERROR withMessage:[StringUtils getEventErrorJSONString:callbackID errorMessage:error.localizedDescription]];
+                                          [AIRTwitter log:[NSString stringWithFormat:@"GetLikes error: %@", error.localizedDescription]];
+                                          [AIRTwitter dispatchEvent:TIMELINE_QUERY_ERROR withMessage:[MPStringUtils getEventErrorJSONString:callbackID errorMessage:error.localizedDescription]];
                                       }];
 
     return nil;

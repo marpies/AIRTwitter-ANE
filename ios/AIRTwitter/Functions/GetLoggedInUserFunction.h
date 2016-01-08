@@ -16,4 +16,4 @@
 
 #import "FlashRuntimeExtensions.h"
 
-FREObject getLoggedInUser(FREContext context, void* functionData, uint32_t argc, FREObject* argv);
+FREObject tw_getLoggedInUser( FREContext context, void* functionData, uint32_t argc, FREObject* argv );

@@ -15,8 +15,8 @@
  */
 
 #import "AccountSelectionHelper.h"
-#import "AIR.h"
 #import "AIRTwitterEvent.h"
+#import "AIRTwitter.h"
 
 static accountSelectorCallback callback;
 static ACAccountStore* accountStore;
@@ -84,7 +84,7 @@ static ACAccountStore* accountStore;
     ppc.sourceView = [[UIApplication sharedApplication] delegate].window;
     /* Cancel button */
     [ac addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-        [AIR log:@"Account selection was cancelled."];
+        [AIRTwitter log:@"Account selection was cancelled."];
         callback( nil, YES, nil );
         [self dispose];
     }]];

@@ -16,4 +16,4 @@
 
 #import "FlashRuntimeExtensions.h"
 
-FREObject getFriends(FREContext context, void* functionData, uint32_t argc, FREObject* argv);
+FREObject tw_getFriends( FREContext context, void* functionData, uint32_t argc, FREObject* argv );

@@ -16,4 +16,4 @@
 
 #import "FlashRuntimeExtensions.h"
 
-FREObject getUser( FREContext context, void* functionData, uint32_t argc, FREObject argv[] );
+FREObject tw_getUser( FREContext context, void* functionData, uint32_t argc, FREObject* argv );

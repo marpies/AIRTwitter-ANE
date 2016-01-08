@@ -5,4 +5,7 @@
         <option>-weak_framework Social</option>
         <option>-weak_framework Twitter</option>
     </linkerOptions>
+    <packagedDependencies>
+        <packagedDependency>libANEHelpers.a</packagedDependency>
+    </packagedDependencies>
 </platform>

@@ -15,20 +15,19 @@
  */
 
 #import "SendDirectMessageFunction.h"
-#import "FREObjectUtils.h"
-#import "StringUtils.h"
+#import "MPFREObjectUtils.h"
+#import "MPStringUtils.h"
 #import "AIRTwitterEvent.h"
-#import "AIR.h"
 #import "StatusUtils.h"
 #import "AIRTwitter.h"
 #import "DirectMessageUtils.h"
 
-FREObject sendDirectMessage( FREContext context, void* functionData, uint32_t argc, FREObject argv[] ) {
-    NSString* text = [FREObjectUtils getNSString:argv[0]];
-    double userIDDouble = [FREObjectUtils getDouble:argv[1]];
+FREObject tw_sendDirectMessage( FREContext context, void* functionData, uint32_t argc, FREObject* argv ) {
+    NSString* text = [MPFREObjectUtils getNSString:argv[0]];
+    double userIDDouble = [MPFREObjectUtils getDouble:argv[1]];
     NSString* userID = (userIDDouble >= 0) ? [NSString stringWithFormat:@"%.f", userIDDouble] : nil;
-    NSString* screenName = (argv[2] == nil) ? nil : [FREObjectUtils getNSString:argv[2]];
-    int callbackID = [FREObjectUtils getInt:argv[3]];
+    NSString* screenName = (argv[2] == nil) ? nil : [MPFREObjectUtils getNSString:argv[2]];
+    int callbackID = [MPFREObjectUtils getInt:argv[3]];
     
     [[AIRTwitter api] postDirectMessage:text
                           forScreenName:screenName
@@ -38,16 +37,16 @@ FREObject sendDirectMessage( FREContext context, void* functionData, uint32_t ar
                                NSMutableDictionary* dmJSON = [DirectMessageUtils getJSON:message];
                                dmJSON[@"callbackID"] = @(callbackID);
                                dmJSON[@"success"] = @(true);
-                               NSString* resultJSON = [StringUtils getJSONString:dmJSON];
+                               NSString* resultJSON = [MPStringUtils getJSONString:dmJSON];
                                if( resultJSON ) {
-                                   [AIR dispatchEvent:DIRECT_MESSAGE_QUERY_SUCCESS withMessage:resultJSON];
+                                   [AIRTwitter dispatchEvent:DIRECT_MESSAGE_QUERY_SUCCESS withMessage:resultJSON];
                                } else {
-                                   [AIR dispatchEvent:DIRECT_MESSAGE_QUERY_SUCCESS withMessage:[StringUtils getEventErrorJSONString:callbackID errorMessage:@"Succesfully sent direct message but could not parse returned message data."]];
+                                   [AIRTwitter dispatchEvent:DIRECT_MESSAGE_QUERY_SUCCESS withMessage:[MPStringUtils getEventErrorJSONString:callbackID errorMessage:@"Succesfully sent direct message but could not parse returned message data."]];
                                }
                            }
                              errorBlock:^(NSError *error) {
-                                 [AIR log:[NSString stringWithFormat:@"Error sending DM %@", error.localizedDescription]];
-                                 [AIR dispatchEvent:DIRECT_MESSAGE_QUERY_ERROR withMessage:[StringUtils getEventErrorJSONString:callbackID errorMessage:error.localizedDescription]];
+                                 [AIRTwitter log:[NSString stringWithFormat:@"Error sending DM %@", error.localizedDescription]];
+                                 [AIRTwitter dispatchEvent:DIRECT_MESSAGE_QUERY_ERROR withMessage:[MPStringUtils getEventErrorJSONString:callbackID errorMessage:error.localizedDescription]];
                              }];
     
     return nil;

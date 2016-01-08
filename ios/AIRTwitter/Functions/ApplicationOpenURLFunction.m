@@ -15,9 +15,8 @@
  */
 
 #import "AIRTwitter.h"
-#import "FREObjectUtils.h"
+#import "MPFREObjectUtils.h"
 #import "ApplicationOpenURLFunction.h"
-#import "AIR.h"
 #import "AIRTwitterEvent.h"
 
 NSDictionary* parametersDictionaryFromQueryString( NSString* queryString ) {
@@ -37,8 +36,8 @@ NSDictionary* parametersDictionaryFromQueryString( NSString* queryString ) {
     return md;
 }
 
-FREObject applicationOpenURL( FREContext context, void* functionData, uint32_t argc, FREObject argv[] ) {
-    NSString* url = [FREObjectUtils getNSString:argv[0]];
+FREObject tw_applicationOpenURL( FREContext context, void* functionData, uint32_t argc, FREObject* argv ) {
+    NSString* url = [MPFREObjectUtils getNSString:argv[0]];
     NSURL* nsURL = [NSURL URLWithString:url];
     NSDictionary* urlParams = parametersDictionaryFromQueryString( nsURL.query );
 
@@ -47,8 +46,8 @@ FREObject applicationOpenURL( FREContext context, void* functionData, uint32_t a
     NSString* denied = urlParams[@"denied"];
 
     if( denied || !verifier ) {
-        [AIR log:@"App was launched after cancelled attempt to login"];
-        [AIR dispatchEvent:LOGIN_CANCEL];
+        [AIRTwitter log:@"App was launched after cancelled attempt to login"];
+        [AIRTwitter dispatchEvent:LOGIN_CANCEL];
         return nil;
     }
 

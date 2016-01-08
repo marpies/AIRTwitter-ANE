@@ -14,22 +14,13 @@
  * limitations under the License.
  */
 
-#import "MediaSource.h"
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
-@implementation MediaSource
+@interface MPMediaSource : NSObject
 
-@synthesize isImage = mIsImage;
-@synthesize image = mImage;
-
-- (id) init {
-    mIsImage = NO;
-    self = [super init];
-    return self;
-}
-
-- (void) setImage:(UIImage*) image {
-    mImage = image;
-    mIsImage = (image != nil);
-}
+@property (nonatomic) NSString* url;
+@property (nonatomic) UIImage* image;
+@property (nonatomic, readonly) BOOL isImage;
 
 @end

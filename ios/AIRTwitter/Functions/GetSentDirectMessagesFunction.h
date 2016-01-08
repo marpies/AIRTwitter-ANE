@@ -16,4 +16,4 @@
 
 #import "FlashRuntimeExtensions.h"
 
-FREObject getSentDirectMessages( FREContext context, void* functionData, uint32_t argc, FREObject argv[] );
+FREObject tw_getSentDirectMessages( FREContext context, void* functionData, uint32_t argc, FREObject* argv );

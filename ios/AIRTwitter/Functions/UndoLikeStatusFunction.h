@@ -16,4 +16,4 @@
 
 #import "FlashRuntimeExtensions.h"
 
-FREObject undoLikeStatus( FREContext context, void* functionData, uint32_t argc, FREObject argv[] );
+FREObject tw_undoLikeStatus( FREContext context, void* functionData, uint32_t argc, FREObject* argv );

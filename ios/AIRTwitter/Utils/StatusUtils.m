@@ -15,10 +15,10 @@
  */
 
 #import "StatusUtils.h"
-#import "AIR.h"
 #import "AIRTwitterEvent.h"
-#import "StringUtils.h"
+#import "MPStringUtils.h"
 #import "UserUtils.h"
+#import "AIRTwitter.h"
 
 @implementation StatusUtils
 
@@ -27,7 +27,7 @@
  * Helper method for queries like getHomeTimeline, getLikes...
  */
 + (void) dispatchStatuses:(NSArray*) statuses callbackID:(int) callbackID {
-    [AIR log:[NSString stringWithFormat:@"Got statuses query response with %lu tweets", (unsigned long)statuses.count]];
+    [AIRTwitter log:[NSString stringWithFormat:@"Got statuses query response with %lu tweets", (unsigned long) statuses.count]];
     /* Create array of statuses (tweets) */
     NSMutableArray* tweets = [[NSMutableArray alloc] init];
     for( NSUInteger i = 0; i < statuses.count; ++i ) {
@@ -39,11 +39,11 @@
     NSMutableDictionary* result = [[NSMutableDictionary alloc] init];
     result[@"statuses"] = tweets;
     result[@"callbackID"] = @(callbackID);
-    NSString* resultJSON = [StringUtils getJSONString:result];
+    NSString* resultJSON = [MPStringUtils getJSONString:result];
     if( resultJSON ) {
-        [AIR dispatchEvent:TIMELINE_QUERY_SUCCESS withMessage:resultJSON];
+        [AIRTwitter dispatchEvent:TIMELINE_QUERY_SUCCESS withMessage:resultJSON];
     } else {
-        [AIR dispatchEvent:TIMELINE_QUERY_ERROR withMessage:[StringUtils getEventErrorJSONString:callbackID errorMessage:@"Statuses query succeeded but could not parse returned data."]];
+        [AIRTwitter dispatchEvent:TIMELINE_QUERY_ERROR withMessage:[MPStringUtils getEventErrorJSONString:callbackID errorMessage:@"Statuses query succeeded but could not parse returned data."]];
     }
 }
 

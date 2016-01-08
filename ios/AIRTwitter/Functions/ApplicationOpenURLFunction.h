@@ -16,4 +16,4 @@
  
 #import "FlashRuntimeExtensions.h"
 
-FREObject applicationOpenURL( FREContext context, void* functionData, uint32_t argc, FREObject argv[] );
+FREObject tw_applicationOpenURL( FREContext context, void* functionData, uint32_t argc, FREObject* argv );

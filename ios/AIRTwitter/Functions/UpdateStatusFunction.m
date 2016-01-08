@@ -14,40 +14,38 @@
  * limitations under the License.
  */
 
-#import "AIR.h"
 #import "AIRTwitter.h"
 #import "AIRTwitterEvent.h"
 #import "UpdateStatusFunction.h"
-#import "FREObjectUtils.h"
-#import "MediaSource.h"
+#import "MPFREObjectUtils.h"
 #import "MediaSourceProcessor.h"
-#import "StringUtils.h"
+#import "MPStringUtils.h"
 #import "StatusUtils.h"
 
 void updateStatusWith(NSString* text, int callbackID, NSString* inReplyToStatusID, NSArray* mediaIDs);
 
-FREObject updateStatus(FREContext context, void* functionData, uint32_t argc, FREObject argv[]) {
-    NSString* text = (argv[0] == nil) ? nil : [FREObjectUtils getNSString:argv[0]];
-    int callbackID = [FREObjectUtils getInt:argv[1]];
-    NSString* inReplyToStatusID = (argv[2] == nil) ? nil : [FREObjectUtils getNSString:argv[2]];
-    NSArray* mediaSources = (argv[3] == nil) ? nil : [FREObjectUtils getMediaSourcesArray:argv[3]];
+FREObject tw_updateStatus( FREContext context, void* functionData, uint32_t argc, FREObject* argv ) {
+    NSString* text = (argv[0] == nil) ? nil : [MPFREObjectUtils getNSString:argv[0]];
+    int callbackID = [MPFREObjectUtils getInt:argv[1]];
+    NSString* inReplyToStatusID = (argv[2] == nil) ? nil : [MPFREObjectUtils getNSString:argv[2]];
+    NSArray* mediaSources = (argv[3] == nil) ? nil : [MPFREObjectUtils getMediaSourcesArray:argv[3]];
 
     /* Create NSData out of media files and upload to twitter */
     if( mediaSources ) {
-        [AIR log:@"Processing media..."];
+        [AIRTwitter log:@"Processing media..."];
         [MediaSourceProcessor process:mediaSources completionHandler:^(NSArray* mediaIDs, NSString* errorMessage) {
             if( errorMessage ) {
-                [AIR log:errorMessage];
-                [AIR dispatchEvent:STATUS_QUERY_ERROR withMessage:[StringUtils getEventErrorJSONString:callbackID errorMessage:errorMessage]];
+                [AIRTwitter log:errorMessage];
+                [AIRTwitter dispatchEvent:STATUS_QUERY_ERROR withMessage:[MPStringUtils getEventErrorJSONString:callbackID errorMessage:errorMessage]];
             } else {
-                [AIR log:@"Successfully uploaded media to twitter - updating status now"];
+                [AIRTwitter log:@"Successfully uploaded media to twitter - updating status now"];
                 updateStatusWith(text, callbackID, inReplyToStatusID, mediaIDs);
             }
         }];
     }
     /* Share now without media */
     else {
-        [AIR log:@"Sharing without media"];
+        [AIRTwitter log:@"Sharing without media"];
         updateStatusWith(text, callbackID, inReplyToStatusID, nil);
     }
 
@@ -64,21 +62,21 @@ void updateStatusWith(NSString* text, int callbackID, NSString* inReplyToStatusI
                     displayCoordinates:nil
                               trimUser:@(0)
                           successBlock:^(NSDictionary* status) {
-                              [AIR log:[NSString stringWithFormat:@"Updated status w/ message %@", status[@"text"]]];
+                              [AIRTwitter log:[NSString stringWithFormat:@"Updated status w/ message %@", status[@"text"]]];
                               NSMutableDictionary* statusJSON = [StatusUtils getJSON:status];
                               statusJSON[@"callbackID"] = @(callbackID);
                               statusJSON[@"success"] = @"true";
                               /* Get JSON string from the status */
-                              NSString* jsonString = [StringUtils getJSONString:statusJSON];
+                              NSString* jsonString = [MPStringUtils getJSONString:statusJSON];
                               if( jsonString ) {
-                                  [AIR dispatchEvent:STATUS_QUERY_SUCCESS withMessage:jsonString];
+                                  [AIRTwitter dispatchEvent:STATUS_QUERY_SUCCESS withMessage:jsonString];
                               } else {
-                                  [AIR dispatchEvent:STATUS_QUERY_SUCCESS withMessage:[StringUtils getEventErrorJSONString:callbackID errorMessage:@"Status update succeeded but could not parse returned status."]];
+                                  [AIRTwitter dispatchEvent:STATUS_QUERY_SUCCESS withMessage:[MPStringUtils getEventErrorJSONString:callbackID errorMessage:@"Status update succeeded but could not parse returned status."]];
                               }
                           }
                             errorBlock:^(NSError* error) {
-                                [AIR log:[NSString stringWithFormat:@"Error updating status: %@", error.localizedDescription]];
-                                [AIR dispatchEvent:STATUS_QUERY_ERROR withMessage:[StringUtils getEventErrorJSONString:callbackID errorMessage:error.localizedDescription]];
+                                [AIRTwitter log:[NSString stringWithFormat:@"Error updating status: %@", error.localizedDescription]];
+                                [AIRTwitter dispatchEvent:STATUS_QUERY_ERROR withMessage:[MPStringUtils getEventErrorJSONString:callbackID errorMessage:error.localizedDescription]];
                             }];
 }
 

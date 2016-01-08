@@ -15,13 +15,13 @@
  */
 
 #import "GetAccessTokenFunction.h"
-#import "FREObjectUtils.h"
+#import "MPFREObjectUtils.h"
 #import "AIRTwitter.h"
 
-FREObject getAccessToken( FREContext context, void* functionData, uint32_t argc, FREObject argv[] ) {
+FREObject tw_getAccessToken( FREContext context, void* functionData, uint32_t argc, FREObject* argv ) {
     NSString* accessToken = [AIRTwitter accessToken];
     if( accessToken ) {
-        return [FREObjectUtils getFREObjectFromNSString:accessToken];
+        return [MPFREObjectUtils getFREObjectFromNSString:accessToken];
     }
     return nil;
 }

@@ -15,19 +15,18 @@
  */
 
 #import "GetSentDirectMessagesFunction.h"
-#import "FREObjectUtils.h"
+#import "MPFREObjectUtils.h"
 #import "AIRTwitter.h"
 #import "DirectMessageUtils.h"
-#import "AIR.h"
 #import "AIRTwitterEvent.h"
-#import "StringUtils.h"
+#import "MPStringUtils.h"
 
-FREObject getSentDirectMessages( FREContext context, void* functionData, uint32_t argc, FREObject argv[] ) {
-    NSString* count = [NSString stringWithFormat:@"%d", [FREObjectUtils getInt:argv[0]]];
-    NSString* sinceID = (argv[1] == nil) ? nil : [FREObjectUtils getNSString:argv[1]];
-    NSString* maxID = (argv[2] == nil) ? nil : [FREObjectUtils getNSString:argv[2]];
-    NSString* page = [NSString stringWithFormat:@"%d", [FREObjectUtils getInt:argv[3]]];
-    int callbackID = [FREObjectUtils getInt:argv[4]];
+FREObject tw_getSentDirectMessages( FREContext context, void* functionData, uint32_t argc, FREObject* argv ) {
+    NSString* count = [NSString stringWithFormat:@"%d", [MPFREObjectUtils getInt:argv[0]]];
+    NSString* sinceID = (argv[1] == nil) ? nil : [MPFREObjectUtils getNSString:argv[1]];
+    NSString* maxID = (argv[2] == nil) ? nil : [MPFREObjectUtils getNSString:argv[2]];
+    NSString* page = [NSString stringWithFormat:@"%d", [MPFREObjectUtils getInt:argv[3]]];
+    int callbackID = [MPFREObjectUtils getInt:argv[4]];
     
     [[AIRTwitter api] getDirectMessagesSinceID:sinceID
                                          maxID:maxID
@@ -38,7 +37,7 @@ FREObject getSentDirectMessages( FREContext context, void* functionData, uint32_
                                   successBlock:^(NSArray *messages) {
                                       [DirectMessageUtils dispatchDirectMesages:messages callbackID:callbackID];
                                   } errorBlock:^(NSError *error) {
-                                      [AIR dispatchEvent:DIRECT_MESSAGES_QUERY_ERROR withMessage:[StringUtils getEventErrorJSONString:callbackID errorMessage:error.localizedDescription]];
+                                      [AIRTwitter dispatchEvent:DIRECT_MESSAGES_QUERY_ERROR withMessage:[MPStringUtils getEventErrorJSONString:callbackID errorMessage:error.localizedDescription]];
                                   }];
     return nil;
 }

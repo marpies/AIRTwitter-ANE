@@ -16,4 +16,4 @@
 
 #import "FlashRuntimeExtensions.h"
 
-FREObject getHomeTimeline(FREContext context, void* functionData, uint32_t argc, FREObject* argv);
+FREObject tw_getHomeTimeline( FREContext context, void* functionData, uint32_t argc, FREObject* argv );
