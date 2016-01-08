@@ -6,6 +6,6 @@
         <option>-weak_framework Twitter</option>
     </linkerOptions>
     <packagedDependencies>
-        <packagedDependency>libANEHelpers.a</packagedDependency>
+        <packagedDependency>AIRExtHelpers.framework</packagedDependency>
     </packagedDependencies>
 </platform>

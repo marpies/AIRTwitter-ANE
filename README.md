@@ -188,9 +188,13 @@ The ANE has been written by [Marcel Piestansky](https://twitter.com/marpies) and
 
 ## Change log
 
-#### January 8, 2016 (v0.7.1-beta)
+#### January 8, 2016
 
-* ADDED iOS library with shared classes to avoid conflicts with ANEs using the same symbols
+* v0.7.2-beta
+  * REPLACED ANEHelpers.a static lib with more convenient AIRExtHelpers.framework
+
+* v0.7.1-beta
+  * ADDED iOS library with shared classes to avoid conflicts with ANEs using the same symbols
 
 #### December 3, 2015 (v0.7.0-beta)
 

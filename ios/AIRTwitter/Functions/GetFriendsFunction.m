@@ -15,10 +15,10 @@
  */
 
 #import "GetFriendsFunction.h"
-#import "MPFREObjectUtils.h"
+#import <AIRExtHelpers/MPFREObjectUtils.h>
 #import "AIRTwitter.h"
 #import "UserUtils.h"
-#import "MPStringUtils.h"
+#import <AIRExtHelpers/MPStringUtils.h>
 #import "AIRTwitterEvent.h"
 
 FREObject tw_getFriends( FREContext context, void* functionData, uint32_t argc, FREObject* argv ) {

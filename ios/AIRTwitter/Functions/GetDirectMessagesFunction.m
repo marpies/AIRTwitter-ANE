@@ -15,11 +15,11 @@
  */
 
 #import "GetDirectMessagesFunction.h"
-#import "MPFREObjectUtils.h"
+#import <AIRExtHelpers/MPFREObjectUtils.h>
 #import "AIRTwitter.h"
 #import "DirectMessageUtils.h"
 #import "AIRTwitterEvent.h"
-#import "MPStringUtils.h"
+#import <AIRExtHelpers/MPStringUtils.h>
 
 FREObject tw_getDirectMessages( FREContext context, void* functionData, uint32_t argc, FREObject* argv ) {
     NSString* count = [NSString stringWithFormat:@"%d", [MPFREObjectUtils getInt:argv[0]]];

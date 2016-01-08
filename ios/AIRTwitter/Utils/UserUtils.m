@@ -16,7 +16,7 @@
 
 #import "UserUtils.h"
 #import "AIRTwitterUser.h"
-#import "MPStringUtils.h"
+#import <AIRExtHelpers/MPStringUtils.h>
 #import "AIRTwitterEvent.h"
 #import "AIRTwitter.h"
 

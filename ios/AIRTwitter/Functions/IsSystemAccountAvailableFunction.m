@@ -15,9 +15,9 @@
  */
 
 #import "IsSystemAccountAvailableFunction.h"
-#import "MPFREObjectUtils.h"
+#import <AIRExtHelpers/MPFREObjectUtils.h>
 #import <Accounts/Accounts.h>
-#import "MPFREObjectUtils.h"
+#import <AIRExtHelpers/MPFREObjectUtils.h>
 #import "AIRTwitter.h"
 
 FREObject tw_isSystemAccountAvailable( FREContext context, void* functionData, uint32_t argc, FREObject* argv ) {

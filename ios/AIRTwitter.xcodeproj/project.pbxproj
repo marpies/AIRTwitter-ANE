@@ -113,6 +113,7 @@
 		C31AD2BC1B8E258D0042555C /* UpdateStatusFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateStatusFunction.m; sourceTree = "<group>"; };
 		C32F09151B7BEDA900BF4E4E /* ApplicationOpenURLFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplicationOpenURLFunction.h; sourceTree = "<group>"; };
 		C32F09161B7BEDA900BF4E4E /* ApplicationOpenURLFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationOpenURLFunction.m; sourceTree = "<group>"; };
+		C34BA0A31C40534000509568 /* AIRExtHelpers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AIRExtHelpers.framework; sourceTree = "<group>"; };
 		C35331DE1B7BCE8A003A7521 /* libAIRTwitter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAIRTwitter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C35331E11B7BCE8A003A7521 /* AIRTwitter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AIRTwitter.h; sourceTree = "<group>"; };
 		C35331E31B7BCE8A003A7521 /* AIRTwitter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AIRTwitter.m; sourceTree = "<group>"; };
@@ -169,12 +170,6 @@
 		C38654991BB1A684000CA4F6 /* GetDirectMessagesFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetDirectMessagesFunction.m; sourceTree = "<group>"; };
 		C386549B1BB1A942000CA4F6 /* GetSentDirectMessagesFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetSentDirectMessagesFunction.h; sourceTree = "<group>"; };
 		C386549C1BB1A942000CA4F6 /* GetSentDirectMessagesFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetSentDirectMessagesFunction.m; sourceTree = "<group>"; };
-		C387B4E21C3FE41000E5F852 /* libANEHelpers.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libANEHelpers.a; sourceTree = "<group>"; };
-		C387B4E51C3FE41700E5F852 /* FlashRuntimeExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlashRuntimeExtensions.h; sourceTree = "<group>"; };
-		C387B4E61C3FE41700E5F852 /* MPBitmapDataUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPBitmapDataUtils.h; sourceTree = "<group>"; };
-		C387B4E71C3FE41700E5F852 /* MPFREObjectUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPFREObjectUtils.h; sourceTree = "<group>"; };
-		C387B4E81C3FE41700E5F852 /* MPMediaSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPMediaSource.h; sourceTree = "<group>"; };
-		C387B4E91C3FE41700E5F852 /* MPStringUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPStringUtils.h; sourceTree = "<group>"; };
 		C3CFD37C1C0F142C0050ADE3 /* GetAccessTokenFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetAccessTokenFunction.h; sourceTree = "<group>"; };
 		C3CFD37D1C0F142C0050ADE3 /* GetAccessTokenFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetAccessTokenFunction.m; sourceTree = "<group>"; };
 		C3CFD37F1C0F57770050ADE3 /* GetAccessTokenSecretFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetAccessTokenSecretFunction.h; sourceTree = "<group>"; };
@@ -215,7 +210,7 @@
 		C32A36361C3F3F1400590E31 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C387B4E21C3FE41000E5F852 /* libANEHelpers.a */,
+				C34BA0A31C40534000509568 /* AIRExtHelpers.framework */,
 			);
 			path = Frameworks;
 			sourceTree = SOURCE_ROOT;
@@ -242,7 +237,6 @@
 		C35331E01B7BCE8A003A7521 /* AIRTwitter */ = {
 			isa = PBXGroup;
 			children = (
-				C387B4E41C3FE41700E5F852 /* ANEHelpers */,
 				C32A36361C3F3F1400590E31 /* Frameworks */,
 				C36F054A1B7D1CF8006B37F5 /* Data */,
 				C35332291B7BCF18003A7521 /* Functions */,
@@ -366,18 +360,6 @@
 				32084CB994C6148869533F4C /* AIRTwitterUser.h */,
 			);
 			name = Data;
-			sourceTree = "<group>";
-		};
-		C387B4E41C3FE41700E5F852 /* ANEHelpers */ = {
-			isa = PBXGroup;
-			children = (
-				C387B4E51C3FE41700E5F852 /* FlashRuntimeExtensions.h */,
-				C387B4E61C3FE41700E5F852 /* MPBitmapDataUtils.h */,
-				C387B4E71C3FE41700E5F852 /* MPFREObjectUtils.h */,
-				C387B4E81C3FE41700E5F852 /* MPMediaSource.h */,
-				C387B4E91C3FE41700E5F852 /* MPStringUtils.h */,
-			);
-			path = ANEHelpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -15,11 +15,11 @@
  */
 
 #import "GetLoggedInUserFunction.h"
-#import "MPFREObjectUtils.h"
+#import <AIRExtHelpers/MPFREObjectUtils.h>
 #import "AIRTwitterUser.h"
 #import "AIRTwitter.h"
 #import "AIRTwitterEvent.h"
-#import "MPStringUtils.h"
+#import <AIRExtHelpers/MPStringUtils.h>
 #import "UserUtils.h"
 
 FREObject tw_getLoggedInUser( FREContext context, void* functionData, uint32_t argc, FREObject* argv ) {

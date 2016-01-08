@@ -15,8 +15,8 @@
  */
 
 #import "LikeStatusFunction.h"
-#import "MPFREObjectUtils.h"
-#import "MPStringUtils.h"
+#import <AIRExtHelpers/MPFREObjectUtils.h>
+#import <AIRExtHelpers/MPStringUtils.h>
 #import "AIRTwitterEvent.h"
 #import "StatusUtils.h"
 #import "AIRTwitter.h"

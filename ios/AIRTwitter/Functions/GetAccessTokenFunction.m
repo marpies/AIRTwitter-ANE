@@ -15,7 +15,7 @@
  */
 
 #import "GetAccessTokenFunction.h"
-#import "MPFREObjectUtils.h"
+#import <AIRExtHelpers/MPFREObjectUtils.h>
 #import "AIRTwitter.h"
 
 FREObject tw_getAccessToken( FREContext context, void* functionData, uint32_t argc, FREObject* argv ) {

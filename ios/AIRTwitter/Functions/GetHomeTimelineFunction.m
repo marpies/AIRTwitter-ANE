@@ -15,11 +15,11 @@
  */
 
 #import "GetHomeTimelineFunction.h"
-#import "MPFREObjectUtils.h"
+#import <AIRExtHelpers/MPFREObjectUtils.h>
 #import "AIRTwitter.h"
 #import "StatusUtils.h"
 #import "AIRTwitterEvent.h"
-#import "MPStringUtils.h"
+#import <AIRExtHelpers/MPStringUtils.h>
 
 FREObject tw_getHomeTimeline( FREContext context, void* functionData, uint32_t argc, FREObject* argv ) {
     NSString* count = [NSString stringWithFormat:@"%d", [MPFREObjectUtils getInt:argv[0]]];

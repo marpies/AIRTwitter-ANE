@@ -15,7 +15,7 @@
  */
 
 #import "LogoutFunction.h"
-#import "MPFREObjectUtils.h"
+#import <AIRExtHelpers/MPFREObjectUtils.h>
 #import "AIRTwitter.h"
 
 FREObject tw_logout( FREContext context, void* functionData, uint32_t argc, FREObject* argv ) {

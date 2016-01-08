@@ -16,7 +16,7 @@
 
 #import "AIRTwitter.h"
 #import "InitFunction.h"
-#import "MPFREObjectUtils.h"
+#import <AIRExtHelpers/MPFREObjectUtils.h>
 #import "AIRTwitterEvent.h"
 
 FREObject tw_init( FREContext context, void* functionData, uint32_t argc, FREObject* argv ) {

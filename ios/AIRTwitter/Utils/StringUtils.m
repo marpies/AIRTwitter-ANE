@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#import "MPStringUtils.h"
+#import <AIRExtHelpers/MPStringUtils.h>
 
 @implementation StringUtils
 

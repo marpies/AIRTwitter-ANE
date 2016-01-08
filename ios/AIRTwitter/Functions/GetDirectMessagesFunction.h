@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 
-#import "FlashRuntimeExtensions.h"
+#import <AIRExtHelpers/FlashRuntimeExtensions.h>
 
 FREObject tw_getDirectMessages( FREContext context, void* functionData, uint32_t argc, FREObject* argv );

@@ -15,7 +15,7 @@
  */
 
 #import "AIRTwitter.h"
-#import "MPMediaSource.h"
+#import <AIRExtHelpers/MPMediaSource.h>
 #import "MediaSourceProcessor.h"
 
 @implementation MediaSourceProcessor

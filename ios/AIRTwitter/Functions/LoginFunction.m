@@ -17,7 +17,7 @@
 #import "AIRTwitter.h"
 #import "AIRTwitterEvent.h"
 #import "LoginFunction.h"
-#import "MPFREObjectUtils.h"
+#import <AIRExtHelpers/MPFREObjectUtils.h>
 
 #import <UIKit/UIKit.h>
 

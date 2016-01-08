@@ -31,7 +31,9 @@
 
         <copy file="temp/ios/build/Release-iphoneos/lib${name}.a" todir="temp/ios" overwrite="true"/>
         
-        <copy file="../ios/Frameworks/libANEHelpers.a" todir="temp/ios" overwrite="true"/>
+        <copy todir="temp/ios/AIRExtHelpers.framework" overwrite="true">
+            <fileset dir="../ios/Frameworks/AIRExtHelpers.framework"/>
+        </copy>
 
         <copy file="temp/swc/content/library.swf" todir="temp/ios" overwrite="true"/>
 

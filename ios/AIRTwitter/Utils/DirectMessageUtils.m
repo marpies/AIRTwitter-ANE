@@ -17,7 +17,7 @@
 #import "DirectMessageUtils.h"
 #import "UserUtils.h"
 #import "AIRTwitterEvent.h"
-#import "MPStringUtils.h"
+#import <AIRExtHelpers/MPStringUtils.h>
 #import "AIRTwitter.h"
 
 @implementation DirectMessageUtils

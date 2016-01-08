@@ -17,7 +17,7 @@
 #import "AIRTwitter.h"
 #import "AIRTwitterEvent.h"
 #import "AIRTwitterUser.h"
-#import "FlashRuntimeExtensions.h"
+#import <AIRExtHelpers/FlashRuntimeExtensions.h>
 #import "Functions/InitFunction.h"
 #import "Functions/LoginFunction.h"
 #import "Functions/LogoutFunction.h"

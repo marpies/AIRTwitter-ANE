@@ -16,9 +16,9 @@
 
 #import "AIRTwitter.h"
 #import "AIRTwitterEvent.h"
-#import "MPFREObjectUtils.h"
+#import <AIRExtHelpers/MPFREObjectUtils.h>
 #import "GetFollowersFunction.h"
-#import "MPStringUtils.h"
+#import <AIRExtHelpers/MPStringUtils.h>
 #import "UserUtils.h"
 
 FREObject tw_getFollowers( FREContext context, void* functionData, uint32_t argc, FREObject* argv ) {

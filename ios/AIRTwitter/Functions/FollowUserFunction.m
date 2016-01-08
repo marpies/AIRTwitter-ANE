@@ -15,9 +15,9 @@
  */
 
 #import "FollowUserFunction.h"
-#import "MPFREObjectUtils.h"
+#import <AIRExtHelpers/MPFREObjectUtils.h>
 #import "AIRTwitter.h"
-#import "MPStringUtils.h"
+#import <AIRExtHelpers/MPStringUtils.h>
 #import "UserUtils.h"
 #import "AIRTwitterEvent.h"
 

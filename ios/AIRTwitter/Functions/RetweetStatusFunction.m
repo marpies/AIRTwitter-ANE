@@ -15,10 +15,10 @@
  */
 
 #import "RetweetStatusFunction.h"
-#import "MPFREObjectUtils.h"
+#import <AIRExtHelpers/MPFREObjectUtils.h>
 #import "AIRTwitter.h"
 #import "StatusUtils.h"
-#import "MPStringUtils.h"
+#import <AIRExtHelpers/MPStringUtils.h>
 #import "AIRTwitterEvent.h"
 
 FREObject tw_retweetStatus( FREContext context, void* functionData, uint32_t argc, FREObject* argv ) {

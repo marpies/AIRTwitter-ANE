@@ -15,7 +15,7 @@
  */
 
 #import "AIRTwitter.h"
-#import "MPFREObjectUtils.h"
+#import <AIRExtHelpers/MPFREObjectUtils.h>
 #import "ApplicationOpenURLFunction.h"
 #import "AIRTwitterEvent.h"
 

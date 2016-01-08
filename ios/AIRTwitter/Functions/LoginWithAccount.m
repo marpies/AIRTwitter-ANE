@@ -15,7 +15,7 @@
  */
 
 #import "LoginWithAccount.h"
-#import "MPFREObjectUtils.h"
+#import <AIRExtHelpers/MPFREObjectUtils.h>
 #import "AccountSelectionHelper.h"
 #import "AIRTwitterEvent.h"
 #import "AIRTwitter.h"

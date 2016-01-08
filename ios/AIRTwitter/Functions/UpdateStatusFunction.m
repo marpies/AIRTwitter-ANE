@@ -17,9 +17,9 @@
 #import "AIRTwitter.h"
 #import "AIRTwitterEvent.h"
 #import "UpdateStatusFunction.h"
-#import "MPFREObjectUtils.h"
+#import <AIRExtHelpers/MPFREObjectUtils.h>
 #import "MediaSourceProcessor.h"
-#import "MPStringUtils.h"
+#import <AIRExtHelpers/MPStringUtils.h>
 #import "StatusUtils.h"
 
 void updateStatusWith(NSString* text, int callbackID, NSString* inReplyToStatusID, NSArray* mediaIDs);
