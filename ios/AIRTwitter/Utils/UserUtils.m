@@ -42,7 +42,7 @@
     if( nextCursor && ![nextCursor isEqualToString:@"0"] ) {
         result[@"nextCursor"] = nextCursor;
     }
-    result[@"callbackID"] = @(callbackID);
+    result[@"listenerID"] = @(callbackID);
     result[@"users"] = jsonArray;
     /* Dispatch result in JSON format */
     NSString* resultJSON = [MPStringUtils getJSONString:result];

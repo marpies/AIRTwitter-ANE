@@ -64,7 +64,7 @@ void updateStatusWith(NSString* text, int callbackID, NSString* inReplyToStatusI
                           successBlock:^(NSDictionary* status) {
                               [AIRTwitter log:[NSString stringWithFormat:@"Updated status w/ message %@", status[@"text"]]];
                               NSMutableDictionary* statusJSON = [StatusUtils getJSON:status];
-                              statusJSON[@"callbackID"] = @(callbackID);
+                              statusJSON[@"listenerID"] = @(callbackID);
                               statusJSON[@"success"] = @"true";
                               /* Get JSON string from the status */
                               NSString* jsonString = [MPStringUtils getJSONString:statusJSON];

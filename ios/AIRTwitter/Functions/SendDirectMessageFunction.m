@@ -35,7 +35,7 @@ FREObject tw_sendDirectMessage( FREContext context, void* functionData, uint32_t
                            successBlock:^(NSDictionary *message) {
 //                               [AIR log:[NSString stringWithFormat:@"Success sending DM %@", message]];
                                NSMutableDictionary* dmJSON = [DirectMessageUtils getJSON:message];
-                               dmJSON[@"callbackID"] = @(callbackID);
+                               dmJSON[@"listenerID"] = @(callbackID);
                                dmJSON[@"success"] = @(true);
                                NSString* resultJSON = [MPStringUtils getJSONString:dmJSON];
                                if( resultJSON ) {

@@ -37,7 +37,7 @@
     }
     NSMutableDictionary* result = [[NSMutableDictionary alloc] init];
     result[@"messages"] = dms;
-    result[@"callbackID"] = @(callbackID);
+    result[@"listenerID"] = @(callbackID);
     NSString* resultJSON = [MPStringUtils getJSONString:result];
     if( resultJSON ) {
         [AIRTwitter dispatchEvent:DIRECT_MESSAGES_QUERY_SUCCESS withMessage:resultJSON];

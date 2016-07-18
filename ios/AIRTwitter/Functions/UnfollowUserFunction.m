@@ -32,7 +32,7 @@ FREObject tw_unfollowUser( FREContext context, void* functionData, uint32_t argc
                                           successBlock:^(NSDictionary* unfollowedUser) {
                                               [AIRTwitter log:[NSString stringWithFormat:@"Success unfollowing user %@", unfollowedUser[@"screen_name"]]];
                                               NSMutableDictionary* userJSON = [UserUtils getTrimmedJSON:unfollowedUser];
-                                              userJSON[@"callbackID"] = @(callbackID);
+                                              userJSON[@"listenerID"] = @(callbackID);
                                               userJSON[@"success"] = @(true);
                                               NSString* resultJSON = [MPStringUtils getJSONString:userJSON];
                                               if( resultJSON ) {

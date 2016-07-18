@@ -42,7 +42,7 @@ public class StatusUtils {
 			}
 			JSONObject result = new JSONObject();
 			result.put( "statuses", tweets );
-			result.put( "callbackID", callbackID );
+			result.put( "listenerID", callbackID );
 			AIR.dispatchEvent( AIRTwitterEvent.TIMELINE_QUERY_SUCCESS, result.toString() );
 		} catch( JSONException e ) {
 			AIR.dispatchEvent( AIRTwitterEvent.TIMELINE_QUERY_ERROR,
@@ -77,7 +77,7 @@ public class StatusUtils {
 	public static void dispatchStatus( Status status, int callbackID ) {
 		try {
 			JSONObject statusJSON = StatusUtils.getJSON( status );
-			statusJSON.put( "callbackID", callbackID );
+			statusJSON.put( "listenerID", callbackID );
 			statusJSON.put( "success", "true" );
 			AIR.dispatchEvent( AIRTwitterEvent.STATUS_QUERY_SUCCESS, statusJSON.toString() );
 		} catch( JSONException e ) {

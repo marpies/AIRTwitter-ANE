@@ -118,7 +118,7 @@ public class UpdateStatusFunction extends BaseFunction {
 		AIR.log( "Updated status w/ message " + status.getText() );
 		try {
 			JSONObject statusJSON = StatusUtils.getJSON( status );
-			statusJSON.put( "callbackID", mCallbackID );
+			statusJSON.put( "listenerID", mCallbackID );
 			statusJSON.put( "success", true );
 			AIR.dispatchEvent( AIRTwitterEvent.STATUS_QUERY_SUCCESS, statusJSON.toString() );
 		} catch( JSONException e ) {

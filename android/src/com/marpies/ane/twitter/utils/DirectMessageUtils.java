@@ -38,7 +38,7 @@ public class DirectMessageUtils {
 			}
 			JSONObject result = new JSONObject();
 			result.put( "messages", dms );
-			result.put( "callbackID", callbackID );
+			result.put( "listenerID", callbackID );
 			AIR.dispatchEvent( AIRTwitterEvent.DIRECT_MESSAGES_QUERY_SUCCESS, result.toString() );
 		} catch( JSONException e ) {
 			AIR.dispatchEvent( AIRTwitterEvent.DIRECT_MESSAGES_QUERY_ERROR,

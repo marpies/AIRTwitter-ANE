@@ -28,7 +28,7 @@ FREObject tw_deleteStatus( FREContext context, void* functionData, uint32_t argc
     [[AIRTwitter api] postStatusesDestroy:statusID trimUser:@(0) successBlock:^(NSDictionary *status) {
         [AIRTwitter log:[NSString stringWithFormat:@"Destroyed status w/ message %@", status[@"text"]]];
         NSMutableDictionary* statusJSON = [StatusUtils getJSON:status];
-        statusJSON[@"callbackID"] = @(callbackID);
+        statusJSON[@"listenerID"] = @(callbackID);
         statusJSON[@"success"] = @"true";
         /* Get JSON string from the status */
         NSString* jsonString = [MPStringUtils getJSONString:statusJSON];

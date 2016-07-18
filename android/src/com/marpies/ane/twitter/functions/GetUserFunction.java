@@ -56,7 +56,7 @@ public class GetUserFunction extends BaseFunction {
 		AIR.log( "Successfully retrieved user info" );
 		try {
 			JSONObject userJSON = UserUtils.getJSON( user );
-			userJSON.put( "callbackID", mCallbackID );
+			userJSON.put( "listenerID", mCallbackID );
 			userJSON.put( "success", true );
 			AIR.dispatchEvent( AIRTwitterEvent.USER_QUERY_SUCCESS, userJSON.toString() );
 		} catch( JSONException e ) {

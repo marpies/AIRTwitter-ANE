@@ -91,7 +91,7 @@ public class GetLoggedInUserFunction extends BaseFunction {
 
 	private void dispatchUser( User user ) throws JSONException {
 		JSONObject userJSON = UserUtils.getJSON( user );
-		userJSON.put( "callbackID", mCallbackID );
+		userJSON.put( "listenerID", mCallbackID );
 		userJSON.put( "success", true );
 		userJSON.put( "loggedInUser", true );	// So that we can cache the user object in AS3
 		AIR.dispatchEvent( AIRTwitterEvent.USER_QUERY_SUCCESS, userJSON.toString() );

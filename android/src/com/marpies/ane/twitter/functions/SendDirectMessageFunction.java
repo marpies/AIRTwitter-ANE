@@ -50,7 +50,7 @@ public class SendDirectMessageFunction extends BaseFunction {
 		AIR.log( "Success sending DM '" + message.getText() + "'" );
 		try {
 			JSONObject dmJSON = DirectMessageUtils.getJSON( message );
-			dmJSON.put( "callbackID", mCallbackID );
+			dmJSON.put( "listenerID", mCallbackID );
 			dmJSON.put( "success", "true" );
 			AIR.dispatchEvent( AIRTwitterEvent.DIRECT_MESSAGE_QUERY_SUCCESS, dmJSON.toString() );
 		} catch( JSONException e ) {

@@ -29,7 +29,7 @@ FREObject tw_getLoggedInUser( FREContext context, void* functionData, uint32_t a
     /* Return cached object */
     if( user ) {
         NSMutableDictionary* userJSON = [UserUtils getJSON:user];
-        userJSON[@"callbackID"] = @(callbackID);
+        userJSON[@"listenerID"] = @(callbackID);
         userJSON[@"success"] = @(true);
         userJSON[@"loggedInUser"] = @(true);	// So that we can cache the user object in AS3
         [AIRTwitter dispatchEvent:USER_QUERY_SUCCESS withMessage:[MPStringUtils getJSONString:userJSON]];
@@ -43,7 +43,7 @@ FREObject tw_getLoggedInUser( FREContext context, void* functionData, uint32_t a
             [AIRTwitter setLoggedInUser:loggedInUser];
             /* Create JSON */
             NSMutableDictionary* userJSON = [UserUtils getJSON:loggedInUser];
-            userJSON[@"callbackID"] = @(callbackID);
+            userJSON[@"listenerID"] = @(callbackID);
             userJSON[@"success"] = @(true);
             userJSON[@"loggedInUser"] = @(true);	// So that we can cache the user object in AS3
             /* Dispatch */

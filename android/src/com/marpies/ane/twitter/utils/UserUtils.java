@@ -45,7 +45,7 @@ public class UserUtils {
 			if( users.hasPrevious() ) {
 				result.put( "previousCursor", users.getPreviousCursor() );
 			}
-			result.put( "callbackID", callbackID );
+			result.put( "listenerID", callbackID );
 			AIR.dispatchEvent( AIRTwitterEvent.USERS_QUERY_SUCCESS, result.toString() );
 		} catch( JSONException e ) {
 			AIR.dispatchEvent( AIRTwitterEvent.USERS_QUERY_ERROR,

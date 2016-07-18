@@ -34,7 +34,7 @@ FREObject tw_followUser( FREContext context, void* functionData, uint32_t argc, 
                                             successBlock:^(NSDictionary* befriendedUser) {
                                                 [AIRTwitter log:[NSString stringWithFormat:@"Success following user %@", befriendedUser[@"screen_name"]]];
                                                 NSMutableDictionary* userJSON = [UserUtils getTrimmedJSON:befriendedUser];
-                                                userJSON[@"callbackID"] = @(callbackID);
+                                                userJSON[@"listenerID"] = @(callbackID);
                                                 userJSON[@"success"] = @(true);
                                                 NSString* resultJSON = [MPStringUtils getJSONString:userJSON];
                                                 if( resultJSON ) {

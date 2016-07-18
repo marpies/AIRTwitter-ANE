@@ -35,7 +35,7 @@ FREObject tw_getUser( FREContext context, void* functionData, uint32_t argc, FRE
                       successBlock:^(NSDictionary *user) {
                           /* Create JSON */
                           NSMutableDictionary* userJSON = [UserUtils getTrimmedJSON:user];
-                          userJSON[@"callbackID"] = @(callbackID);
+                          userJSON[@"listenerID"] = @(callbackID);
                           userJSON[@"success"] = @(true);
                           /* Dispatch */
                           [AIRTwitter log:[NSString stringWithFormat:@"Retrieved user info success: %@", userJSON[@"screenName"]]];

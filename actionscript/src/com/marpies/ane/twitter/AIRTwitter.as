@@ -898,7 +898,7 @@ package com.marpies.ane.twitter {
             const eventCode:String = event.code;
             if( eventCode != LOGIN_SUCCESS && eventCode != LOGIN_CANCEL && eventCode != LOGIN_ERROR ) {
                 json = JSON.parse( event.level );
-                callbackID = ("callbackID" in json) ? json.callbackID : -1;
+                callbackID = ("listenerID" in json) ? json.listenerID : -1;
                 callback = getCallback( callbackID );
                 unregisterCallback( callbackID );
             }
