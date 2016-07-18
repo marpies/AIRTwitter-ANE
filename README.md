@@ -188,6 +188,11 @@ The ANE has been written by [Marcel Piestansky](https://twitter.com/marpies) and
 
 ## Change log
 
+#### July 18, 2016 (v 1.0.0)
+
+* UPDATED AIRExtHelpers.framework
+* FIXED inconsistency in JSON format when sending response from native side to AS3
+
 #### January 8, 2016
 
 * v0.7.2-beta
