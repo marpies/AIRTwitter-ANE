@@ -650,7 +650,7 @@ package com.marpies.ane.twitter {
          */
 
         public static function get version():String {
-            return "0.7.2-beta";
+            return "1.0.0";
         }
 
         /**
