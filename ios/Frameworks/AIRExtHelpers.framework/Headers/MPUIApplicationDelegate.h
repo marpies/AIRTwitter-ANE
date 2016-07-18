@@ -15,12 +15,14 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
+#import "MPUIApplicationListener.h"
 
-@interface MPMediaSource : NSObject
+@interface MPUIApplicationDelegate : NSObject<UIApplicationDelegate>
 
-@property (nonatomic) NSString* url;
-@property (nonatomic) UIImage* image;
-@property (nonatomic, readonly) BOOL isImage;
++ (id) sharedInstance;
++ (NSDictionary*) launchOptions;
+
+- (void) addListener:(id<MPUIApplicationListener>) listener;
+- (void) removeListener:(id<MPUIApplicationListener>) listener;
 
 @end
