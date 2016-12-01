@@ -34,6 +34,13 @@ extern NSString *kBaseURLStringStream_1_1;
 extern NSString *kBaseURLStringUserStream_1_1;
 extern NSString *kBaseURLStringSiteStream_1_1;
 
+@class STTwitterAPI;
+@class ACAccount;
+
+@protocol STTwitterAPIOSProtocol <NSObject>
+- (void)twitterAPI:(STTwitterAPI *)twitterAPI accountWasInvalidated:(ACAccount *)invalidatedAccount;
+@end
+
 /*
  Tweet fields contents
  https://dev.twitter.com/docs/platform-objects/tweets
@@ -46,8 +53,11 @@ extern NSString *kBaseURLStringSiteStream_1_1;
 
 + (NSString *)versionString;
 
-+ (instancetype)twitterAPIOSWithAccount:(ACAccount *)account;
-+ (instancetype)twitterAPIOSWithFirstAccount;
++ (instancetype)twitterAPIOSWithAccount:(ACAccount *)account __deprecated_msg("use twitterAPIOSWithAccount:delegate:");
++ (instancetype)twitterAPIOSWithFirstAccount __deprecated_msg("use twitterAPIOSWithFirstAccountAndDelegate:");
+
++ (instancetype)twitterAPIOSWithAccount:(ACAccount *)account delegate:(NSObject <STTwitterAPIOSProtocol> *)delegate;
++ (instancetype)twitterAPIOSWithFirstAccountAndDelegate:(NSObject <STTwitterAPIOSProtocol> *)delegate;
 
 + (instancetype)twitterAPIWithOAuthConsumerName:(NSString *)consumerName // purely informational, can be anything
                                     consumerKey:(NSString *)consumerKey
@@ -142,12 +152,14 @@ authenticateInsteadOfAuthorize:(BOOL)authenticateInsteadOfAuthorize // use NO if
 
 - (void)setTimeoutInSeconds:(NSTimeInterval)timeoutInSeconds; // optional
 
-@property (nonatomic, retain) NSString *userName; // set after successful connection for STTwitterOAuth
-@property (nonatomic, retain) NSString *userID; // set after successful connection for STTwitterOAuth
+@property (nonatomic, strong) NSString *userName; // set after successful connection for STTwitterOAuth
+@property (nonatomic, strong) NSString *userID; // set after successful connection for STTwitterOAuth
 
 @property (nonatomic, readonly) NSString *oauthAccessToken;
 @property (nonatomic, readonly) NSString *oauthAccessTokenSecret;
 @property (nonatomic, readonly) NSString *bearerToken;
+
+@property (nonatomic, strong) NSString *sharedContainerIdentifier; // common to all STTwitterAPI instances
 
 - (NSDictionary *)OAuthEchoHeadersToVerifyCredentials;
 
@@ -157,7 +169,7 @@ authenticateInsteadOfAuthorize:(BOOL)authenticateInsteadOfAuthorize // use NO if
                                            HTTPMethod:(NSString *)HTTPMethod
                                         baseURLString:(NSString *)baseURLString
                                            parameters:(NSDictionary *)params
-                                  uploadProgressBlock:(void(^)(NSInteger bytesWritten, NSInteger totalBytesWritten, NSInteger totalBytesExpectedToWrite))uploadProgressBlock
+                                  uploadProgressBlock:(void(^)(int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite))uploadProgressBlock
                                 downloadProgressBlock:(void (^)(NSObject<STTwitterRequestProtocol> *request, NSData *data))downloadProgressBlock
                                          successBlock:(void (^)(NSObject<STTwitterRequestProtocol> *request, NSDictionary *requestHeaders, NSDictionary *responseHeaders, id response))successBlock
                                            errorBlock:(void (^)(NSObject<STTwitterRequestProtocol> *request, NSDictionary *requestHeaders, NSDictionary *responseHeaders, NSError *error))errorBlock;
@@ -166,7 +178,7 @@ authenticateInsteadOfAuthorize:(BOOL)authenticateInsteadOfAuthorize // use NO if
                                                               HTTPMethod:(NSString *)HTTPMethod
                                                            baseURLString:(NSString *)baseURLString
                                                               parameters:(NSDictionary *)params
-                                                     uploadProgressBlock:(void(^)(NSInteger bytesWritten, NSInteger totalBytesWritten, NSInteger totalBytesExpectedToWrite))uploadProgressBlock
+                                                     uploadProgressBlock:(void(^)(int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite))uploadProgressBlock
                                                    downloadProgressBlock:(void(^)(NSObject<STTwitterRequestProtocol> *request, NSData *data))downloadProgressBlock
                                                             successBlock:(void(^)(NSObject<STTwitterRequestProtocol> *request, NSDictionary *requestHeaders, NSDictionary *responseHeaders, id response, BOOL morePagesToCome, BOOL *stop))successBlock
                                                               pauseBlock:(void(^)(NSDate *nextRequestDate))pauseBlock
@@ -182,7 +194,7 @@ authenticateInsteadOfAuthorize:(BOOL)authenticateInsteadOfAuthorize // use NO if
 - (NSObject<STTwitterRequestProtocol> *)postResource:(NSString *)resource
                                        baseURLString:(NSString *)baseURLString
                                           parameters:(NSDictionary *)parameters
-                                 uploadProgressBlock:(void(^)(NSInteger bytesWritten, NSInteger totalBytesWritten, NSInteger totalBytesExpectedToWrite))uploadProgressBlock
+                                 uploadProgressBlock:(void(^)(int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite))uploadProgressBlock
                                downloadProgressBlock:(void(^)(NSData *data))downloadProgressBlock
                                         successBlock:(void(^)(NSDictionary *rateLimits, id response))successBlock
                                           errorBlock:(void(^)(NSError *error))errorBlock;
@@ -206,6 +218,7 @@ authenticateInsteadOfAuthorize:(BOOL)authenticateInsteadOfAuthorize // use NO if
                                                                    trimUser:(NSNumber *)trimUser
                                                          contributorDetails:(NSNumber *)contributorDetails
                                                             includeEntities:(NSNumber *)includeEntities
+                                                       useExtendedTweetMode:(NSNumber *)useExtendedTweetMode
                                                                successBlock:(void(^)(NSArray *statuses))successBlock
                                                                  errorBlock:(void(^)(NSError *error))errorBlock;
 
@@ -237,6 +250,7 @@ authenticateInsteadOfAuthorize:(BOOL)authenticateInsteadOfAuthorize // use NO if
                                                           excludeReplies:(NSNumber *)excludeReplies
                                                       contributorDetails:(NSNumber *)contributorDetails
                                                          includeRetweets:(NSNumber *)includeRetweets
+                                                    useExtendedTweetMode:(NSNumber *)useExtendedTweetMode
                                                             successBlock:(void(^)(NSArray *statuses))successBlock
                                                               errorBlock:(void(^)(NSError *error))errorBlock;
 
@@ -276,6 +290,7 @@ authenticateInsteadOfAuthorize:(BOOL)authenticateInsteadOfAuthorize // use NO if
                                                           excludeReplies:(NSNumber *)excludeReplies
                                                       contributorDetails:(NSNumber *)contributorDetails
                                                          includeEntities:(NSNumber *)includeEntities
+                                                    useExtendedTweetMode:(NSNumber *)useExtendedTweetMode
                                                             successBlock:(void(^)(NSArray *statuses))successBlock
                                                               errorBlock:(void(^)(NSError *error))errorBlock;
 
@@ -297,6 +312,7 @@ authenticateInsteadOfAuthorize:(BOOL)authenticateInsteadOfAuthorize // use NO if
                                                                 trimUser:(NSNumber *)trimUser
                                                          includeEntities:(NSNumber *)includeEntities
                                                      includeUserEntities:(NSNumber *)includeUserEntities
+                                                    useExtendedTweetMode:(NSNumber *)useExtendedTweetMode
                                                             successBlock:(void(^)(NSArray *statuses))successBlock
                                                               errorBlock:(void(^)(NSError *error))errorBlock;
 
@@ -314,6 +330,7 @@ authenticateInsteadOfAuthorize:(BOOL)authenticateInsteadOfAuthorize // use NO if
 - (NSObject<STTwitterRequestProtocol> *)getStatusesRetweetsForID:(NSString *)statusID
                                                            count:(NSString *)count
                                                         trimUser:(NSNumber *)trimUser
+                                            useExtendedTweetMode:(NSNumber *)useExtendedTweetMode
                                                     successBlock:(void(^)(NSArray *statuses))successBlock
                                                       errorBlock:(void(^)(NSError *error))errorBlock;
 
@@ -341,6 +358,7 @@ authenticateInsteadOfAuthorize:(BOOL)authenticateInsteadOfAuthorize // use NO if
                                                  trimUser:(NSNumber *)trimUser
                                          includeMyRetweet:(NSNumber *)includeMyRetweet
                                           includeEntities:(NSNumber *)includeEntities
+                                     useExtendedTweetMode:(NSNumber *)useExtendedTweetMode
                                              successBlock:(void(^)(NSDictionary *status))successBlock
                                                errorBlock:(void(^)(NSError *error))errorBlock;
 
@@ -352,6 +370,7 @@ authenticateInsteadOfAuthorize:(BOOL)authenticateInsteadOfAuthorize // use NO if
 
 - (NSObject<STTwitterRequestProtocol> *)postStatusesDestroy:(NSString *)statusID
                                                    trimUser:(NSNumber *)trimUser
+                                       useExtendedTweetMode:(NSNumber *)useExtendedTweetMode
                                                successBlock:(void(^)(NSDictionary *status))successBlock
                                                  errorBlock:(void(^)(NSError *error))errorBlock;
 
@@ -373,29 +392,41 @@ authenticateInsteadOfAuthorize:(BOOL)authenticateInsteadOfAuthorize // use NO if
  - Users will have the ability, from their settings page, to remove all the geotags from all their tweets en masse. Currently we are not doing any automatic scrubbing nor providing a method to remove geotags from individual tweets.
  */
 
-- (NSObject<STTwitterRequestProtocol> *)postStatusUpdate:(NSString *)status
-                                       inReplyToStatusID:(NSString *)existingStatusID
-                                                latitude:(NSString *)latitude
-                                               longitude:(NSString *)longitude
-                                                 placeID:(NSString *)placeID
-                                      displayCoordinates:(NSNumber *)displayCoordinates
-                                                trimUser:(NSNumber *)trimUser
-                                            successBlock:(void(^)(NSDictionary *status))successBlock
-                                              errorBlock:(void(^)(NSError *error))errorBlock;
+- (NSObject<STTwitterRequestProtocol> *)postStatusesUpdate:(NSString *)status
+                                         inReplyToStatusID:(NSString *)existingStatusID
+                                                  latitude:(NSString *)latitude
+                                                 longitude:(NSString *)longitude
+                                                   placeID:(NSString *)placeID
+                                        displayCoordinates:(NSNumber *)displayCoordinates
+                                                  trimUser:(NSNumber *)trimUser
+                                 autoPopulateReplyMetadata:(NSNumber *)autoPopulateReplyMetadata
+                                excludeReplyUserIDsStrings:(NSArray *)excludeReplyUserIDsString
+                                       attachmentURLString:(NSString *)attachmentURLString // URLs passed to the attachment_url parameter not matching either a Tweet permalink or DM deep link will fail at Tweet creation and cause an exception.
+                                      useExtendedTweetMode:(NSNumber *)useExtendedTweetMode
+                                              successBlock:(void(^)(NSDictionary *status))successBlock
+                                                errorBlock:(void(^)(NSError *error))errorBlock;
 
 // starting May 28th, 2014
 // https://dev.twitter.com/notifications/multiple-media-entities-in-tweets
 // https://dev.twitter.com/docs/api/multiple-media-extended-entities
-- (NSObject<STTwitterRequestProtocol> *)postStatusUpdate:(NSString *)status
-                                       inReplyToStatusID:(NSString *)existingStatusID
-                                                mediaIDs:(NSArray *)mediaIDs
-                                                latitude:(NSString *)latitude
-                                               longitude:(NSString *)longitude
-                                                 placeID:(NSString *)placeID
-                                      displayCoordinates:(NSNumber *)displayCoordinates
-                                                trimUser:(NSNumber *)trimUser
-                                            successBlock:(void(^)(NSDictionary *status))successBlock
-                                              errorBlock:(void(^)(NSError *error))errorBlock;
+
+// September 2016: extented Tweets support with new parameters auto_populate_reply_metadata, exclude_reply_user_ids and attachment_url
+// https://dev.twitter.com/overview/api/upcoming-changes-to-tweets
+
+- (NSObject<STTwitterRequestProtocol> *)postStatusesUpdate:(NSString *)status
+                                         inReplyToStatusID:(NSString *)existingStatusID
+                                                  mediaIDs:(NSArray *)mediaIDs
+                                                  latitude:(NSString *)latitude
+                                                 longitude:(NSString *)longitude
+                                                   placeID:(NSString *)placeID
+                                        displayCoordinates:(NSNumber *)displayCoordinates
+                                                  trimUser:(NSNumber *)trimUser
+                                 autoPopulateReplyMetadata:(NSNumber *)autoPopulateReplyMetadata
+                                excludeReplyUserIDsStrings:(NSArray *)excludeReplyUserIDsString
+                                       attachmentURLString:(NSString *)attachmentURLString // URLs passed to the attachment_url parameter not matching either a Tweet permalink or DM deep link will fail at Tweet creation and cause an exception.
+                                      useExtendedTweetMode:(NSNumber *)useExtendedTweetMode
+                                              successBlock:(void(^)(NSDictionary *status))successBlock
+                                                errorBlock:(void(^)(NSError *error))errorBlock;
 
 /*
  POST	statuses/retweet/:id
@@ -411,13 +442,34 @@ authenticateInsteadOfAuthorize:(BOOL)authenticateInsteadOfAuthorize // use NO if
 
 - (NSObject<STTwitterRequestProtocol> *)postStatusRetweetWithID:(NSString *)statusID
                                                        trimUser:(NSNumber *)trimUser
+                                           useExtendedTweetMode:(NSNumber *)useExtendedTweetMode
                                                    successBlock:(void(^)(NSDictionary *status))successBlock
                                                      errorBlock:(void(^)(NSError *error))errorBlock;
 
 // convenience
 - (NSObject<STTwitterRequestProtocol> *)postStatusRetweetWithID:(NSString *)statusID
+                                           useExtendedTweetMode:(NSNumber *)useExtendedTweetMode
                                                    successBlock:(void(^)(NSDictionary *status))successBlock
                                                      errorBlock:(void(^)(NSError *error))errorBlock;
+
+/*
+ POST	statuses/unretweet/:id
+ 
+ Untweets a retweeted status. Returns the original Tweet with retweet details embedded.
+ 
+ - This method is subject to update limits. A HTTP 429 will be returned if this limit has been hit.
+ - The untweeted retweet status ID must be authored by the user backing the authentication token.
+ - An application must have write privileges to POST. A HTTP 401 will be returned for read-only applications.
+ - When passing a source status ID instead of the retweet status ID a HTTP 200 response will be returned with the same Tweet object but no action.
+ 
+ Returns Tweets (1: the new tweet)
+ */
+
+- (NSObject<STTwitterRequestProtocol> *)postStatusUnretweetWithID:(NSString *)statusID
+                                                         trimUser:(NSNumber *)trimUser
+                                             useExtendedTweetMode:(NSNumber *)useExtendedTweetMode
+                                                     successBlock:(void(^)(NSDictionary *status))successBlock
+                                                       errorBlock:(void(^)(NSError *error))errorBlock;
 
 /*
  POST	statuses/update_with_media
@@ -429,28 +481,28 @@ authenticateInsteadOfAuthorize:(BOOL)authenticateInsteadOfAuthorize // use NO if
  The Tweet text will be rewritten to include the media URL(s), which will reduce the number of characters allowed in the Tweet text. If the URL(s) cannot be appended without text truncation, the tweet will be rejected and this method will return an HTTP 403 error.
  */
 
-- (NSObject<STTwitterRequestProtocol> *)postStatusUpdate:(NSString *)status
-                                          mediaDataArray:(NSArray *)mediaDataArray // only one media is currently supported, help/configuration.json returns "max_media_per_upload" = 1
-                                       possiblySensitive:(NSNumber *)possiblySensitive
-                                       inReplyToStatusID:(NSString *)inReplyToStatusID
-                                                latitude:(NSString *)latitude
-                                               longitude:(NSString *)longitude
-                                                 placeID:(NSString *)placeID
-                                      displayCoordinates:(NSNumber *)displayCoordinates
-                                     uploadProgressBlock:(void(^)(NSInteger bytesWritten, NSInteger totalBytesWritten, NSInteger totalBytesExpectedToWrite))uploadProgressBlock
-                                            successBlock:(void(^)(NSDictionary *status))successBlock
-                                              errorBlock:(void(^)(NSError *error))errorBlock;
+- (NSObject<STTwitterRequestProtocol> *)deprecated_postStatusesUpdate:(NSString *)status
+                                                       mediaDataArray:(NSArray *)mediaDataArray // only one media is currently supported, help/configuration.json returns "max_media_per_upload" = 1
+                                                    possiblySensitive:(NSNumber *)possiblySensitive
+                                                    inReplyToStatusID:(NSString *)inReplyToStatusID
+                                                             latitude:(NSString *)latitude
+                                                            longitude:(NSString *)longitude
+                                                              placeID:(NSString *)placeID
+                                                   displayCoordinates:(NSNumber *)displayCoordinates
+                                                  uploadProgressBlock:(void(^)(int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite))uploadProgressBlock
+                                                         successBlock:(void(^)(NSDictionary *status))successBlock
+                                                           errorBlock:(void(^)(NSError *error))errorBlock __deprecated_msg("POST statuses/update_with_media is deprecated, use POST statuses/update");
 
 // convenience
-- (NSObject<STTwitterRequestProtocol> *)postStatusUpdate:(NSString *)status
-                                       inReplyToStatusID:(NSString *)existingStatusID
-                                                mediaURL:(NSURL *)mediaURL
-                                                 placeID:(NSString *)placeID
-                                                latitude:(NSString *)latitude
-                                               longitude:(NSString *)longitude
-                                     uploadProgressBlock:(void(^)(NSInteger bytesWritten, NSInteger totalBytesWritten, NSInteger totalBytesExpectedToWrite))uploadProgressBlock
-                                            successBlock:(void(^)(NSDictionary *status))successBlock
-                                              errorBlock:(void(^)(NSError *error))errorBlock;
+- (NSObject<STTwitterRequestProtocol> *)deprecated_postStatusesUpdate:(NSString *)status
+                                                    inReplyToStatusID:(NSString *)existingStatusID
+                                                             mediaURL:(NSURL *)mediaURL
+                                                              placeID:(NSString *)placeID
+                                                             latitude:(NSString *)latitude
+                                                            longitude:(NSString *)longitude
+                                                  uploadProgressBlock:(void(^)(int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite))uploadProgressBlock
+                                                         successBlock:(void(^)(NSDictionary *status))successBlock
+                                                           errorBlock:(void(^)(NSError *error))errorBlock __deprecated_msg("POST statuses/update_with_media is deprecated, use POST statuses/update");
 
 /*
  GET    statuses/oembed
@@ -469,6 +521,7 @@ authenticateInsteadOfAuthorize:(BOOL)authenticateInsteadOfAuthorize // use NO if
                                                                align:(NSString *)align // 'left', 'right', 'center' or 'none' (default)
                                                              related:(NSString *)related // eg. twitterapi,twittermedia,twitter
                                                                 lang:(NSString *)lang
+                                                useExtendedTweetMode:(NSNumber *)useExtendedTweetMode
                                                         successBlock:(void(^)(NSDictionary *status))successBlock
                                                           errorBlock:(void(^)(NSError *error))errorBlock;
 
@@ -499,6 +552,7 @@ authenticateInsteadOfAuthorize:(BOOL)authenticateInsteadOfAuthorize // use NO if
                                                            maxID:(NSString *)maxID // eg. "54321"
                                                  includeEntities:(NSNumber *)includeEntities
                                                         callback:(NSString *)callback // eg. "processTweets"
+                                            useExtendedTweetMode:(NSNumber *)useExtendedTweetMode
                                                     successBlock:(void(^)(NSDictionary *searchMetadata, NSArray *statuses))successBlock
                                                       errorBlock:(void(^)(NSError *error))errorBlock;
 
@@ -783,7 +837,6 @@ authenticateInsteadOfAuthorize:(BOOL)authenticateInsteadOfAuthorize // use NO if
 
 - (NSObject<STTwitterRequestProtocol> *)postFriendshipsCreateForScreenName:(NSString *)screenName
                                                                   orUserID:(NSString *)userID
-                                                       enableNotifications:(NSNumber *)enableNotifications
                                                               successBlock:(void(^)(NSDictionary *befriendedUser))successBlock
                                                                 errorBlock:(void(^)(NSError *error))errorBlock;
 
@@ -1294,6 +1347,7 @@ authenticateInsteadOfAuthorize:(BOOL)authenticateInsteadOfAuthorize // use NO if
                                                            sinceID:(NSString *)sinceID
                                                              maxID:(NSString *)maxID
                                                    includeEntities:(NSNumber *)includeEntities
+                                              useExtendedTweetMode:(NSNumber *)useExtendedTweetMode
                                                       successBlock:(void(^)(NSArray *statuses))successBlock
                                                         errorBlock:(void(^)(NSError *error))errorBlock;
 
@@ -1311,6 +1365,7 @@ authenticateInsteadOfAuthorize:(BOOL)authenticateInsteadOfAuthorize // use NO if
 
 - (NSObject<STTwitterRequestProtocol> *)postFavoriteDestroyWithStatusID:(NSString *)statusID
                                                         includeEntities:(NSNumber *)includeEntities
+                                                   useExtendedTweetMode:(NSNumber *)useExtendedTweetMode
                                                            successBlock:(void(^)(NSDictionary *status))successBlock
                                                              errorBlock:(void(^)(NSError *error))errorBlock;
 
@@ -1324,6 +1379,7 @@ authenticateInsteadOfAuthorize:(BOOL)authenticateInsteadOfAuthorize // use NO if
 
 - (NSObject<STTwitterRequestProtocol> *)postFavoriteCreateWithStatusID:(NSString *)statusID
                                                        includeEntities:(NSNumber *)includeEntities
+                                                  useExtendedTweetMode:(NSNumber *)useExtendedTweetMode
                                                           successBlock:(void(^)(NSDictionary *status))successBlock
                                                             errorBlock:(void(^)(NSError *error))errorBlock;
 
@@ -1363,6 +1419,7 @@ authenticateInsteadOfAuthorize:(BOOL)authenticateInsteadOfAuthorize // use NO if
                                                             count:(NSString *)count
                                                   includeEntities:(NSNumber *)includeEntities
                                                   includeRetweets:(NSNumber *)includeRetweets
+                                             useExtendedTweetMode:(NSNumber *)useExtendedTweetMode
                                                      successBlock:(void(^)(NSArray *statuses))successBlock
                                                        errorBlock:(void(^)(NSError *error))errorBlock;
 
@@ -1374,6 +1431,7 @@ authenticateInsteadOfAuthorize:(BOOL)authenticateInsteadOfAuthorize // use NO if
                                                           count:(NSString *)count
                                                 includeEntities:(NSNumber *)includeEntities
                                                 includeRetweets:(NSNumber *)includeRetweets
+                                           useExtendedTweetMode:(NSNumber *)useExtendedTweetMode
                                                    successBlock:(void(^)(NSArray *statuses))successBlock
                                                      errorBlock:(void(^)(NSError *error))errorBlock;
 
@@ -1983,6 +2041,7 @@ authenticateInsteadOfAuthorize:(BOOL)authenticateInsteadOfAuthorize // use NO if
                                                   includeEntities:(NSNumber *)includeEntities
                                                          trimUser:(NSNumber *)trimUser
                                                               map:(NSNumber *)map
+                                             useExtendedTweetMode:(NSNumber *)useExtendedTweetMode
                                                      successBlock:(void(^)(NSArray *tweets))successBlock
                                                        errorBlock:(void(^)(NSError *error))errorBlock;
 
@@ -1995,14 +2054,14 @@ authenticateInsteadOfAuthorize:(BOOL)authenticateInsteadOfAuthorize // use NO if
  */
 
 - (NSObject<STTwitterRequestProtocol> *)postMediaUpload:(NSURL *)mediaURL
-                                    uploadProgressBlock:(void(^)(NSInteger bytesWritten, NSInteger totalBytesWritten, NSInteger totalBytesExpectedToWrite))uploadProgressBlock
-                                           successBlock:(void(^)(NSDictionary *imageDictionary, NSString *mediaID, NSString *size))successBlock
+                                    uploadProgressBlock:(void(^)(int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite))uploadProgressBlock
+                                           successBlock:(void(^)(NSDictionary *imageDictionary, NSString *mediaID, NSInteger size))successBlock
                                              errorBlock:(void(^)(NSError *error))errorBlock;
 
 - (NSObject<STTwitterRequestProtocol> *)postMediaUploadData:(NSData *)data
                                                    fileName:(NSString *)fileName
-                                        uploadProgressBlock:(void(^)(NSInteger bytesWritten, NSInteger totalBytesWritten, NSInteger totalBytesExpectedToWrite))uploadProgressBlock
-                                               successBlock:(void(^)(NSDictionary *imageDictionary, NSString *mediaID, NSString *size))successBlock
+                                        uploadProgressBlock:(void(^)(int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite))uploadProgressBlock
+                                               successBlock:(void(^)(NSDictionary *imageDictionary, NSString *mediaID, NSInteger size))successBlock
                                                  errorBlock:(void(^)(NSError *error))errorBlock;
 
 /*
@@ -2012,17 +2071,17 @@ authenticateInsteadOfAuthorize:(BOOL)authenticateInsteadOfAuthorize // use NO if
  */
 
 - (NSObject<STTwitterRequestProtocol> *)postMediaUploadINITWithVideoURL:(NSURL *)videoMediaURL
-                                                           successBlock:(void(^)(NSString *mediaID, NSString *expiresAfterSecs))successBlock
+                                                           successBlock:(void(^)(NSString *mediaID, NSInteger expiresAfterSecs))successBlock
                                                              errorBlock:(void(^)(NSError *error))errorBlock;
 
 - (void)postMediaUploadAPPENDWithVideoURL:(NSURL *)videoMediaURL
                                   mediaID:(NSString *)mediaID
-                      uploadProgressBlock:(void(^)(NSInteger bytesWritten, NSInteger totalBytesWritten, NSInteger totalBytesExpectedToWrite))uploadProgressBlock
+                      uploadProgressBlock:(void(^)(int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite))uploadProgressBlock
                              successBlock:(void(^)(id response))successBlock
                                errorBlock:(void(^)(NSError *error))errorBlock;
 
 - (NSObject<STTwitterRequestProtocol> *)postMediaUploadFINALIZEWithMediaID:(NSString *)mediaID
-                                                              successBlock:(void(^)(NSString *mediaID, NSString *size, NSString *expiresAfter, NSString *videoType))successBlock
+                                                              successBlock:(void(^)(NSString *mediaID, NSInteger size, NSInteger expiresAfter, NSString *videoType))successBlock
                                                                 errorBlock:(void(^)(NSError *error))errorBlock;
 
 // convenience
@@ -2032,7 +2091,7 @@ authenticateInsteadOfAuthorize:(BOOL)authenticateInsteadOfAuthorize // use NO if
 //    [_twitter postMediaUploadThreeStepsWithVideoURL:videoURL
 //                                uploadProgressBlock:^(NSInteger bytesWritten, NSInteger totalBytesWritten, NSInteger totalBytesExpectedToWrite) {
 //                                    NSLog(@"-- %ld", (long)bytesWritten);
-//                                } successBlock:^(NSString *mediaID, NSString *size, NSString *expiresAfter, NSString *videoType) {
+//                                } successBlock:^(NSString *mediaID, NSInteger size, NSInteger expiresAfter, NSString *videoType) {
 //                                    NSLog(@"-- %@", mediaID);
 //
 //                                    [_twitter postStatusUpdate:@"coucou"
@@ -2054,8 +2113,8 @@ authenticateInsteadOfAuthorize:(BOOL)authenticateInsteadOfAuthorize // use NO if
 //                                }];
 
 - (void)postMediaUploadThreeStepsWithVideoURL:(NSURL *)videoURL // local URL
-                          uploadProgressBlock:(void(^)(NSInteger bytesWritten, NSInteger totalBytesWritten, NSInteger totalBytesExpectedToWrite))uploadProgressBlock
-                                 successBlock:(void(^)(NSString *mediaID, NSString *size, NSString *expiresAfter, NSString *videoType))successBlock
+                          uploadProgressBlock:(void(^)(int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite))uploadProgressBlock
+                                 successBlock:(void(^)(NSString *mediaID, NSInteger size, NSInteger expiresAfter, NSString *videoType))successBlock
                                    errorBlock:(void(^)(NSError *error))errorBlock;
 
 #pragma mark -
@@ -2088,7 +2147,7 @@ authenticateInsteadOfAuthorize:(BOOL)authenticateInsteadOfAuthorize // use NO if
 
 // GET statuses/:id/activity/summary.json
 - (NSObject<STTwitterRequestProtocol> *)_getStatusesActivitySummaryForStatusID:(NSString *)statusID
-                                                                  successBlock:(void(^)(NSArray *favoriters, NSArray *repliers, NSArray *retweeters, NSString *favoritersCount, NSString *repliersCount, NSString *retweetersCount))successBlock
+                                                                  successBlock:(void(^)(NSArray *favoriters, NSArray *repliers, NSArray *retweeters, NSInteger favoritersCount, NSInteger repliersCount, NSInteger retweetersCount))successBlock
                                                                     errorBlock:(void(^)(NSError *error))errorBlock;
 
 // GET conversation/show.json

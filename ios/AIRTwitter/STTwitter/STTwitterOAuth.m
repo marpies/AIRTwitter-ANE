@@ -223,7 +223,7 @@
 
 - (void)verifyCredentialsRemotelyWithSuccessBlock:(void(^)(NSString *username, NSString *userID))successBlock
                                        errorBlock:(void(^)(NSError *error))errorBlock {
-   
+    
     if(_username && _password) {
         
         [self postXAuthAccessTokenRequestWithUsername:_username password:_password successBlock:^(NSString *oauthToken, NSString *oauthTokenSecret, NSString *userID, NSString *screenName) {
@@ -231,7 +231,7 @@
         } errorBlock:^(NSError *error) {
             errorBlock(error);
         }];
-
+        
     } else {
         
         [self fetchResource:@"account/verify_credentials.json"
@@ -242,7 +242,7 @@
         uploadProgressBlock:nil
       downloadProgressBlock:nil
                successBlock:^(STHTTPRequest *r, NSDictionary *requestHeaders, NSDictionary *responseHeaders, id response) {
-
+                   
                    if([response isKindOfClass:[NSDictionary class]] == NO) {
                        NSString *errorDescription = [NSString stringWithFormat:@"Expected dictionary, found %@", response];
                        NSError *error = [NSError errorWithDomain:NSStringFromClass([self class]) code:0 userInfo:@{NSLocalizedDescriptionKey : errorDescription}];
@@ -252,7 +252,7 @@
                    
                    NSDictionary *dict = response;
                    successBlock(dict[@"screen_name"], dict[@"id_str"]);
-               
+                   
                } errorBlock:^(STHTTPRequest *r, NSDictionary *requestHeaders, NSDictionary *responseHeaders, NSError *error) {
                    errorBlock(error);
                }];
@@ -363,19 +363,19 @@
                         @"x_auth_password" : password,
                         @"x_auth_mode"     : @"client_auth"};
     
-
+    
     __weak typeof(self) weakSelf = self;
-
+    
     [self postResource:@"oauth/access_token"
          baseURLString:@"https://api.twitter.com"
             parameters:d
           successBlock:^(STHTTPRequest *request, NSDictionary *requestHeaders, NSDictionary *responseHeaders, NSString *body) {
               NSDictionary *dict = [body st_parametersDictionary];
-
+              
               typeof(self) strongSelf = weakSelf;
-
+              
               if(strongSelf == nil) return;
-
+              
               // https://api.twitter.com/oauth/authorize?oauth_token=OAUTH_TOKEN&oauth_token_secret=OAUTH_TOKEN_SECRET&user_id=USER_ID&screen_name=SCREEN_NAME
               
               self.oauthAccessToken = dict[@"oauth_token"];
@@ -383,19 +383,21 @@
               
               successBlock(strongSelf.oauthAccessToken, strongSelf.oauthAccessTokenSecret, dict[@"user_id"], dict[@"screen_name"]);
           } errorBlock:^(STHTTPRequest *request, NSDictionary *requestHeaders, NSDictionary *responseHeaders, NSError *error) {
-
+              
               typeof(self) strongSelf = weakSelf;
               
               if(strongSelf == nil) return;
-
-              if([[error domain] isEqualToString:NSURLErrorDomain] && [error code] == NSURLErrorUserCancelledAuthentication) {
-                  NSError *xAuthNotEnabledError = [NSError errorWithDomain:NSStringFromClass([strongSelf class])
-                                                                      code:STTwitterOAuthBadCredentialsOrConsumerTokensNotXAuthEnabled
-                                                                  userInfo:@{NSLocalizedDescriptionKey : @"Bad credentials, or tokens not xAuth enabled."}];
-                  errorBlock(xAuthNotEnabledError);
-                  return;
-              }
               
+              // add failure reason if we can
+              if([[error domain] isEqualToString:@"STTwitterTwitterErrorDomain"] && ([error code] == 87)) {
+                  NSMutableDictionary *extendedUserInfo = [[error userInfo] mutableCopy];
+                  extendedUserInfo[NSLocalizedFailureReasonErrorKey] = @"The consumer tokens are probably not xAuth enabled.";
+                  NSError *extendedError = [NSError errorWithDomain:[error domain] code:[error code] userInfo:extendedUserInfo];
+                  NSLog(@"-- %@", extendedError);
+                  errorBlock(extendedError);
+                  return;
+              };
+            
               errorBlock(error);
           }];
 }
@@ -414,14 +416,14 @@
     NSDictionary *d = @{@"oauth_verifier" : pin};
     
     __weak typeof(self) weakSelf = self;
-
+    
     [self postResource:@"oauth/access_token"
          baseURLString:@"https://api.twitter.com"
             parameters:d
           successBlock:^(STHTTPRequest *request, NSDictionary *requestHeaders, NSDictionary *responseHeaders, NSString *body) {
-
+              
               typeof(self) strongSelf = weakSelf;
-
+              
               if(strongSelf == nil) return;
               
               NSDictionary *dict = [body st_parametersDictionary];
@@ -434,6 +436,11 @@
               successBlock(strongSelf.oauthAccessToken, strongSelf.oauthAccessTokenSecret, dict[@"user_id"], dict[@"screen_name"]);
               
           } errorBlock:^(STHTTPRequest *request, NSDictionary *requestHeaders, NSDictionary *responseHeaders, NSError *error) {
+              
+              if (request.responseStatus == 401) {
+                  self.oauthRequestToken = nil;
+              }
+              
               errorBlock(error);
           }];
 }
@@ -514,7 +521,7 @@
                                            HTTPMethod:(NSString *)HTTPMethod
                                         baseURLString:(NSString *)baseURLString
                                            parameters:(NSDictionary *)params
-                                  uploadProgressBlock:(void(^)(NSInteger bytesWritten, NSInteger totalBytesWritten, NSInteger totalBytesExpectedToWrite))uploadProgressBlock
+                                  uploadProgressBlock:(void(^)(int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite))uploadProgressBlock
                                 downloadProgressBlock:(void(^)(NSObject<STTwitterRequestProtocol> *request, NSData *data))progressBlock
                                          successBlock:(void(^)(NSObject<STTwitterRequestProtocol> *request, NSDictionary *requestHeaders, NSDictionary *responseHeaders, id response))successBlock
                                            errorBlock:(void(^)(NSObject<STTwitterRequestProtocol> *request, NSDictionary *requestHeaders, NSDictionary *responseHeaders, NSError *error))errorBlock {
@@ -535,7 +542,7 @@
                    baseURLString:(NSString *)baseURLString
                       parameters:(NSDictionary *)params
                    oauthCallback:(NSString *)oauthCallback
-             uploadProgressBlock:(void(^)(NSInteger bytesWritten, NSInteger totalBytesWritten, NSInteger totalBytesExpectedToWrite))uploadProgressBlock
+             uploadProgressBlock:(void(^)(int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite))uploadProgressBlock
            downloadProgressBlock:(void(^)(STHTTPRequest *r, NSData *data))downloadProgressBlock
                     successBlock:(void(^)(STHTTPRequest *r, NSDictionary *requestHeaders, NSDictionary *responseHeaders, id response))successBlock
                       errorBlock:(void(^)(STHTTPRequest *r, NSDictionary *requestHeaders, NSDictionary *responseHeaders, NSError *error))errorBlock {
@@ -551,19 +558,16 @@
                                                        HTTPMethod:HTTPMethod
                                                  timeoutInSeconds:_timeoutInSeconds
                                      stTwitterUploadProgressBlock:uploadProgressBlock
-                                   stTwitterDownloadProgressBlock:^(NSData *data, NSUInteger totalBytesReceived, long long totalBytesExpectedToReceive) {
+                                   stTwitterDownloadProgressBlock:^(NSData *data, int64_t totalBytesReceived, int64_t totalBytesExpectedToReceive) {
                                        if(downloadProgressBlock) downloadProgressBlock(wr, data);
                                    } stTwitterSuccessBlock:^(NSDictionary *requestHeaders, NSDictionary *responseHeaders, id json) {
                                        successBlock(wr, requestHeaders, responseHeaders, json);
                                    } stTwitterErrorBlock:^(NSDictionary *requestHeaders, NSDictionary *responseHeaders, NSError *error) {
                                        errorBlock(wr, requestHeaders, responseHeaders, error);
                                    }];
-    wr = r;
-    
-    r.HTTPMethod = HTTPMethod;
     
     NSString *postKey = [params valueForKey:kSTPOSTDataKey];
-    NSData *postData = [params valueForKey:postKey];;
+    NSData *postData = [params valueForKey:postKey];
     
     if([HTTPMethod isEqualToString:@"GET"]) {
         r.GETDictionary = params;

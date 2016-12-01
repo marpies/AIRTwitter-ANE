@@ -19,8 +19,8 @@ extern NSUInteger const kSTHTTPRequestDefaultTimeout;
 @class STHTTPRequest;
 
 typedef void (^sendRequestBlock_t)(STHTTPRequest *request);
-typedef void (^uploadProgressBlock_t)(NSInteger bytesWritten, NSInteger totalBytesWritten, NSInteger totalBytesExpectedToWrite);
-typedef void (^downloadProgressBlock_t)(NSData *data, NSUInteger totalBytesReceived, long long totalBytesExpectedToReceive);
+typedef void (^uploadProgressBlock_t)(int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite);
+typedef void (^downloadProgressBlock_t)(NSData *data, int64_t totalBytesReceived, int64_t totalBytesExpectedToReceive);
 typedef void (^completionBlock_t)(NSDictionary *headers, NSString *body);
 typedef void (^completionDataBlock_t)(NSDictionary *headers, NSData *body);
 typedef void (^errorBlock_t)(NSError *error);
@@ -32,7 +32,7 @@ typedef NS_ENUM(NSUInteger, STHTTPRequestCookiesStorage) {
     STHTTPRequestCookiesStorageUndefined = NSUIntegerMax
 };
 
-@interface STHTTPRequest : NSObject <NSURLConnectionDelegate>
+@interface STHTTPRequest : NSObject <NSURLSessionDataDelegate>
 
 @property (copy) uploadProgressBlock_t uploadProgressBlock;
 @property (copy) downloadProgressBlock_t downloadProgressBlock;
@@ -53,7 +53,12 @@ typedef NS_ENUM(NSUInteger, STHTTPRequestCookiesStorage) {
 @property (nonatomic) BOOL encodeGETDictionary; // default YES, set to NO if the parameters are already URL encoded
 @property (nonatomic, strong, readonly) NSURL *url;
 @property (nonatomic) BOOL preventRedirections;
+@property (nonatomic) BOOL useUploadTaskInBackground;
 @property (nonatomic) STHTTPRequestCookiesStorage cookieStoragePolicyForInstance; // overrides globalCookiesStoragePolicy
+@property (nonatomic) NSString *sharedContainerIdentifier;
+
++ (void)setBackgroundCompletionHandler:(void(^)())completionHandler forSessionIdentifier:(NSString *)sessionIdentifier;
+//+ (void(^)())backgroundCompletionHandlerForSessionIdentifier:(NSString *)sessionIdentifier;
 
 // response
 @property (nonatomic) NSStringEncoding forcedResponseEncoding;
@@ -68,8 +73,8 @@ typedef NS_ENUM(NSUInteger, STHTTPRequestCookiesStorage) {
 // cache
 @property (nonatomic) BOOL ignoreCache; // requests ignore cached responses and responses don't get cached
 
-+ (STHTTPRequest *)requestWithURL:(NSURL *)url;
-+ (STHTTPRequest *)requestWithURLString:(NSString *)urlString;
++ (instancetype)requestWithURL:(NSURL *)url;
++ (instancetype)requestWithURLString:(NSString *)urlString;
 
 + (void)setGlobalIgnoreCache:(BOOL)ignoreCache; // no cache at all when set, overrides the ignoreCache property
 

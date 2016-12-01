@@ -21,13 +21,15 @@
 + (STHTTPRequest *)twitterRequestWithURLString:(NSString *)urlString
                                     HTTPMethod:(NSString *)HTTPMethod
                               timeoutInSeconds:(NSTimeInterval)timeoutInSeconds
-                  stTwitterUploadProgressBlock:(void(^)(NSInteger bytesWritten, NSInteger totalBytesWritten, NSInteger totalBytesExpectedToWrite))uploadProgressBlock
-                stTwitterDownloadProgressBlock:(void(^)(NSData *data, NSUInteger totalBytesReceived, long long totalBytesExpectedToReceive))downloadProgressBlock
+                  stTwitterUploadProgressBlock:(void(^)(int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite))uploadProgressBlock
+                stTwitterDownloadProgressBlock:(void(^)(NSData *data, int64_t totalBytesReceived, int64_t totalBytesExpectedToReceive))downloadProgressBlock
                          stTwitterSuccessBlock:(void(^)(NSDictionary *requestHeaders, NSDictionary *responseHeaders, id json))successBlock
                            stTwitterErrorBlock:(void(^)(NSDictionary *requestHeaders, NSDictionary *responseHeaders, NSError *error))errorBlock {
     
     __block STHTTPRequest *r = [self requestWithURLString:urlString];
     __weak STHTTPRequest *wr = r;
+    
+    r.sharedContainerIdentifier = [[NSUserDefaults standardUserDefaults] valueForKey:@"STTwitterSharedContainerIdentifier"];
     
     r.HTTPMethod = HTTPMethod;
 
@@ -88,6 +90,8 @@
     
     STHTTPRequest *r = [STHTTPRequest requestWithURLString:urlString];
     
+    r.sharedContainerIdentifier = [[NSUserDefaults standardUserDefaults] valueForKey:@"STTwitterSharedContainerIdentifier"];
+
     r.cookieStoragePolicyForInstance = STHTTPRequestCookiesStorageNoStorage;
 
     r.preventRedirections = YES;
