@@ -26,16 +26,16 @@ FREObject tw_login( FREContext context, void* functionData, uint32_t argc, FREOb
     
     BOOL forceLogin = [MPFREObjectUtils getBOOL:argv[0]];
 
-    if( [AIRTwitter accessToken] ) {
+    if( [[AIRTwitter sharedInstance] accessToken] ) {
         [AIRTwitter log:@"User is already logged in."];
         [AIRTwitter dispatchEvent:LOGIN_ERROR withMessage:@"User is already logged in."];
     } else {
-        [[AIRTwitter api:YES] postTokenRequest:^(NSURL* url, NSString* oauthToken) {
+        [[[AIRTwitter sharedInstance] api:YES] postTokenRequest:^(NSURL* url, NSString* oauthToken) {
                     [[UIApplication sharedApplication] openURL:url];
                 } authenticateInsteadOfAuthorize:NO
                                       forceLogin:@(forceLogin)
                                       screenName:nil
-                                   oauthCallback:[NSString stringWithFormat:@"%@://twitter_access_tokens/", [AIRTwitter urlScheme]]
+                                   oauthCallback:[NSString stringWithFormat:@"%@://twitter_access_tokens/", [[AIRTwitter sharedInstance] urlScheme]]
                                       errorBlock:^(NSError* error) {
                                           [AIRTwitter log:[NSString stringWithFormat:@"Error logging in: %@", error.localizedDescription]];
                                           [AIRTwitter dispatchEvent:LOGIN_ERROR withMessage:error.localizedDescription];

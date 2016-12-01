@@ -25,12 +25,10 @@ FREObject tw_followUser( FREContext context, void* functionData, uint32_t argc, 
     double userIDDouble = [MPFREObjectUtils getDouble:argv[0]];
     NSString* userID = (userIDDouble >= 0) ? [NSString stringWithFormat:@"%.f", userIDDouble] : nil;
     NSString* screenName = (argv[1] == nil) ? nil : [MPFREObjectUtils getNSString:argv[1]];
-    BOOL enableNotifications = [MPFREObjectUtils getBOOL:argv[2]];
     int callbackID = [MPFREObjectUtils getInt:argv[3]];
 
-    [[AIRTwitter api] postFriendshipsCreateForScreenName:screenName
+    [[[AIRTwitter sharedInstance] api] postFriendshipsCreateForScreenName:screenName
                                                 orUserID:(screenName ? nil : userID)
-                                     enableNotifications:@(enableNotifications)
                                             successBlock:^(NSDictionary* befriendedUser) {
                                                 [AIRTwitter log:[NSString stringWithFormat:@"Success following user %@", befriendedUser[@"screen_name"]]];
                                                 NSMutableDictionary* userJSON = [UserUtils getTrimmedJSON:befriendedUser];

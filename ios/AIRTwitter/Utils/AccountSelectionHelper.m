@@ -18,39 +18,39 @@
 #import "AIRTwitterEvent.h"
 #import "AIRTwitter.h"
 
-static accountSelectorCallback callback;
-static ACAccountStore* accountStore;
+static accountSelectorCallback mAIRTwitterAccountSelectorCallback;
+static ACAccountStore* mAIRTwitterAccountStore;
 
 @implementation AccountSelectionHelper
 
 + (void) selectAccount:(accountSelectorCallback) completionHandler {
-    accountStore = [[ACAccountStore alloc] init];
+    mAIRTwitterAccountStore = [[ACAccountStore alloc] init];
 
-    callback = completionHandler;
+    mAIRTwitterAccountSelectorCallback = completionHandler;
     
-    ACAccountType* accountType = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
+    ACAccountType* accountType = [mAIRTwitterAccountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
 
     /* Ask user for access to Twitter accounts in the system */
-    [accountStore requestAccessToAccountsWithType:accountType options:nil completion:^( BOOL granted, NSError* error ) {
+    [mAIRTwitterAccountStore requestAccessToAccountsWithType:accountType options:nil completion:^( BOOL granted, NSError* error ) {
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             if( error ) {
-                callback( nil, NO, error.localizedDescription );
+                mAIRTwitterAccountSelectorCallback( nil, NO, error.localizedDescription );
                 [self dispose];
                 return;
             }
             
             /* Access not granted */
             if( !granted ) {
-                callback( nil, NO, @"Acccess to Twitter accounts was not granted." );
+                mAIRTwitterAccountSelectorCallback( nil, NO, @"Acccess to Twitter accounts was not granted." );
                 [self dispose];
                 return;
             }
             
-            NSArray* twitterAccounts = [accountStore accountsWithAccountType:accountType];
+            NSArray* twitterAccounts = [mAIRTwitterAccountStore accountsWithAccountType:accountType];
             
             /* Check if a Twitter account is set */
             if( twitterAccounts.count == 0 ) {
-                callback( nil, NO, @"No Twitter account is set in the system." );
+                mAIRTwitterAccountSelectorCallback( nil, NO, @"No Twitter account is set in the system." );
                 [self dispose];
                 return;
             }
@@ -58,7 +58,7 @@ static ACAccountStore* accountStore;
             /* If single account is set, use that */
             if( twitterAccounts.count == 1 ) {
                 ACAccount* account = [twitterAccounts lastObject];
-                callback( account, NO, nil );
+                mAIRTwitterAccountSelectorCallback( account, NO, nil );
                 [self dispose];
             }
             /* Otherwise let the user pick one */
@@ -85,13 +85,13 @@ static ACAccountStore* accountStore;
     /* Cancel button */
     [ac addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
         [AIRTwitter log:@"Account selection was cancelled."];
-        callback( nil, YES, nil );
+        mAIRTwitterAccountSelectorCallback( nil, YES, nil );
         [self dispose];
     }]];
     /* Buttons for available accounts */
     for( ACAccount* account in twitterAccounts ) {
         [ac addAction:[UIAlertAction actionWithTitle:[NSString stringWithFormat:@"@%@", account.username] style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            callback( account, NO, nil );
+            mAIRTwitterAccountSelectorCallback( account, NO, nil );
             [self dispose];
         }]];
     }
@@ -113,22 +113,22 @@ static ACAccountStore* accountStore;
 
 + (void) actionSheet:(UIActionSheet*) actionSheet clickedButtonAtIndex:(NSInteger) buttonIndex {
     if( buttonIndex == [actionSheet cancelButtonIndex] ) {
-        callback( nil, YES, nil );
+        mAIRTwitterAccountSelectorCallback( nil, YES, nil );
         [self dispose];
         return;
     }
 
     NSUInteger accountIndex = buttonIndex - 1;
-    ACAccountType* accountType = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
-    ACAccount* account = [accountStore accountsWithAccountType:accountType][accountIndex];
+    ACAccountType* accountType = [mAIRTwitterAccountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
+    ACAccount* account = [mAIRTwitterAccountStore accountsWithAccountType:accountType][accountIndex];
 
-    callback( account, NO, nil );
+    mAIRTwitterAccountSelectorCallback( account, NO, nil );
     [self dispose];
 }
 
 + (void) dispose {
-    callback = nil;
-    accountStore = nil;
+    mAIRTwitterAccountSelectorCallback = nil;
+    mAIRTwitterAccountStore = nil;
 }
 
 @end

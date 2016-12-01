@@ -29,11 +29,10 @@ FREObject tw_sendDirectMessage( FREContext context, void* functionData, uint32_t
     NSString* screenName = (argv[2] == nil) ? nil : [MPFREObjectUtils getNSString:argv[2]];
     int callbackID = [MPFREObjectUtils getInt:argv[3]];
     
-    [[AIRTwitter api] postDirectMessage:text
+    [[[AIRTwitter sharedInstance] api] postDirectMessage:text
                           forScreenName:screenName
                                orUserID:(screenName ? nil : userID)
                            successBlock:^(NSDictionary *message) {
-//                               [AIR log:[NSString stringWithFormat:@"Success sending DM %@", message]];
                                NSMutableDictionary* dmJSON = [DirectMessageUtils getJSON:message];
                                dmJSON[@"listenerID"] = @(callbackID);
                                dmJSON[@"success"] = @(true);

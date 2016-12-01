@@ -44,41 +44,56 @@
 #import "Functions/LoginWithAccount.h"
 #import "Functions/IsSystemAccountAvailableFunction.h"
 
-static STTwitterAPI* mTwitter = nil;
+static AIRTwitter* mAIRTwitterSharedInstance = nil;
 
-static NSString* mAIRTwitterURLScheme = nil;
-static NSString* mAIRTwitterConsumerKey = nil;
-static NSString* mAIRTwitterConsumerSecret = nil;
+static BOOL mAIRTwitterLogEnabled = NO;
+FREContext mAIRTwitterExtContext = nil;
 
-static AIRTwitterUser* mAIRTwitterLoggedInUser = nil;
+@implementation AIRTwitter {
+    BOOL mInitialized;
+    NSString* mURLScheme;
+    NSString* mConsumerKey;
+    NSString* mConsumerSecret;
+    AIRTwitterUser* mLoggedInUser;
+    STTwitterAPI* mSTTwitterAPI;
+}
 
-static BOOL airTwitterLogEnabled = NO;
-FREContext airTwitterContext = nil;
++ (id) sharedInstance {
+    if( mAIRTwitterSharedInstance == nil ) {
+        mAIRTwitterSharedInstance = [[AIRTwitter alloc] init];
+    }
+    return mAIRTwitterSharedInstance;
+}
 
-@interface AIRTwitter ()
-@end
+- (id) init {
+    self = [super init];
+    if( self != nil ) {
+        mInitialized = NO;
+    }
+    return self;
+}
 
-@implementation AIRTwitter
-
-+ (BOOL) initWithConsumerKey:(NSString*) key consumerSecret:(NSString*) secret urlScheme:(NSString*) urlScheme {
-    mAIRTwitterURLScheme = urlScheme;
-    mAIRTwitterConsumerKey = key;
-    mAIRTwitterConsumerSecret = secret;
+- (BOOL) initWithConsumerKey:(NSString*) key consumerSecret:(NSString*) secret urlScheme:(NSString*) urlScheme {
+    mInitialized = YES;
+    
+    mURLScheme = urlScheme;
+    mConsumerKey = key;
+    mConsumerSecret = secret;
 
     /* Check if we already have access token */
     NSString* accessToken = [self accessToken];
     if( accessToken ) {
         [AIRTwitter log:@"Initializing STTwitter w/ key, secret and user's access tokens"];
-        mTwitter = [STTwitterAPI twitterAPIWithOAuthConsumerKey:key consumerSecret:secret oauthToken:accessToken oauthTokenSecret:[self accessTokenSecret]];
+        mSTTwitterAPI = [STTwitterAPI twitterAPIWithOAuthConsumerKey:key consumerSecret:secret oauthToken:accessToken oauthTokenSecret:[self accessTokenSecret]];
         return YES;
     }
     return NO;
 }
 
-+ (void) getAccessTokensForPIN:(NSString*) PIN {
+- (void) getAccessTokensForPIN:(NSString*) PIN {
     [AIRTwitter log:@"Getting OAuth tokens for PIN"];
 
-    [mTwitter postAccessTokenRequestWithPIN:PIN successBlock:^(NSString* oauthToken, NSString* oauthTokenSecret, NSString* userID, NSString* screenName) {
+    [mSTTwitterAPI postAccessTokenRequestWithPIN:PIN successBlock:^(NSString* oauthToken, NSString* oauthTokenSecret, NSString* userID, NSString* screenName) {
         [AIRTwitter log:@"Successfully retrieved access token"];
         [self storeCredentials:screenName userID:userID accessToken:oauthToken accessTokenSecret:oauthTokenSecret];
         /* Dispatch login success */
@@ -89,13 +104,13 @@ FREContext airTwitterContext = nil;
     }];
 }
 
-+ (void) verifySystemAccount:(ACAccount*) account {
+- (void) verifySystemAccount:(ACAccount*) account {
     [[self api] postReverseOAuthTokenRequest:^(NSString *authenticationHeader) {
         [AIRTwitter log:@"Authentication header retrieved."];
-        mTwitter = [STTwitterAPI twitterAPIOSWithAccount:account];
-        [mTwitter verifyCredentialsWithUserSuccessBlock:^(NSString *username, NSString *userID) {
+        mSTTwitterAPI = [STTwitterAPI twitterAPIOSWithAccount:account delegate:self];
+        [mSTTwitterAPI verifyCredentialsWithUserSuccessBlock:^(NSString *username, NSString *userID) {
             [AIRTwitter log:@"Credentials for system account are valid."];
-            [mTwitter postReverseAuthAccessTokenWithAuthenticationHeader:authenticationHeader successBlock:^(NSString *oAuthToken, NSString *oAuthTokenSecret, NSString *userID, NSString *screenName) {
+            [mSTTwitterAPI postReverseAuthAccessTokenWithAuthenticationHeader:authenticationHeader successBlock:^(NSString *oAuthToken, NSString *oAuthTokenSecret, NSString *userID, NSString *screenName) {
                 [AIRTwitter log:@"Access token for authentication header retrieved."];
                 [self storeCredentials:username userID:userID accessToken:oAuthToken accessTokenSecret:oAuthTokenSecret];
                 /* Dispatch login success */
@@ -114,10 +129,10 @@ FREContext airTwitterContext = nil;
     }];
 }
 
-+ (void) storeCredentials:(NSString*) screenName userID:(NSString*) userID accessToken:(NSString*) accessToken accessTokenSecret:(NSString*) accessTokenSecret {
+- (void) storeCredentials:(NSString*) screenName userID:(NSString*) userID accessToken:(NSString*) accessToken accessTokenSecret:(NSString*) accessTokenSecret {
     /* There are not set when logging in after log out so we set them manually */
-    [mTwitter setUserName:screenName];
-    [mTwitter setUserID:userID];
+    [mSTTwitterAPI setUserName:screenName];
+    [mSTTwitterAPI setUserID:userID];
     /* Store access tokens */
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:accessToken forKey:@"accessToken"];
@@ -125,9 +140,9 @@ FREContext airTwitterContext = nil;
     [defaults synchronize];
 }
 
-+ (void) clearAccessTokens {
-    mTwitter = nil;
-    mAIRTwitterLoggedInUser = nil;
+- (void) clearAccessTokens {
+    mSTTwitterAPI = nil;
+    mLoggedInUser = nil;
 
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
     [defaults removeObjectForKey:@"accessToken"];
@@ -135,67 +150,80 @@ FREContext airTwitterContext = nil;
     [defaults synchronize];
 }
 
+
+# pragma mark - Getters / Setters
+
+
+- (STTwitterAPI*) api {
+    return [self api:NO];
+}
+
+- (STTwitterAPI*) api:(BOOL) newInstance {
+    if( !mSTTwitterAPI || newInstance ) {
+        mSTTwitterAPI = [STTwitterAPI twitterAPIWithOAuthConsumerKey:mConsumerKey consumerSecret:mConsumerSecret];
+    }
+    return mSTTwitterAPI;
+}
+
+- (NSString*) urlScheme {
+    return mURLScheme;
+}
+
+- (NSString*) accessToken {
+    return [[NSUserDefaults standardUserDefaults] valueForKey:@"accessToken"];
+}
+
+- (NSString*) accessTokenSecret {
+    return [[NSUserDefaults standardUserDefaults] valueForKey:@"accessTokenSecret"];
+}
+
+- (BOOL) isInitialized {
+    return mInitialized;
+}
+
+
+# pragma mark - Logged in user info
+
+
+- (AIRTwitterUser*) loggedInUser {
+    return mLoggedInUser;
+}
+
+- (void) setLoggedInUser:(AIRTwitterUser*) user {
+    mLoggedInUser = user;
+}
+
+
+# pragma mark - STTwitterAPIOSProtocol
+
+
+- (void)twitterAPI:(STTwitterAPI *)twitterAPI accountWasInvalidated:(ACAccount *)invalidatedAccount {
+    
+}
+
+
+# pragma mark - AIR API
+
+
 + (void) dispatchEvent:(const NSString*) eventName {
     [self dispatchEvent:eventName withMessage:@""];
 }
 
 + (void)dispatchEvent:(const NSString*) eventName withMessage:(NSString*) message {
     NSString* messageText = message ? message : @"";
-    FREDispatchStatusEventAsync( airTwitterContext, (const uint8_t*) [eventName UTF8String], (const uint8_t*) [messageText UTF8String] );
+    FREDispatchStatusEventAsync( mAIRTwitterExtContext, (const uint8_t*) [eventName UTF8String], (const uint8_t*) [messageText UTF8String] );
 }
 
 + (void)log:(const NSString*) message {
-    if( airTwitterLogEnabled ) {
+    if( mAIRTwitterLogEnabled ) {
         NSLog( @"[iOS-AIRTwitter] %@", message );
     }
 }
 
 + (void)showLogs:(BOOL) showLogs {
-    airTwitterLogEnabled = showLogs;
+    mAIRTwitterLogEnabled = showLogs;
 }
 
-/**
- *
- *
- * Getters / Setters
- *
- *
- */
-
-+ (STTwitterAPI*) api {
-    return [self api:NO];
-}
-
-+ (STTwitterAPI*) api:(BOOL) newInstance {
-    if( !mTwitter || newInstance ) {
-        mTwitter = [STTwitterAPI twitterAPIWithOAuthConsumerKey:mAIRTwitterConsumerKey consumerSecret:mAIRTwitterConsumerSecret];
-    }
-    return mTwitter;
-}
-
-+ (NSString*) urlScheme {
-    return mAIRTwitterURLScheme;
-}
-
-+ (NSString*) accessToken {
-    return [[NSUserDefaults standardUserDefaults] valueForKey:@"accessToken"];
-}
-
-+ (NSString*) accessTokenSecret {
-    return [[NSUserDefaults standardUserDefaults] valueForKey:@"accessTokenSecret"];
-}
-
-/**
- * Logged in user info
- */
-
-+ (AIRTwitterUser*) loggedInUser {
-    return mAIRTwitterLoggedInUser;
-}
-
-+ (void) setLoggedInUser:(AIRTwitterUser*) user {
-    mAIRTwitterLoggedInUser = user;
-}
 
 @end
 
@@ -260,7 +288,7 @@ void AIRTwitterContextInitializer( void* extData,
 
     *functionsToSet = functionArray;
 
-    airTwitterContext = ctx;
+    mAIRTwitterExtContext = ctx;
 }
 
 void AIRTwitterContextFinalizer( FREContext ctx ) { }

@@ -27,20 +27,20 @@ FREObject tw_getHomeTimeline( FREContext context, void* functionData, uint32_t a
     NSString* maxID = (argv[2] == nil) ? nil : [MPFREObjectUtils getNSString:argv[2]];
     NSNumber* excludeReplies = @([MPFREObjectUtils getBOOL:argv[3]]);
     int callbackID = [MPFREObjectUtils getInt:argv[4]];
-
-    [[AIRTwitter api] getStatusesHomeTimelineWithCount:count
-                                               sinceID:sinceID
-                                                 maxID:maxID
-                                              trimUser:@(0)
-                                        excludeReplies:excludeReplies
-                                    contributorDetails:nil
-                                       includeEntities:nil
-                                          successBlock:^(NSArray* statuses) {
-                                              [StatusUtils dispatchStatuses:statuses callbackID:callbackID];
-                                          }
-                                            errorBlock:^(NSError* error) {
-                                                [AIRTwitter log:[NSString stringWithFormat:@"Home timeline error: %@", error.localizedDescription]];
-                                                [AIRTwitter dispatchEvent:TIMELINE_QUERY_ERROR withMessage:[MPStringUtils getEventErrorJSONString:callbackID errorMessage:error.localizedDescription]];
-                                            }];
+    
+    [[[AIRTwitter sharedInstance] api] getStatusesHomeTimelineWithCount:count
+                                                                sinceID:sinceID
+                                                                  maxID:maxID
+                                                               trimUser:@(0)
+                                                         excludeReplies:excludeReplies
+                                                     contributorDetails:nil
+                                                        includeEntities:nil
+                                                   useExtendedTweetMode:nil
+                                                           successBlock:^(NSArray *statuses) {
+                                                               [StatusUtils dispatchStatuses:statuses callbackID:callbackID];
+                                                           } errorBlock:^(NSError *error) {
+                                                               [AIRTwitter log:[NSString stringWithFormat:@"Home timeline error: %@", error.localizedDescription]];
+                                                               [AIRTwitter dispatchEvent:TIMELINE_QUERY_ERROR withMessage:[MPStringUtils getEventErrorJSONString:callbackID errorMessage:error.localizedDescription]];
+                                                           }];
     return nil;
 }

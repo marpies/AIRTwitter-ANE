@@ -24,6 +24,6 @@ FREObject tw_isSystemAccountAvailable( FREContext context, void* functionData, u
     ACAccountStore* accountStore = [[ACAccountStore alloc] init];
     ACAccountType* accountType = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
     NSArray* twitterAccounts = [accountStore accountsWithAccountType:accountType];
-    [AIRTwitter log:[NSString stringWithFormat:@"Number of Twitter accounts available: %lu", twitterAccounts.count]];
+    [AIRTwitter log:[NSString stringWithFormat:@"Number of Twitter accounts available: %lu", (unsigned long)twitterAccounts.count]];
     return [MPFREObjectUtils getFREObjectFromBOOL:twitterAccounts.count > 0];
 }

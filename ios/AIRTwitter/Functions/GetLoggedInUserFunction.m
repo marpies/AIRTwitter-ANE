@@ -24,8 +24,10 @@
 
 FREObject tw_getLoggedInUser( FREContext context, void* functionData, uint32_t argc, FREObject* argv ) {
     const int callbackID = [MPFREObjectUtils getInt:argv[0]];
+    
+    AIRTwitter* airTwitter = [AIRTwitter sharedInstance];
 
-    AIRTwitterUser* user = [AIRTwitter loggedInUser];
+    AIRTwitterUser* user = [airTwitter loggedInUser];
     /* Return cached object */
     if( user ) {
         NSMutableDictionary* userJSON = [UserUtils getJSON:user];
@@ -35,12 +37,12 @@ FREObject tw_getLoggedInUser( FREContext context, void* functionData, uint32_t a
         [AIRTwitter dispatchEvent:USER_QUERY_SUCCESS withMessage:[MPStringUtils getJSONString:userJSON]];
     }
     /* Request user info */
-    else if( [AIRTwitter accessToken] ) {
-        STTwitterAPI* twitter = [AIRTwitter api];
+    else if( [airTwitter accessToken] ) {
+        STTwitterAPI* twitter = [airTwitter api];
         [twitter getUserInformationFor:[twitter userName] successBlock:^(NSDictionary* user) {
             AIRTwitterUser* loggedInUser = [UserUtils getUser:user];
             /* Cache the user object */
-            [AIRTwitter setLoggedInUser:loggedInUser];
+            [airTwitter setLoggedInUser:loggedInUser];
             /* Create JSON */
             NSMutableDictionary* userJSON = [UserUtils getJSON:loggedInUser];
             userJSON[@"listenerID"] = @(callbackID);

@@ -28,7 +28,7 @@ FREObject tw_getSentDirectMessages( FREContext context, void* functionData, uint
     NSString* page = [NSString stringWithFormat:@"%d", [MPFREObjectUtils getInt:argv[3]]];
     int callbackID = [MPFREObjectUtils getInt:argv[4]];
     
-    [[AIRTwitter api] getDirectMessagesSinceID:sinceID
+    [[[AIRTwitter sharedInstance] api] getDirectMessagesSinceID:sinceID
                                          maxID:maxID
                                          count:count
                                       fullText:@(1)

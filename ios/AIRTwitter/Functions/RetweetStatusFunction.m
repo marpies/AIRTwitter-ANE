@@ -24,8 +24,9 @@
 FREObject tw_retweetStatus( FREContext context, void* functionData, uint32_t argc, FREObject* argv ) {
     NSString* statusID = [MPFREObjectUtils getNSString:argv[0]];
     int callbackID = [MPFREObjectUtils getInt:argv[1]];
-
-    [[AIRTwitter api] postStatusRetweetWithID:statusID
+    
+    [[[AIRTwitter sharedInstance] api] postStatusRetweetWithID:statusID
+                                          useExtendedTweetMode:nil
                                  successBlock:^(NSDictionary* status) {
                                      [AIRTwitter log:[NSString stringWithFormat:@"Retweeted status w/ message %@", status[@"text"]]];
                                      NSMutableDictionary* statusJSON = [StatusUtils getJSON:status];

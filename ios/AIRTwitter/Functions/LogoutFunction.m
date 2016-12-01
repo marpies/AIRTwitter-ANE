@@ -19,8 +19,8 @@
 #import "AIRTwitter.h"
 
 FREObject tw_logout( FREContext context, void* functionData, uint32_t argc, FREObject* argv ) {
-    if( [AIRTwitter accessToken] ) {
-        [AIRTwitter clearAccessTokens];
+    if( [[AIRTwitter sharedInstance] accessToken] ) {
+        [[AIRTwitter sharedInstance] clearAccessTokens];
     }
     return nil;
 }

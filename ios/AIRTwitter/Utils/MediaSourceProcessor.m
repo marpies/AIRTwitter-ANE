@@ -66,9 +66,9 @@
     __block NSString* uploadErrorMessage = nil;
     NSUInteger totalFiles = mediaFiles.count;
     for( uint32_t i = 0; i < totalFiles; i++ ) {
-        [[AIRTwitter api] postMediaUploadData:mediaFiles[i] fileName:@"media.png" uploadProgressBlock:^(NSInteger bytesWritten, NSInteger totalBytesWritten, NSInteger totalBytesExpectedToWrite) {
+        [[[AIRTwitter sharedInstance] api] postMediaUploadData:mediaFiles[i] fileName:@"media.png" uploadProgressBlock:^(int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite) {
             // progress
-        } successBlock:^(NSDictionary* imageDictionary, NSString* mediaID, NSString* size) {
+        } successBlock:^(NSDictionary* imageDictionary, NSString* mediaID, NSInteger size) {
             [AIRTwitter log:[NSString stringWithFormat:@"Media upload success: %@", mediaID]];
             mediaCounter++;
             [mediaIDs addObject:mediaID];

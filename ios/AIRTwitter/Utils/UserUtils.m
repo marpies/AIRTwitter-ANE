@@ -28,7 +28,7 @@
  * Helper method for queries like getFollowers and getFriends.
  */
 + (void) dispatchUsers:(NSArray*) users previousCursor:(NSString*) previousCursor nextCursor:(NSString*) nextCursor callbackID:(int) callbackID {
-    [AIRTwitter log:[NSString stringWithFormat:@"Got users query response with %lu user(s)", users.count]];
+    [AIRTwitter log:[NSString stringWithFormat:@"Got users query response with %lu user(s)", (unsigned long)users.count]];
     /* Create array of JSON users */
     NSMutableArray* jsonArray = [[NSMutableArray alloc] init];
     for( NSUInteger i = 0; i < users.count; i++ ) {

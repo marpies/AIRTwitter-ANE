@@ -27,11 +27,11 @@ FREObject tw_getUserTimeline( FREContext context, void* functionData, uint32_t a
     NSString* maxID = (argv[2] == nil) ? nil : [MPFREObjectUtils getNSString:argv[2]];
     NSNumber* excludeReplies = @([MPFREObjectUtils getBOOL:argv[3]]);
     double userIDDouble = [MPFREObjectUtils getDouble:argv[4]];
-    NSString* userID = (userIDDouble >= 0) ? [NSString stringWithFormat:@"%.f", userIDDouble] : [[AIRTwitter api] userID];
+    NSString* userID = (userIDDouble >= 0) ? [NSString stringWithFormat:@"%.f", userIDDouble] : [[[AIRTwitter sharedInstance] api] userID];
     NSString* screenName = (argv[5] == nil) ? nil : [MPFREObjectUtils getNSString:argv[5]];
     int callbackID = [MPFREObjectUtils getInt:argv[6]];
 
-    [[AIRTwitter api] getStatusesUserTimelineForUserID:(screenName ? nil : userID)
+    [[[AIRTwitter sharedInstance] api] getStatusesUserTimelineForUserID:(screenName ? nil : userID)
                                             screenName:screenName
                                                sinceID:sinceID
                                                  count:count
@@ -40,6 +40,7 @@ FREObject tw_getUserTimeline( FREContext context, void* functionData, uint32_t a
                                         excludeReplies:excludeReplies
                                     contributorDetails:nil
                                        includeRetweets:@(1)
+                                  useExtendedTweetMode:nil
                                           successBlock:^(NSArray* statuses) {
                                               [StatusUtils dispatchStatuses:statuses callbackID:callbackID];
                                           }

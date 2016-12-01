@@ -27,7 +27,7 @@ FREObject tw_getDirectMessages( FREContext context, void* functionData, uint32_t
     NSString* maxID = (argv[2] == nil) ? nil : [MPFREObjectUtils getNSString:argv[2]];
     int callbackID = [MPFREObjectUtils getInt:argv[3]];
     
-    [[AIRTwitter api] getDirectMessagesSinceID:sinceID maxID:maxID count:count fullText:@(1) includeEntities:@(0) skipStatus:@(1) successBlock:^(NSArray *messages) {
+    [[[AIRTwitter sharedInstance] api] getDirectMessagesSinceID:sinceID maxID:maxID count:count fullText:@(1) includeEntities:@(0) skipStatus:@(1) successBlock:^(NSArray *messages) {
         [DirectMessageUtils dispatchDirectMesages:messages callbackID:callbackID];
     } errorBlock:^(NSError *error) {
         [AIRTwitter dispatchEvent:DIRECT_MESSAGES_QUERY_ERROR withMessage:[MPStringUtils getEventErrorJSONString:callbackID errorMessage:error.localizedDescription]];

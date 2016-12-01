@@ -21,14 +21,14 @@
 #import "AIRTwitter.h"
 
 FREObject tw_loginWithAccount( FREContext context, void* functionData, uint32_t argc, FREObject* argv ) {
-    if( [AIRTwitter accessToken] ) {
+    if( [[AIRTwitter sharedInstance] accessToken] ) {
         [AIRTwitter log:@"User is already logged in."];
         [AIRTwitter dispatchEvent:LOGIN_ERROR withMessage:@"User is already logged in."];
     } else {
         [AccountSelectionHelper selectAccount:^( ACAccount *account, BOOL wasCancelled, NSString *errorMessage ) {
             if( account ) {
                 [AIRTwitter log:[NSString stringWithFormat:@"Selected account: %@ - verifying credentials", account.username]];
-                [AIRTwitter verifySystemAccount:account];
+                [[AIRTwitter sharedInstance] verifySystemAccount:account];
             } else if( wasCancelled ) {
                 [AIRTwitter log:@"Account selection was cancelled."];
                 [AIRTwitter dispatchEvent:LOGIN_CANCEL];

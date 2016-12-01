@@ -51,7 +51,7 @@ FREObject tw_applicationOpenURL( FREContext context, void* functionData, uint32_
         return nil;
     }
 
-    [AIRTwitter getAccessTokensForPIN:verifier];
+    [[AIRTwitter sharedInstance] getAccessTokensForPIN:verifier];
     
     return nil;
 }

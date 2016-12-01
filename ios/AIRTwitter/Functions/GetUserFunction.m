@@ -28,8 +28,7 @@ FREObject tw_getUser( FREContext context, void* functionData, uint32_t argc, FRE
     NSString* screenName = (argv[1] == nil) ? nil : [MPFREObjectUtils getNSString:argv[1]];
     const int callbackID = [MPFREObjectUtils getInt:argv[2]];
     
-    STTwitterAPI* twitter = [AIRTwitter api];
-    [twitter getUsersShowForUserID:(screenName ? nil : userID)
+    [[[AIRTwitter sharedInstance] api] getUsersShowForUserID:(screenName ? nil : userID)
                       orScreenName:screenName
                    includeEntities:@(1)
                       successBlock:^(NSDictionary *user) {

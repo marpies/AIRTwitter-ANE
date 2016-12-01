@@ -53,31 +53,33 @@ FREObject tw_updateStatus( FREContext context, void* functionData, uint32_t argc
 }
 
 void updateStatusWith(NSString* text, int callbackID, NSString* inReplyToStatusID, NSArray* mediaIDs) {
-    [[AIRTwitter api] postStatusUpdate:text
-                     inReplyToStatusID:inReplyToStatusID
-                              mediaIDs:mediaIDs
-                              latitude:nil
-                             longitude:nil
-                               placeID:nil
-                    displayCoordinates:nil
-                              trimUser:@(0)
-                          successBlock:^(NSDictionary* status) {
-                              [AIRTwitter log:[NSString stringWithFormat:@"Updated status w/ message %@", status[@"text"]]];
-                              NSMutableDictionary* statusJSON = [StatusUtils getJSON:status];
-                              statusJSON[@"listenerID"] = @(callbackID);
-                              statusJSON[@"success"] = @"true";
-                              /* Get JSON string from the status */
-                              NSString* jsonString = [MPStringUtils getJSONString:statusJSON];
-                              if( jsonString ) {
-                                  [AIRTwitter dispatchEvent:STATUS_QUERY_SUCCESS withMessage:jsonString];
-                              } else {
-                                  [AIRTwitter dispatchEvent:STATUS_QUERY_SUCCESS withMessage:[MPStringUtils getEventErrorJSONString:callbackID errorMessage:@"Status update succeeded but could not parse returned status."]];
-                              }
-                          }
-                            errorBlock:^(NSError* error) {
-                                [AIRTwitter log:[NSString stringWithFormat:@"Error updating status: %@", error.localizedDescription]];
-                                [AIRTwitter dispatchEvent:STATUS_QUERY_ERROR withMessage:[MPStringUtils getEventErrorJSONString:callbackID errorMessage:error.localizedDescription]];
-                            }];
+    [[[AIRTwitter sharedInstance] api] postStatusesUpdate:text
+                                        inReplyToStatusID:inReplyToStatusID
+                                                 latitude:nil
+                                                longitude:nil
+                                                  placeID:nil
+                                       displayCoordinates:nil
+                                                 trimUser:@(0)
+                                autoPopulateReplyMetadata:nil
+                               excludeReplyUserIDsStrings:nil
+                                      attachmentURLString:nil
+                                     useExtendedTweetMode:nil
+                                             successBlock:^(NSDictionary *status) {
+                                                 [AIRTwitter log:[NSString stringWithFormat:@"Updated status w/ message %@", status[@"text"]]];
+                                                 NSMutableDictionary* statusJSON = [StatusUtils getJSON:status];
+                                                 statusJSON[@"listenerID"] = @(callbackID);
+                                                 statusJSON[@"success"] = @"true";
+                                                 /* Get JSON string from the status */
+                                                 NSString* jsonString = [MPStringUtils getJSONString:statusJSON];
+                                                 if( jsonString ) {
+                                                     [AIRTwitter dispatchEvent:STATUS_QUERY_SUCCESS withMessage:jsonString];
+                                                 } else {
+                                                     [AIRTwitter dispatchEvent:STATUS_QUERY_SUCCESS withMessage:[MPStringUtils getEventErrorJSONString:callbackID errorMessage:@"Status update succeeded but could not parse returned status."]];
+                                                 }
+                                             } errorBlock:^(NSError *error) {
+                                                 [AIRTwitter log:[NSString stringWithFormat:@"Error updating status: %@", error.localizedDescription]];
+                                                 [AIRTwitter dispatchEvent:STATUS_QUERY_ERROR withMessage:[MPStringUtils getEventErrorJSONString:callbackID errorMessage:error.localizedDescription]];
+                                             }];
 }
 
 

@@ -25,22 +25,26 @@ FREObject tw_undoLikeStatus( FREContext context, void* functionData, uint32_t ar
     NSString* statusID = [MPFREObjectUtils getNSString:argv[0]];
     int callbackID = [MPFREObjectUtils getInt:argv[1]];
     
-    [[AIRTwitter api] postFavoriteDestroyWithStatusID:statusID includeEntities:nil successBlock:^(NSDictionary *status) {
-        [AIRTwitter log:[NSString stringWithFormat:@"Destroyed liked status w/ message %@", status[@"text"]]];
-        NSMutableDictionary* statusJSON = [StatusUtils getJSON:status];
-        statusJSON[@"listenerID"] = @(callbackID);
-        statusJSON[@"success"] = @"true";
-        /* Get JSON string from the status */
-        NSString* jsonString = [MPStringUtils getJSONString:statusJSON];
-        if( jsonString ) {
-            [AIRTwitter dispatchEvent:STATUS_QUERY_SUCCESS withMessage:jsonString];
-        } else {
-            [AIRTwitter dispatchEvent:STATUS_QUERY_SUCCESS withMessage:[MPStringUtils getEventErrorJSONString:callbackID errorMessage:@"Successfully destroyed liked status but could not parse returned status data."]];
-        }
-    } errorBlock:^(NSError *error) {
-        [AIRTwitter log:[NSString stringWithFormat:@"Error destroying liked status: %@", error.localizedDescription]];
-        [AIRTwitter dispatchEvent:STATUS_QUERY_ERROR withMessage:[MPStringUtils getEventErrorJSONString:callbackID errorMessage:error.localizedDescription]];
-    }];
+    [[[AIRTwitter sharedInstance] api] postFavoriteDestroyWithStatusID:statusID
+                                                       includeEntities:nil
+                                                  useExtendedTweetMode:nil
+                                                          successBlock:^(NSDictionary *status) {
+                                                              [AIRTwitter log:[NSString stringWithFormat:@"Destroyed liked status w/ message %@", status[@"text"]]];
+                                                              NSMutableDictionary* statusJSON = [StatusUtils getJSON:status];
+                                                              statusJSON[@"listenerID"] = @(callbackID);
+                                                              statusJSON[@"success"] = @"true";
+                                                              /* Get JSON string from the status */
+                                                              NSString* jsonString = [MPStringUtils getJSONString:statusJSON];
+                                                              if( jsonString ) {
+                                                                  [AIRTwitter dispatchEvent:STATUS_QUERY_SUCCESS withMessage:jsonString];
+                                                              } else {
+                                                                  [AIRTwitter dispatchEvent:STATUS_QUERY_SUCCESS withMessage:[MPStringUtils getEventErrorJSONString:callbackID errorMessage:@"Successfully destroyed liked status but could not parse returned status data."]];
+                                                              }
+                                                          }
+                                                            errorBlock:^(NSError *error) {
+                                                                [AIRTwitter log:[NSString stringWithFormat:@"Error destroying liked status: %@", error.localizedDescription]];
+                                                                [AIRTwitter dispatchEvent:STATUS_QUERY_ERROR withMessage:[MPStringUtils getEventErrorJSONString:callbackID errorMessage:error.localizedDescription]];
+                                                            }];
 
     return nil;
 }

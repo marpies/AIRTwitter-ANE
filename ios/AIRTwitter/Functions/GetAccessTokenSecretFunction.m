@@ -19,7 +19,7 @@
 #import "AIRTwitter.h"
 
 FREObject tw_getAccessTokenSecret( FREContext context, void* functionData, uint32_t argc, FREObject* argv ) {
-    NSString* accessTokenSecret = [AIRTwitter accessTokenSecret];
+    NSString* accessTokenSecret = [[AIRTwitter sharedInstance] accessTokenSecret];
     if( accessTokenSecret ) {
         return [MPFREObjectUtils getFREObjectFromNSString:accessTokenSecret];
     }

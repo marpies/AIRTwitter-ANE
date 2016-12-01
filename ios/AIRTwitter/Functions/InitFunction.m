@@ -20,6 +20,11 @@
 #import "AIRTwitterEvent.h"
 
 FREObject tw_init( FREContext context, void* functionData, uint32_t argc, FREObject* argv ) {
+    AIRTwitter* twitter = [AIRTwitter sharedInstance];
+    if( [twitter isInitialized] ) {
+        return nil;
+    }
+    
     NSString* key = [MPFREObjectUtils getNSString:argv[0]];
     NSString* secret = [MPFREObjectUtils getNSString:argv[1]];
     NSString* urlScheme = [MPFREObjectUtils getNSString:argv[2]];
@@ -27,8 +32,8 @@ FREObject tw_init( FREContext context, void* functionData, uint32_t argc, FREObj
     
     [AIRTwitter showLogs:showLogs];
     /* If cached access tokens exist then verify credentials */
-    if( [AIRTwitter initWithConsumerKey:key consumerSecret:secret urlScheme: urlScheme] ) {
-        [[AIRTwitter api] verifyCredentialsWithUserSuccessBlock:^(NSString *username, NSString *userID) {
+    if( [twitter initWithConsumerKey:key consumerSecret:secret urlScheme: urlScheme] ) {
+        [[twitter api] verifyCredentialsWithUserSuccessBlock:^(NSString *username, NSString *userID) {
             [AIRTwitter log:@"Verify credentials success"];
             [AIRTwitter dispatchEvent:CREDENTIALS_CHECK withMessage:[NSString stringWithFormat:@"{ \"result\": \"valid\" }"]];
         } errorBlock:^(NSError *error) {

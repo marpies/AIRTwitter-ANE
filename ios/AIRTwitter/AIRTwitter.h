@@ -19,32 +19,34 @@
 
 @class AIRTwitterUser;
 
-@interface AIRTwitter : NSObject
+@interface AIRTwitter : NSObject<STTwitterAPIOSProtocol>
 
-+ (BOOL) initWithConsumerKey:(NSString*) key consumerSecret:(NSString*) secret urlScheme:(NSString*) urlScheme;
-+ (void) getAccessTokensForPIN:(NSString*) PIN;
-+ (void) verifySystemAccount:(ACAccount*) account;
-+ (void) clearAccessTokens;
++ (nonnull id) sharedInstance;
+- (BOOL) initWithConsumerKey:(nullable NSString*) key consumerSecret:(nullable NSString*) secret urlScheme:(nullable NSString*) urlScheme;
+- (void) getAccessTokensForPIN:(nullable NSString*) PIN;
+- (void) verifySystemAccount:(nullable ACAccount*) account;
+- (void) clearAccessTokens;
 
-+ (STTwitterAPI*) api;
-+ (STTwitterAPI*) api:(BOOL) newInstance;
+- (nonnull STTwitterAPI*) api;
+- (nonnull STTwitterAPI*) api:(BOOL) newInstance;
 
-+ (NSString*) urlScheme;
-+ (NSString*) accessToken;
-+ (NSString*) accessTokenSecret;
+- (nullable NSString*) urlScheme;
+- (nullable NSString*) accessToken;
+- (nullable NSString*) accessTokenSecret;
+- (BOOL) isInitialized;
 
-+ (AIRTwitterUser*) loggedInUser;
-+ (void) setLoggedInUser:(AIRTwitterUser*) user;
+- (nullable AIRTwitterUser*) loggedInUser;
+- (void) setLoggedInUser:(nullable AIRTwitterUser*) user;
 
 /**
  * Helpers
  */
 
-+ (void) dispatchEvent:(const NSString*) eventName;
++ (void) dispatchEvent:(nonnull const NSString*) eventName;
 
-+ (void) dispatchEvent:(const NSString*) eventName withMessage:(NSString*) message;
++ (void) dispatchEvent:(nonnull const NSString*) eventName withMessage:(nonnull NSString*) message;
 
-+ (void)log:(const NSString*) message;
++ (void)log:(nonnull const NSString*) message;
 
 + (void)showLogs:(BOOL) showLogs;
 

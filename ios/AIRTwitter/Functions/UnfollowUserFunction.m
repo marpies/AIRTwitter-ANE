@@ -27,7 +27,7 @@ FREObject tw_unfollowUser( FREContext context, void* functionData, uint32_t argc
     NSString* screenName = (argv[1] == nil) ? nil : [MPFREObjectUtils getNSString:argv[1]];
     int callbackID = [MPFREObjectUtils getInt:argv[2]];
 
-    [[AIRTwitter api] postFriendshipsDestroyScreenName:screenName
+    [[[AIRTwitter sharedInstance] api] postFriendshipsDestroyScreenName:screenName
                                               orUserID:(screenName ? nil : userID)
                                           successBlock:^(NSDictionary* unfollowedUser) {
                                               [AIRTwitter log:[NSString stringWithFormat:@"Success unfollowing user %@", unfollowedUser[@"screen_name"]]];
