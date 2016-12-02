@@ -105,15 +105,15 @@
         <exec executable="${air.sdk}/bin/compc${bin.ext}" failonerror="true">
             <env key="AIR_SDK_HOME" value="${air.sdk}"/>
             <arg line='-source-path ../actionscript/src'/>
-            <arg line='-output temp/swc/${name}.swc'/>
-            <arg line='-swf-version=26'/>
+            <arg line='-output temp/swc/${packageName}.swc'/>
+            <arg line='-swf-version=29'/>
             <arg line='-external-library-path+="${air.sdk}/frameworks/libs/air/airglobal.swc"'/>
             <arg line='-include-classes ${classlist}'/>
         </exec>
 
-        <unzip src="temp/swc/${name}.swc" dest="temp/swc/content" overwrite="true"/>
+        <unzip src="temp/swc/${packageName}.swc" dest="temp/swc/content" overwrite="true"/>
         <!-- Copy .swc to bin directory -->
-        <copy file="temp/swc/${name}.swc" tofile="../bin/AIRTwitter.swc" overwrite="true" />
+        <copy file="temp/swc/${packageName}.swc" tofile="../bin/${packageName}.swc" overwrite="true" />
 
         <copy file="temp/swc/content/library.swf" todir="temp/ios" overwrite="true"/>
         <copy file="temp/swc/content/library.swf" todir="temp/android" overwrite="true"/>
@@ -132,16 +132,16 @@
             <arg value="-package"/>
             <arg value="-target"/>
             <arg value="ane"/>
-            <arg value="${name}.ane"/>
+            <arg value="${packageName}.ane"/>
             <arg value="../extension.xml"/>
-            <arg line="-swc swc/${name}.swc"/>
+            <arg line="-swc swc/${packageName}.swc"/>
             <arg line="-platform iPhone-ARM -platformoptions ../platform-ios.xml -C ios/ ."/>
             <arg line="-platform Android-ARM -platformoptions ../platform-android.xml -C android/ ."/>
             <arg line="-platform Android-x86 -platformoptions ../platform-android.xml -C android/ ."/>
             <arg line="-platform default -C default/ ."/>
         </exec>
 
-        <move file="temp/${name}.ane" todir="../bin"/>
+        <move file="temp/${packageName}.ane" todir="../bin"/>
 
         <delete dir="temp/"/>
     </target>
