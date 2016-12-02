@@ -1081,7 +1081,10 @@ package com.marpies.ane.twitter {
             /* We are interested in "standard" invoke reason to check if user is
              * manually returning to app after closing the login browser tab */
             if( mLoginInProgress && event.reason && event.reason.toLowerCase() == "standard" ) {
-                mStandardInvokeTimer = new Timer( 50, 1 );
+	            if( mStandardInvokeTimer != null && mStandardInvokeTimer.running ) {
+		            return;
+	            }
+                mStandardInvokeTimer = new Timer( 1000, 1 );
                 mStandardInvokeTimer.addEventListener( TimerEvent.TIMER_COMPLETE, onStandardInvoke );
                 mStandardInvokeTimer.start();
                 return;
