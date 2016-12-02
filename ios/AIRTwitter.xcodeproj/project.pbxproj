@@ -55,6 +55,7 @@
 		C3CE90ED1DF0BB1D001C73A5 /* JSONSyntaxHighlight.m in Sources */ = {isa = PBXBuildFile; fileRef = C3CE90DE1DF0BB1D001C73A5 /* JSONSyntaxHighlight.m */; };
 		C3CE90EE1DF0BB1D001C73A5 /* STHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C3CE90E01DF0BB1D001C73A5 /* STHTTPRequest.m */; };
 		C3CE90F11DF1742C001C73A5 /* ApplicationOpenURLFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = C3CE90F01DF1742C001C73A5 /* ApplicationOpenURLFunction.m */; };
+		C3CE90F41DF179E1001C73A5 /* RequestAccountAccessFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = C3CE90F31DF179E1001C73A5 /* RequestAccountAccessFunction.m */; };
 		C3CFD37E1C0F142C0050ADE3 /* GetAccessTokenFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = C3CFD37D1C0F142C0050ADE3 /* GetAccessTokenFunction.m */; };
 		C3CFD3811C0F57770050ADE3 /* GetAccessTokenSecretFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = C3CFD3801C0F57770050ADE3 /* GetAccessTokenSecretFunction.m */; };
 /* End PBXBuildFile section */
@@ -171,6 +172,8 @@
 		C3CE90E01DF0BB1D001C73A5 /* STHTTPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STHTTPRequest.m; sourceTree = "<group>"; };
 		C3CE90EF1DF1742C001C73A5 /* ApplicationOpenURLFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplicationOpenURLFunction.h; sourceTree = "<group>"; };
 		C3CE90F01DF1742C001C73A5 /* ApplicationOpenURLFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationOpenURLFunction.m; sourceTree = "<group>"; };
+		C3CE90F21DF179E1001C73A5 /* RequestAccountAccessFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestAccountAccessFunction.h; sourceTree = "<group>"; };
+		C3CE90F31DF179E1001C73A5 /* RequestAccountAccessFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestAccountAccessFunction.m; sourceTree = "<group>"; };
 		C3CFD37C1C0F142C0050ADE3 /* GetAccessTokenFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetAccessTokenFunction.h; sourceTree = "<group>"; };
 		C3CFD37D1C0F142C0050ADE3 /* GetAccessTokenFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetAccessTokenFunction.m; sourceTree = "<group>"; };
 		C3CFD37F1C0F57770050ADE3 /* GetAccessTokenSecretFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetAccessTokenSecretFunction.h; sourceTree = "<group>"; };
@@ -288,6 +291,8 @@
 				32084C34ABA8ABB484C9E957 /* LoginWithAccount.m */,
 				C38654881BB0A7B3000CA4F6 /* IsSystemAccountAvailableFunction.h */,
 				C38654891BB0A7B3000CA4F6 /* IsSystemAccountAvailableFunction.m */,
+				C3CE90F21DF179E1001C73A5 /* RequestAccountAccessFunction.h */,
+				C3CE90F31DF179E1001C73A5 /* RequestAccountAccessFunction.m */,
 				C386548F1BB16AB8000CA4F6 /* DeleteStatusFunction.h */,
 				C38654901BB16AB8000CA4F6 /* DeleteStatusFunction.m */,
 				C38654921BB1759E000CA4F6 /* SendDirectMessageFunction.h */,
@@ -421,6 +426,7 @@
 			files = (
 				C3CE90EB1DF0BB1D001C73A5 /* STTwitterStreamParser.m in Sources */,
 				C30632BF1C0F617F00B79DBB /* UndoLikeStatusFunction.m in Sources */,
+				C3CE90F41DF179E1001C73A5 /* RequestAccountAccessFunction.m in Sources */,
 				C353322D1B7BCF18003A7521 /* InitFunction.m in Sources */,
 				C38654911BB16AB8000CA4F6 /* DeleteStatusFunction.m in Sources */,
 				C31AD2BD1B8E258D0042555C /* UpdateStatusFunction.m in Sources */,

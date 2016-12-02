@@ -43,6 +43,7 @@
 #import "Functions/ApplicationOpenURLFunction.h"
 #import "Functions/LoginWithAccount.h"
 #import "Functions/IsSystemAccountAvailableFunction.h"
+#import "Functions/RequestAccountAccessFunction.h"
 #import <objc/runtime.h>
 #import <AIRExtHelpers/MPUIApplicationDelegate.h>
 
@@ -342,7 +343,7 @@ void AIRTwitterContextInitializer( void* extData,
         FREContext ctx,
         uint32_t* numFunctionsToSet,
         const FRENamedFunction** functionsToSet ) {
-    uint32_t numFunctions = 25;
+    uint32_t numFunctions = 26;
     *numFunctionsToSet = numFunctions;
 
     FRENamedFunction* functionArray = (FRENamedFunction*) malloc( sizeof( FRENamedFunction ) * numFunctions );
@@ -380,6 +381,7 @@ void AIRTwitterContextInitializer( void* extData,
     AIRTwitterAddFunction( functionArray, "applicationOpenURL", &tw_applicationOpenURL, &index );
 
     AIRTwitterAddFunction( functionArray, "isSystemAccountAvailable", &tw_isSystemAccountAvailable, &index );
+    AIRTwitterAddFunction( functionArray, "requestSystemAccountAccess", &tw_requestAccountAccess, &index );
 
     *functionsToSet = functionArray;
 

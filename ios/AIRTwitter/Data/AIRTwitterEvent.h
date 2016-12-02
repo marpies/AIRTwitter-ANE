@@ -25,6 +25,8 @@ static const NSString* LOGIN_SUCCESS = @"loginSuccess";
 
 static const NSString* CREDENTIALS_CHECK = @"credentialsCheck";
 
+static const NSString* ACCESS_SYSTEM_ACCOUNTS = @"accessSystemAccounts";
+
 static const NSString* STATUS_QUERY_SUCCESS = @"statusQuerySuccess";
 static const NSString* STATUS_QUERY_ERROR = @"statusQueryError";
 
