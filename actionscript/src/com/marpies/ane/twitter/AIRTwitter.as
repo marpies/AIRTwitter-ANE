@@ -41,6 +41,8 @@ package com.marpies.ane.twitter {
 
         private static const CREDENTIALS_CHECK:String = "credentialsCheck";
 
+        private static const ACCESS_SYSTEM_ACCOUNTS:String = "accessSystemAccounts";
+
         /* Event name for queries that return single status (retweetStatus, updateStatus...) */
         private static const STATUS_QUERY_SUCCESS:String = "statusQuerySuccess";
         private static const STATUS_QUERY_ERROR:String = "statusQueryError";
@@ -622,6 +624,23 @@ package com.marpies.ane.twitter {
             mContext.call( "getSentDirectMessages", count, sinceID, maxID, page, registerCallback( callback ) );
         }
 
+
+        /**
+         * Requests access to Twitter system accounts on iOS device.
+         * @param callback Function with signature <code>callback(accessGranted:Boolean):void</code>.
+         */
+	    public static function requestSystemAccountsAccess( callback:Function ):void {
+            if( callback === null ) throw new ArgumentError( "Parameter callback cannot be null." );
+
+            if( !isSupported || !iOS) {
+                callback( false );
+                return;
+            }
+            validateExtensionContext();
+
+            mContext.call( "requestSystemAccountAccess", registerCallback( callback ) );
+        }
+	    
         /**
          * Disposes native extension context.
          */
@@ -670,6 +689,8 @@ package com.marpies.ane.twitter {
         /**
          * Checks if a Twitter account is set in the user's iOS settings
          * and your app was granted access to use it.
+         *
+         * @see com.marpies.ane.twitter.AIRTwitter#requestSystemAccountsAccess()
          */
         public static function get isSystemAccountAvailable():Boolean {
             if( !iOS ) return false;
@@ -936,6 +957,14 @@ package com.marpies.ane.twitter {
                     if( mCredentialsCallback != null ) {
                         mCredentialsCallback( result == "valid", result == "missing" );
                         mCredentialsCallback = null;
+                    }
+                    return;
+
+                case ACCESS_SYSTEM_ACCOUNTS:
+                    log( "System accounts access granted: " + (json.granted as Boolean) );
+                    if( callback != null ) {
+                        callback( json.granted as Boolean );
+                        callback = null;
                     }
                     return;
 
