@@ -22,6 +22,22 @@ Including this and other extensions in your app increases the number of method r
 
 ## Getting started
 
+First, add the extension's ID to the `extensions` element.
+
+```xml
+<extensions>
+    <extensionID>com.marpies.ane.twitter</extensionID>
+</extensions>
+```
+
+If you are targeting Android, add the following extension from [this repository](https://github.com/marpies/android-dependency-anes) as well (unless you know this library is included by some other extension):
+
+```xml
+<extensions>
+    <extensionID>com.marpies.ane.androidsupport</extensionID>
+</extensions>
+```
+
 Choose ideally unique URL scheme for your application (alphanumeric). Replace `{URL_SCHEME}` in the following snippets with your scheme.
 
 For Android support, modify your `android/manifestAdditions` to include the following:
@@ -194,7 +210,13 @@ The ANE has been written by [Marcel Piestansky](https://twitter.com/marpies) and
 
 ## Change log
 
-#### July 18, 2016 (v 1.0.0)
+#### December 2, 2016 (v1.1.0)
+
+* UPDATED STTwitter framework for iOS
+* UPDATED `openURL` handling on iOS
+* ADDED `requestSystemAccountsAccess` API for iOS
+
+#### July 18, 2016 (v1.0.0)
 
 * UPDATED AIRExtHelpers.framework
 * FIXED inconsistency in JSON format when sending response from native side to AS3
