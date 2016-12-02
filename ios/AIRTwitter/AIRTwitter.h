@@ -16,10 +16,11 @@
 
 #import <Foundation/Foundation.h>
 #import "STTwitter.h"
+#import <AIRExtHelpers/MPUIApplicationListener.h>
 
 @class AIRTwitterUser;
 
-@interface AIRTwitter : NSObject<STTwitterAPIOSProtocol>
+@interface AIRTwitter : NSObject<STTwitterAPIOSProtocol, MPUIApplicationListener>
 
 + (nonnull id) sharedInstance;
 - (BOOL) initWithConsumerKey:(nullable NSString*) key consumerSecret:(nullable NSString*) secret urlScheme:(nullable NSString*) urlScheme;

@@ -14,44 +14,10 @@
  * limitations under the License.
  */
 
-#import "AIRTwitter.h"
-#import <AIRExtHelpers/MPFREObjectUtils.h>
+#import <Foundation/Foundation.h>
 #import "ApplicationOpenURLFunction.h"
-#import "AIRTwitterEvent.h"
-
-NSDictionary* parametersDictionaryFromQueryString( NSString* queryString ) {
-    NSMutableDictionary *md = [NSMutableDictionary dictionary];
-    NSArray *queryComponents = [queryString componentsSeparatedByString:@"&"];
-    
-    for( NSString *s in queryComponents ) {
-        NSArray *pair = [s componentsSeparatedByString:@"="];
-        if([pair count] != 2) continue;
-        
-        NSString *key = pair[0];
-        NSString *value = pair[1];
-        
-        md[key] = value;
-    }
-    
-    return md;
-}
 
 FREObject tw_applicationOpenURL( FREContext context, void* functionData, uint32_t argc, FREObject* argv ) {
-    NSString* url = [MPFREObjectUtils getNSString:argv[0]];
-    NSURL* nsURL = [NSURL URLWithString:url];
-    NSDictionary* urlParams = parametersDictionaryFromQueryString( nsURL.query );
-
-//    NSString* token = d[@"oauth_token"];
-    NSString* verifier = urlParams[@"oauth_verifier"];  // PIN
-    NSString* denied = urlParams[@"denied"];
-
-    if( denied || !verifier ) {
-        [AIRTwitter log:@"App was launched after cancelled attempt to login"];
-        [AIRTwitter dispatchEvent:LOGIN_CANCEL];
-        return nil;
-    }
-
-    [[AIRTwitter sharedInstance] getAccessTokensForPIN:verifier];
-    
+    // stub, handled by delegate's openURL method
     return nil;
 }

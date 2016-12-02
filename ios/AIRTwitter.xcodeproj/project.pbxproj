@@ -26,7 +26,6 @@
 		C30632BE1C0F617F00B79DBB /* LikeStatusFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = C30632BA1C0F617F00B79DBB /* LikeStatusFunction.m */; };
 		C30632BF1C0F617F00B79DBB /* UndoLikeStatusFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = C30632BC1C0F617F00B79DBB /* UndoLikeStatusFunction.m */; };
 		C31AD2BD1B8E258D0042555C /* UpdateStatusFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = C31AD2BC1B8E258D0042555C /* UpdateStatusFunction.m */; };
-		C32F09171B7BEDA900BF4E4E /* ApplicationOpenURLFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = C32F09161B7BEDA900BF4E4E /* ApplicationOpenURLFunction.m */; };
 		C35331E21B7BCE8A003A7521 /* AIRTwitter.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = C35331E11B7BCE8A003A7521 /* AIRTwitter.h */; };
 		C35331E41B7BCE8A003A7521 /* AIRTwitter.m in Sources */ = {isa = PBXBuildFile; fileRef = C35331E31B7BCE8A003A7521 /* AIRTwitter.m */; };
 		C353322D1B7BCF18003A7521 /* InitFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = C353322B1B7BCF18003A7521 /* InitFunction.m */; };
@@ -55,6 +54,7 @@
 		C3CE90EC1DF0BB1D001C73A5 /* BAVPlistNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C3CE90DC1DF0BB1D001C73A5 /* BAVPlistNode.m */; };
 		C3CE90ED1DF0BB1D001C73A5 /* JSONSyntaxHighlight.m in Sources */ = {isa = PBXBuildFile; fileRef = C3CE90DE1DF0BB1D001C73A5 /* JSONSyntaxHighlight.m */; };
 		C3CE90EE1DF0BB1D001C73A5 /* STHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C3CE90E01DF0BB1D001C73A5 /* STHTTPRequest.m */; };
+		C3CE90F11DF1742C001C73A5 /* ApplicationOpenURLFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = C3CE90F01DF1742C001C73A5 /* ApplicationOpenURLFunction.m */; };
 		C3CFD37E1C0F142C0050ADE3 /* GetAccessTokenFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = C3CFD37D1C0F142C0050ADE3 /* GetAccessTokenFunction.m */; };
 		C3CFD3811C0F57770050ADE3 /* GetAccessTokenSecretFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = C3CFD3801C0F57770050ADE3 /* GetAccessTokenSecretFunction.m */; };
 /* End PBXBuildFile section */
@@ -111,8 +111,6 @@
 		C30632BC1C0F617F00B79DBB /* UndoLikeStatusFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UndoLikeStatusFunction.m; sourceTree = "<group>"; };
 		C31AD2BB1B8E258D0042555C /* UpdateStatusFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateStatusFunction.h; sourceTree = "<group>"; };
 		C31AD2BC1B8E258D0042555C /* UpdateStatusFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateStatusFunction.m; sourceTree = "<group>"; };
-		C32F09151B7BEDA900BF4E4E /* ApplicationOpenURLFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplicationOpenURLFunction.h; sourceTree = "<group>"; };
-		C32F09161B7BEDA900BF4E4E /* ApplicationOpenURLFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationOpenURLFunction.m; sourceTree = "<group>"; };
 		C34BA0A31C40534000509568 /* AIRExtHelpers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AIRExtHelpers.framework; sourceTree = "<group>"; };
 		C35331DE1B7BCE8A003A7521 /* libAIRTwitter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAIRTwitter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C35331E11B7BCE8A003A7521 /* AIRTwitter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AIRTwitter.h; sourceTree = "<group>"; };
@@ -171,6 +169,8 @@
 		C3CE90DE1DF0BB1D001C73A5 /* JSONSyntaxHighlight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONSyntaxHighlight.m; sourceTree = "<group>"; };
 		C3CE90DF1DF0BB1D001C73A5 /* STHTTPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STHTTPRequest.h; sourceTree = "<group>"; };
 		C3CE90E01DF0BB1D001C73A5 /* STHTTPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STHTTPRequest.m; sourceTree = "<group>"; };
+		C3CE90EF1DF1742C001C73A5 /* ApplicationOpenURLFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplicationOpenURLFunction.h; sourceTree = "<group>"; };
+		C3CE90F01DF1742C001C73A5 /* ApplicationOpenURLFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationOpenURLFunction.m; sourceTree = "<group>"; };
 		C3CFD37C1C0F142C0050ADE3 /* GetAccessTokenFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetAccessTokenFunction.h; sourceTree = "<group>"; };
 		C3CFD37D1C0F142C0050ADE3 /* GetAccessTokenFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetAccessTokenFunction.m; sourceTree = "<group>"; };
 		C3CFD37F1C0F57770050ADE3 /* GetAccessTokenSecretFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetAccessTokenSecretFunction.h; sourceTree = "<group>"; };
@@ -252,6 +252,8 @@
 		C35332291B7BCF18003A7521 /* Functions */ = {
 			isa = PBXGroup;
 			children = (
+				C3CE90EF1DF1742C001C73A5 /* ApplicationOpenURLFunction.h */,
+				C3CE90F01DF1742C001C73A5 /* ApplicationOpenURLFunction.m */,
 				C30632B71C0F617F00B79DBB /* GetLikesFunction.h */,
 				C30632B81C0F617F00B79DBB /* GetLikesFunction.m */,
 				C30632B91C0F617F00B79DBB /* LikeStatusFunction.h */,
@@ -260,8 +262,6 @@
 				C30632BC1C0F617F00B79DBB /* UndoLikeStatusFunction.m */,
 				C31AD2BB1B8E258D0042555C /* UpdateStatusFunction.h */,
 				C31AD2BC1B8E258D0042555C /* UpdateStatusFunction.m */,
-				C32F09151B7BEDA900BF4E4E /* ApplicationOpenURLFunction.h */,
-				C32F09161B7BEDA900BF4E4E /* ApplicationOpenURLFunction.m */,
 				C353322A1B7BCF18003A7521 /* InitFunction.h */,
 				C353322B1B7BCF18003A7521 /* InitFunction.m */,
 				C35332351B7BCFA0003A7521 /* LoginFunction.h */,
@@ -429,7 +429,7 @@
 				C35331E41B7BCE8A003A7521 /* AIRTwitter.m in Sources */,
 				C3CE90EC1DF0BB1D001C73A5 /* BAVPlistNode.m in Sources */,
 				C35332371B7BCFA0003A7521 /* LoginFunction.m in Sources */,
-				C32F09171B7BEDA900BF4E4E /* ApplicationOpenURLFunction.m in Sources */,
+				C3CE90F11DF1742C001C73A5 /* ApplicationOpenURLFunction.m in Sources */,
 				C3CE90E71DF0BB1D001C73A5 /* STTwitterHTML.m in Sources */,
 				C3CE90E11DF0BB1D001C73A5 /* NSDateFormatter+STTwitter.m in Sources */,
 				C386548A1BB0A7B3000CA4F6 /* IsSystemAccountAvailableFunction.m in Sources */,

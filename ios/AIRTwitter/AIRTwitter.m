@@ -43,6 +43,8 @@
 #import "Functions/ApplicationOpenURLFunction.h"
 #import "Functions/LoginWithAccount.h"
 #import "Functions/IsSystemAccountAvailableFunction.h"
+#import <objc/runtime.h>
+#import <AIRExtHelpers/MPUIApplicationDelegate.h>
 
 static AIRTwitter* mAIRTwitterSharedInstance = nil;
 
@@ -61,6 +63,7 @@ FREContext mAIRTwitterExtContext = nil;
 + (id) sharedInstance {
     if( mAIRTwitterSharedInstance == nil ) {
         mAIRTwitterSharedInstance = [[AIRTwitter alloc] init];
+        [[MPUIApplicationDelegate sharedInstance] addListener:mAIRTwitterSharedInstance];
     }
     return mAIRTwitterSharedInstance;
 }
@@ -69,6 +72,20 @@ FREContext mAIRTwitterExtContext = nil;
     self = [super init];
     if( self != nil ) {
         mInitialized = NO;
+        
+        // Swizzle iOS 9+ openURL handler
+        if( NSFoundationVersionNumber >= NSFoundationVersionNumber_iOS_9_0 ) {
+            static dispatch_once_t onceToken;
+            dispatch_once(&onceToken, ^{
+                id delegate = [[UIApplication sharedApplication] delegate];
+                if( delegate != nil ) {
+                    Class adobeDelegateClass = object_getClass( delegate );
+                    
+                    SEL delegateSelector = @selector(application:openURL:options:);
+                    [self overrideDelegate:adobeDelegateClass method:delegateSelector withMethod:@selector(airtwitter_application:openURL:options:)];
+                }
+            });
+        }
     }
     return self;
 }
@@ -202,6 +219,22 @@ FREContext mAIRTwitterExtContext = nil;
 }
 
 
+# pragma mark - MPUIApplicationListener
+
+
+- (BOOL) application:(nullable UIApplication *)application openURL:(nullable NSURL *)url sourceApplication:(nullable NSString *)sourceApplication annotation:(nullable id)annotation {
+    [AIRTwitter log:@"application openURL"];
+    
+    return [self handleOpenURL:url];
+}
+
+- (BOOL) airtwitter_application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
+    [AIRTwitter log:@"application openURL"];
+    
+    return [self handleOpenURL:url];
+}
+
+
 # pragma mark - AIR API
 
 
@@ -222,6 +255,68 @@ FREContext mAIRTwitterExtContext = nil;
 
 + (void)showLogs:(BOOL) showLogs {
     mAIRTwitterLogEnabled = showLogs;
+}
+
+
+# pragma mark - Private
+
+
+- (BOOL) handleOpenURL:(NSURL*) url {
+    NSDictionary* urlParams = [self parametersDictionaryFromQueryString:url.query];
+    
+    //NSString* token = d[@"oauth_token"];
+    NSString* verifier = urlParams[@"oauth_verifier"];  // PIN
+    NSString* denied = urlParams[@"denied"];
+    
+    if( denied || !verifier ) {
+        [AIRTwitter log:@"App was launched after cancelled attempt to login"];
+        [AIRTwitter dispatchEvent:LOGIN_CANCEL];
+        return NO;
+    }
+    
+    [self getAccessTokensForPIN:verifier];
+    
+    return YES;
+}
+
+
+- (NSDictionary*) parametersDictionaryFromQueryString:(NSString*) queryString {
+    NSMutableDictionary *md = [NSMutableDictionary dictionary];
+    NSArray *queryComponents = [queryString componentsSeparatedByString:@"&"];
+    
+    for( NSString *s in queryComponents ) {
+        NSArray *pair = [s componentsSeparatedByString:@"="];
+        if([pair count] != 2) continue;
+        
+        NSString *key = pair[0];
+        NSString *value = pair[1];
+        
+        md[key] = value;
+    }
+    
+    return md;
+}
+
+
+- (BOOL) overrideDelegate:(Class) delegateClass method:(SEL) delegateSelector withMethod:(SEL) swizzledSelector {
+    Method originalMethod = class_getInstanceMethod(delegateClass, delegateSelector);
+    Method swizzledMethod = class_getInstanceMethod([self class], swizzledSelector);
+    
+    BOOL didAddMethod =
+    class_addMethod(delegateClass,
+                    swizzledSelector,
+                    method_getImplementation(originalMethod),
+                    method_getTypeEncoding(originalMethod));
+    
+    if (didAddMethod) {
+        class_replaceMethod(delegateClass,
+                            delegateSelector,
+                            method_getImplementation(swizzledMethod),
+                            method_getTypeEncoding(swizzledMethod));
+    } else {
+        method_exchangeImplementations(originalMethod, swizzledMethod);
+    }
+    return didAddMethod;
 }
 
 
