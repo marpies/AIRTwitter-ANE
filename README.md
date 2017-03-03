@@ -2,7 +2,7 @@
 
 The extension is built on top of [Twitter4j](http://twitter4j.org/en/index.html) and [STTwitter](https://github.com/nst/STTwitter).
 
-ANE is currently in development and offers the following features:
+The ANE currently supports the following features:
 * User login via browser and using system account (iOS)
 * Updating status with text and images (URLs and BitmapData)
 * Retrieving home and user timelines, retweeting, liking tweets
@@ -10,15 +10,9 @@ ANE is currently in development and offers the following features:
 * Retrieving info about users
 * Sending/reading direct messages
 
-The following is at the top of todo list:
+To be implemented:
 * Search
 * Login via in-app web view
-
-## AIR SDK note
-
-Including this and other extensions in your app increases the number of method references that must be stored in Android dex file. AIR currently supports a single dex file and since the number of such references is limited to a little over 65k, it is possible to exceed the limit by including several native extensions. This will prohibit you from building your app for Android, unless you reduce the number of features the app provides. Please, leave a vote in the report below to help adding multidex support to AIR SDK:
-
-* [Bug 4190396 - Multidex support for Adobe AIR](https://bugbase.adobe.com/index.cfm?event=bug&id=4190396)
 
 ## Getting started
 
