@@ -35,7 +35,7 @@ public class GetLikesFunction extends BaseFunction {
 		int count = FREObjectUtils.getInt( args[0] );
 		long sinceID = (args[1] == null) ? -1 : Long.valueOf( FREObjectUtils.getString( args[1] ) );
 		long maxID = (args[2] == null) ? -1 : Long.valueOf( FREObjectUtils.getString( args[2] ) );
-		long userID = FREObjectUtils.getDouble( args[3] ).longValue();
+        String userID = (args[3] == null) ? null : FREObjectUtils.getString( args[3] );
 		String screenName = (args[4] == null) ? null : FREObjectUtils.getString( args[4] );
 		mCallbackID = FREObjectUtils.getInt( args[5] );
 
@@ -43,8 +43,8 @@ public class GetLikesFunction extends BaseFunction {
 		twitter.addListener( this );
 
 		/* If user ID was not provided then use the one of currently logged in user */
-		if( userID < 0 ) {
-			userID = TwitterAPI.getLoggedInUser().getId();
+		if( userID == null ) {
+            userID = String.valueOf( TwitterAPI.getLoggedInUser().getId() );
 		}
 
 		Paging paging = getPaging( count, sinceID, maxID );
@@ -52,13 +52,13 @@ public class GetLikesFunction extends BaseFunction {
 			if( screenName != null ) {
 				twitter.getFavorites( screenName, paging );
 			} else {
-				twitter.getFavorites( userID, paging );
+				twitter.getFavorites( Long.valueOf( userID ), paging );
 			}
 		} else {
 			if( screenName != null ) {
 				twitter.getFavorites( screenName );
 			} else {
-				twitter.getFavorites( userID );
+				twitter.getFavorites( Long.valueOf( userID ) );
 			}
 		}
 

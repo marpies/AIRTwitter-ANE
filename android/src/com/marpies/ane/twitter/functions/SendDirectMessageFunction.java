@@ -30,7 +30,7 @@ public class SendDirectMessageFunction extends BaseFunction {
 		super.call( context, args );
 
 		String message = FREObjectUtils.getString( args[0] );
-		long userID = FREObjectUtils.getDouble( args[1] ).longValue();
+        String userID = (args[1] == null) ? null : FREObjectUtils.getString( args[1] );
 		String screenName = (args[2] == null) ? null : FREObjectUtils.getString( args[2] );
 		mCallbackID = FREObjectUtils.getInt( args[3] );
 
@@ -39,7 +39,7 @@ public class SendDirectMessageFunction extends BaseFunction {
 		if( screenName != null ) {
 			twitter.sendDirectMessage( screenName, message );
 		} else {
-			twitter.sendDirectMessage( userID, message );
+			twitter.sendDirectMessage( Long.valueOf( userID ), message );
 		}
 
 		return null;

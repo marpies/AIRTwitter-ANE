@@ -23,8 +23,7 @@
 
 FREObject tw_getFollowers( FREContext context, void* functionData, uint32_t argc, FREObject* argv ) {
     NSString* cursor = [NSString stringWithFormat:@"%.f", [MPFREObjectUtils getDouble:argv[0]]];
-    double userIDDouble = [MPFREObjectUtils getDouble:argv[1]];
-    NSString* userID = (userIDDouble >= 0) ? [NSString stringWithFormat:@"%.f", userIDDouble] : [[[AIRTwitter sharedInstance] api] userID];
+    NSString* userID = (argv[1] == nil) ? [[[AIRTwitter sharedInstance] api] userID] : [MPFREObjectUtils getNSString:argv[1]];
     NSString* screenName = (argv[2] == nil) ? nil : [MPFREObjectUtils getNSString:argv[2]];
     int callbackID = [MPFREObjectUtils getInt:argv[3]];
 

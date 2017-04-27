@@ -56,7 +56,7 @@ public class UserUtils {
 
 	public static JSONObject getJSON( User user ) throws JSONException {
 		JSONObject userJSON = new JSONObject();
-		userJSON.put( "id", user.getId() );
+		userJSON.put( "id", String.valueOf( user.getId() ) );
 		userJSON.put( "screenName", user.getScreenName() );
 		userJSON.put( "name", user.getName() );
 		userJSON.put( "createdAt", user.getCreatedAt() );

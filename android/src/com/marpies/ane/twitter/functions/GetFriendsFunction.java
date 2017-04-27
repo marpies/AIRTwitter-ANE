@@ -33,7 +33,7 @@ public class GetFriendsFunction extends BaseFunction {
 		super.call( context, args );
 
 		long cursor = FREObjectUtils.getDouble( args[0] ).longValue();
-		long userID = FREObjectUtils.getDouble( args[1] ).longValue();
+        String userID = (args[1] == null) ? null : FREObjectUtils.getString( args[1] );
 		String screenName = (args[2] == null) ? null : FREObjectUtils.getString( args[2] );
 		mCallbackID = FREObjectUtils.getInt( args[3] );
 
@@ -47,10 +47,10 @@ public class GetFriendsFunction extends BaseFunction {
 		/* Or query for user ID */
 		else {
 			/* If user ID was not provided then use the one of currently logged in user */
-			if( userID < 0 ) {
-				userID = TwitterAPI.getLoggedInUser().getId();
-			}
-			twitter.getFriendsList( userID, cursor );
+            if( userID == null ) {
+                userID = String.valueOf( TwitterAPI.getLoggedInUser().getId() );
+            }
+			twitter.getFriendsList( Long.valueOf( userID ), cursor );
 		}
 
 		return null;

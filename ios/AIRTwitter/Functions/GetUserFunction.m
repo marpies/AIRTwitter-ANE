@@ -23,8 +23,7 @@
 #import "UserUtils.h"
 
 FREObject tw_getUser( FREContext context, void* functionData, uint32_t argc, FREObject* argv ) {
-    double userIDDouble = [MPFREObjectUtils getDouble:argv[0]];
-    NSString* userID = (userIDDouble >= 0) ? [NSString stringWithFormat:@"%.f", userIDDouble] : nil;
+    NSString* userID = (argv[0] == nil) ? nil : [MPFREObjectUtils getNSString:argv[0]];
     NSString* screenName = (argv[1] == nil) ? nil : [MPFREObjectUtils getNSString:argv[1]];
     const int callbackID = [MPFREObjectUtils getInt:argv[2]];
     

@@ -38,7 +38,7 @@ public class GetUserTimelineFunction extends BaseFunction {
 		long sinceID = (args[1] == null) ? -1 : Long.valueOf( FREObjectUtils.getString( args[1] ) );
 		long maxID = (args[2] == null) ? -1 : Long.valueOf( FREObjectUtils.getString( args[2] ) );
 		mExcludeReplies = FREObjectUtils.getBoolean( args[3] );
-		long userID = FREObjectUtils.getDouble( args[4] ).longValue();
+        String userID = (args[4] == null) ? null : FREObjectUtils.getString( args[4] );
 		String screenName = (args[5] == null) ? null : FREObjectUtils.getString( args[5] );
 		mCallbackID = FREObjectUtils.getInt( args[6] );
 
@@ -46,8 +46,8 @@ public class GetUserTimelineFunction extends BaseFunction {
 		twitter.addListener( this );
 
 		/* If user ID was not provided then use the one of currently logged in user */
-		if( userID < 0 ) {
-			userID = TwitterAPI.getLoggedInUser().getId();
+		if( userID == null ) {
+            userID = String.valueOf( TwitterAPI.getLoggedInUser().getId() );
 		}
 
 		Paging paging = getPaging( count, sinceID, maxID );
@@ -55,13 +55,13 @@ public class GetUserTimelineFunction extends BaseFunction {
 			if( screenName != null ) {
 				twitter.getUserTimeline( screenName, paging );
 			} else {
-				twitter.getUserTimeline( userID, paging );
+				twitter.getUserTimeline( Long.valueOf( userID ), paging );
 			}
 		} else {
 			if( screenName != null ) {
 				twitter.getUserTimeline( screenName );
 			} else {
-				twitter.getUserTimeline( userID );
+				twitter.getUserTimeline( Long.valueOf( userID ) );
 			}
 		}
 

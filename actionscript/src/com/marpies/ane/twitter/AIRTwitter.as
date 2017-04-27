@@ -296,7 +296,7 @@ package com.marpies.ane.twitter {
          *
          * @see http://dev.twitter.com/overview/api/cursoring
          */
-        public static function getFollowersForUserID( userID:Number, cursor:Number = -1, callback:Function = null ):void {
+        public static function getFollowersForUserID( userID:String, cursor:Number = -1, callback:Function = null ):void {
             validateUserID( userID );
 
             getFollowersInternal( cursor, callback, userID );
@@ -314,7 +314,7 @@ package com.marpies.ane.twitter {
         public static function getFollowersForScreenName( screenName:String, cursor:Number = -1, callback:Function = null ):void {
             validateScreenName( screenName );
 
-            getFollowersInternal( cursor, callback, -1, screenName );
+            getFollowersInternal( cursor, callback, null, screenName );
         }
 
         /**
@@ -355,7 +355,7 @@ package com.marpies.ane.twitter {
          * @param callback Function with signature <code>callback(statuses:Vector.&lt;AIRTwitterStatus&gt;, errorMessage:String):void</code>.
          */
         public static function getUserTimeline( count:uint = 20, sinceID:String = null, maxID:String = null, excludeReplies:Boolean = false, callback:Function = null ):void {
-            getUserTimelineInternal( count, sinceID, maxID, excludeReplies, -1, null, callback );
+            getUserTimelineInternal( count, sinceID, maxID, excludeReplies, null, null, callback );
         }
 
         /**
@@ -373,7 +373,7 @@ package com.marpies.ane.twitter {
          *                       parameter retrieves that many tweets before filtering out replies.
          * @param callback Function with signature <code>callback(statuses:Vector.&lt;AIRTwitterStatus&gt;, errorMessage:String):void</code>.
          */
-        public static function getUserTimelineForUserID( userID:Number, count:uint = 20, sinceID:String = null, maxID:String = null, excludeReplies:Boolean = false, callback:Function = null ):void {
+        public static function getUserTimelineForUserID( userID:String, count:uint = 20, sinceID:String = null, maxID:String = null, excludeReplies:Boolean = false, callback:Function = null ):void {
             validateUserID( userID );
 
             getUserTimelineInternal( count, sinceID, maxID, excludeReplies, userID, null, callback );
@@ -397,7 +397,7 @@ package com.marpies.ane.twitter {
         public static function getUserTimelineForScreenName( screenName:String, count:uint = 20, sinceID:String = null, maxID:String = null, excludeReplies:Boolean = false, callback:Function = null ):void {
             validateScreenName( screenName );
 
-            getUserTimelineInternal( count, sinceID, maxID, excludeReplies, -1, screenName, callback );
+            getUserTimelineInternal( count, sinceID, maxID, excludeReplies, null, screenName, callback );
         }
 
         /**
@@ -405,7 +405,7 @@ package com.marpies.ane.twitter {
          * @param userID ID of the user for whom info to request the info.
          * @param callback Function with signature <code>callback(user:AIRTwitterUser, errorMessage:String):void</code>.
          */
-        public static function getUserForID( userID:Number, callback:Function = null ):void {
+        public static function getUserForID( userID:String, callback:Function = null ):void {
             validateUserID( userID );
 
             getUserInternal( userID, null, callback );
@@ -419,7 +419,7 @@ package com.marpies.ane.twitter {
         public static function getUserForScreenName( screenName:String, callback:Function = null ):void {
             validateScreenName( screenName );
 
-            getUserInternal( -1, screenName, callback );
+            getUserInternal( null, screenName, callback );
         }
 
         /**
@@ -434,7 +434,7 @@ package com.marpies.ane.twitter {
          * @param callback Function with signature <code>callback(statuses:Vector.&lt;AIRTwitterStatus&gt;, errorMessage:String):void</code>.
          */
         public static function getLikes( count:uint = 20, sinceID:String = null, maxID:String = null, callback:Function = null ):void {
-            getLikesInternal( count, sinceID, maxID, -1, null, callback );
+            getLikesInternal( count, sinceID, maxID, null, null, callback );
         }
 
         /**
@@ -449,7 +449,7 @@ package com.marpies.ane.twitter {
          * @param maxID Returns results with an ID less than (that is, older than) or equal to the specified ID.
          * @param callback Function with signature <code>callback(statuses:Vector.&lt;AIRTwitterStatus&gt;, errorMessage:String):void</code>.
          */
-        public static function getLikesForUserID( userID:Number, count:uint = 20, sinceID:String = null, maxID:String = null, callback:Function = null ):void {
+        public static function getLikesForUserID( userID:String, count:uint = 20, sinceID:String = null, maxID:String = null, callback:Function = null ):void {
             validateUserID( userID );
 
             getLikesInternal( count, sinceID, maxID, userID, null, callback );
@@ -470,7 +470,7 @@ package com.marpies.ane.twitter {
         public static function getLikesForScreenName( screenName:String, count:uint = 20, sinceID:String = null, maxID:String = null, callback:Function = null ):void {
             validateScreenName( screenName );
 
-            getLikesInternal( count, sinceID, maxID, -1, screenName, callback );
+            getLikesInternal( count, sinceID, maxID, null, screenName, callback );
         }
 
         /**
@@ -482,7 +482,7 @@ package com.marpies.ane.twitter {
          * @see http://dev.twitter.com/overview/api/cursoring
          */
         public static function getFriends( cursor:Number = -1, callback:Function = null ):void {
-            getFriendsInternal( cursor, -1, null, callback );
+            getFriendsInternal( cursor, null, null, callback );
         }
 
         /**
@@ -494,7 +494,7 @@ package com.marpies.ane.twitter {
          *
          * @see http://dev.twitter.com/overview/api/cursoring
          */
-        public static function getFriendsForUserID( userID:Number, cursor:Number = -1, callback:Function = null ):void {
+        public static function getFriendsForUserID( userID:String, cursor:Number = -1, callback:Function = null ):void {
             validateUserID( userID );
 
             getFriendsInternal( cursor, userID, null, callback );
@@ -512,7 +512,7 @@ package com.marpies.ane.twitter {
         public static function getFriendsForScreenName( screenName:String, cursor:Number = -1, callback:Function = null ):void {
             validateScreenName( screenName );
 
-            getFriendsInternal( cursor, -1, screenName, callback );
+            getFriendsInternal( cursor, null, screenName, callback );
         }
 
         /**
@@ -523,7 +523,7 @@ package com.marpies.ane.twitter {
          *
          * @see http://dev.twitter.com/rest/reference/post/friendships/create
          */
-        public static function followUserWithID( userID:Number, enableNotifications:Boolean = false, callback:Function = null ):void {
+        public static function followUserWithID( userID:String, enableNotifications:Boolean = false, callback:Function = null ):void {
             validateUserID( userID );
 
             followUserInternal( userID, null, enableNotifications, callback );
@@ -540,7 +540,7 @@ package com.marpies.ane.twitter {
         public static function followUserWithScreenName( screenName:String, enableNotifications:Boolean = false, callback:Function = null ):void {
             validateScreenName( screenName );
 
-            followUserInternal( -1, screenName, enableNotifications, callback );
+            followUserInternal( null, screenName, enableNotifications, callback );
         }
 
         /**
@@ -550,7 +550,7 @@ package com.marpies.ane.twitter {
          *
          * @see http://dev.twitter.com/rest/reference/post/friendships/destroy
          */
-        public static function unfollowUserWithID( userID:Number, callback:Function = null ):void {
+        public static function unfollowUserWithID( userID:String, callback:Function = null ):void {
             validateUserID( userID );
 
             unfollowUserInternal( userID, null, callback );
@@ -566,7 +566,7 @@ package com.marpies.ane.twitter {
         public static function unfollowUserWithScreenName( screenName:String, callback:Function = null ):void {
             validateScreenName( screenName );
 
-            unfollowUserInternal( -1, screenName, callback );
+            unfollowUserInternal( null, screenName, callback );
         }
 
         /**
@@ -575,7 +575,7 @@ package com.marpies.ane.twitter {
          * @param userID ID of the user to send the message to.
          * @param callback Function with signature <code>callback(message:AIRTwitterDirectMessage, errorMessage:String):void</code>.
          */
-        public static function sendDirectMessageToUserWithID( text:String, userID:Number, callback:Function ):void {
+        public static function sendDirectMessageToUserWithID( text:String, userID:String, callback:Function ):void {
             if( !text ) throw new ArgumentError( "Parameter text cannot be null." );
             validateUserID( userID );
 
@@ -592,7 +592,7 @@ package com.marpies.ane.twitter {
             if( !text ) throw new ArgumentError( "Parameter text cannot be null." );
             validateScreenName( screenName );
 
-            sendDirectMessageInternal( text, -1, screenName, callback );
+            sendDirectMessageInternal( text, null, screenName, callback );
         }
 
         /**
@@ -729,56 +729,56 @@ package com.marpies.ane.twitter {
          *
          */
 
-        private static function getFollowersInternal( cursor:Number = -1, callback:Function = null, userID:Number = -1, screenName:String = null ):void {
+        private static function getFollowersInternal( cursor:Number = -1, callback:Function = null, userID:String = null, screenName:String = null ):void {
             if( !isSupported ) return;
             validateExtensionContext();
 
             mContext.call( "getFollowers", cursor, userID, screenName, registerCallback( callback ) );
         }
 
-        private static function getUserTimelineInternal( count:uint = 20, sinceID:String = null, maxID:String = null, excludeReplies:Boolean = false, userID:Number = -1, screenName:String = null, callback:Function = null ):void {
+        private static function getUserTimelineInternal( count:uint = 20, sinceID:String = null, maxID:String = null, excludeReplies:Boolean = false, userID:String = null, screenName:String = null, callback:Function = null ):void {
             if( !isSupported ) return;
             validateExtensionContext();
 
             mContext.call( "getUserTimeline", count, sinceID, maxID, excludeReplies, userID, screenName, registerCallback( callback ) );
         }
 
-        private static function getUserInternal( userID:Number = -1, screenName:String = null, callback:Function = null ):void {
+        private static function getUserInternal( userID:String = null, screenName:String = null, callback:Function = null ):void {
             if( !isSupported ) return;
             validateExtensionContext();
 
             mContext.call( "getUser", userID, screenName, registerCallback( callback ) );
         }
 
-        private static function getLikesInternal( count:uint = 20, sinceID:String = null, maxID:String = null, userID:Number = -1, screenName:String = null, callback:Function = null ):void {
+        private static function getLikesInternal( count:uint = 20, sinceID:String = null, maxID:String = null, userID:String = null, screenName:String = null, callback:Function = null ):void {
             if( !isSupported ) return;
             validateExtensionContext();
 
             mContext.call( "getLikes", count, sinceID, maxID, userID, screenName, registerCallback( callback ) );
         }
 
-        private static function getFriendsInternal( cursor:Number = -1, userID:Number = -1, screenName:String = null, callback:Function = null ):void {
+        private static function getFriendsInternal( cursor:Number = -1, userID:String = null, screenName:String = null, callback:Function = null ):void {
             if( !isSupported ) return;
             validateExtensionContext();
 
             mContext.call( "getFriends", cursor, userID, screenName, registerCallback( callback ) );
         }
 
-        private static function followUserInternal( userID:Number = -1, screenName:String = null, enableNotifications:Boolean = false, callback:Function = null ):void {
+        private static function followUserInternal( userID:String = null, screenName:String = null, enableNotifications:Boolean = false, callback:Function = null ):void {
             if( !isSupported ) return;
             validateExtensionContext();
 
             mContext.call( "followUser", userID, screenName, enableNotifications, registerCallback( callback ) );
         }
 
-        private static function unfollowUserInternal( userID:Number = -1, screenName:String = null, callback:Function = null ):void {
+        private static function unfollowUserInternal( userID:String = null, screenName:String = null, callback:Function = null ):void {
             if( !isSupported ) return;
             validateExtensionContext();
 
             mContext.call( "unfollowUser", userID, screenName, registerCallback( callback ) );
         }
 
-        private static function sendDirectMessageInternal( text:String, userID:Number, screenName:String, callback:Function ):void {
+        private static function sendDirectMessageInternal( text:String, userID:String, screenName:String, callback:Function ):void {
             if( !isSupported ) return;
             validateExtensionContext();
 
@@ -1091,8 +1091,8 @@ package com.marpies.ane.twitter {
             if( !mContext ) throw new Error( "AIRTwitter extension was not initialized. Call init() first." );
         }
 
-        private static function validateUserID( userID:Number ):void {
-            if( userID < 0 ) throw new ArgumentError( "Parameter userID must be greater than zero." );
+        private static function validateUserID( userID:String ):void {
+            if( userID == null ) throw new ArgumentError( "Parameter userID cannot be null." );
         }
 
         private static function validateStatusID( statusID:String ):void {

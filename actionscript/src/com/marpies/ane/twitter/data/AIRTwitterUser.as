@@ -18,7 +18,7 @@ package com.marpies.ane.twitter.data {
 
     public class AIRTwitterUser {
 
-        private var mID:Number;
+        private var mID:String;
         private var mName:String;
         private var mScreenName:String;
         private var mCreatedAt:String;
@@ -33,7 +33,7 @@ package com.marpies.ane.twitter.data {
         private var mLocation:String;
 
         public function AIRTwitterUser() {
-            mID = -1;
+            mID = null;
         }
 
         public function toString():String {
@@ -48,11 +48,11 @@ package com.marpies.ane.twitter.data {
          *
          */
 
-        public function get id():Number {
+        public function get id():String {
             return mID;
         }
 
-        ns_airtwitter_internal function set id( value:Number ):void {
+        ns_airtwitter_internal function set id( value:String ):void {
             mID = value;
         }
 

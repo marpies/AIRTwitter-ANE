@@ -33,7 +33,7 @@ public class GetUserFunction extends BaseFunction {
 	public FREObject call( FREContext context, FREObject[] args ) {
 		super.call( context, args );
 
-		long userID = FREObjectUtils.getDouble( args[0] ).longValue();
+        String userID = (args[0] == null) ? null : FREObjectUtils.getString( args[0] );
 		String screenName = (args[1] == null) ? null : FREObjectUtils.getString( args[1] );
 		mCallbackID = FREObjectUtils.getInt( args[2] );
 
@@ -45,7 +45,7 @@ public class GetUserFunction extends BaseFunction {
 			twitter.showUser( screenName );
 		} else {
 			AIR.log( "Getting user info for userID: " + userID );
-			twitter.showUser( userID );
+			twitter.showUser( Long.valueOf( userID ) );
 		}
 
 		return null;

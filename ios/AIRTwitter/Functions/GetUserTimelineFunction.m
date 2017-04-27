@@ -26,8 +26,7 @@ FREObject tw_getUserTimeline( FREContext context, void* functionData, uint32_t a
     NSString* sinceID = (argv[1] == nil) ? nil : [MPFREObjectUtils getNSString:argv[1]];
     NSString* maxID = (argv[2] == nil) ? nil : [MPFREObjectUtils getNSString:argv[2]];
     NSNumber* excludeReplies = @([MPFREObjectUtils getBOOL:argv[3]]);
-    double userIDDouble = [MPFREObjectUtils getDouble:argv[4]];
-    NSString* userID = (userIDDouble >= 0) ? [NSString stringWithFormat:@"%.f", userIDDouble] : [[[AIRTwitter sharedInstance] api] userID];
+    NSString* userID = (argv[4] == nil) ? [[[AIRTwitter sharedInstance] api] userID] : [MPFREObjectUtils getNSString:argv[4]];
     NSString* screenName = (argv[5] == nil) ? nil : [MPFREObjectUtils getNSString:argv[5]];
     int callbackID = [MPFREObjectUtils getInt:argv[6]];
 

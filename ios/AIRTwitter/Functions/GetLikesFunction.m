@@ -26,8 +26,7 @@ FREObject tw_getLikes( FREContext context, void* functionData, uint32_t argc, FR
     NSString* count = [NSString stringWithFormat:@"%d", [MPFREObjectUtils getInt:argv[0]]];
     NSString* sinceID = (argv[1] == nil) ? nil : [MPFREObjectUtils getNSString:argv[1]];
     NSString* maxID = (argv[2] == nil) ? nil : [MPFREObjectUtils getNSString:argv[2]];
-    double userIDDouble = [MPFREObjectUtils getDouble:argv[3]];
-    NSString* userID = (userIDDouble >= 0) ? [NSString stringWithFormat:@"%.f", userIDDouble] : [[twitter api] userID];
+    NSString* userID = (argv[3] == nil) ? [[twitter api] userID] : [MPFREObjectUtils getNSString:argv[3]];
     NSString* screenName = (argv[4] == nil) ? nil : [MPFREObjectUtils getNSString:argv[4]];
     int callbackID = [MPFREObjectUtils getInt:argv[5]];
 

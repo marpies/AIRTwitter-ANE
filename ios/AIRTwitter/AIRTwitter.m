@@ -215,7 +215,7 @@ FREContext mAIRTwitterExtContext = nil;
 # pragma mark - STTwitterAPIOSProtocol
 
 
-- (void)twitterAPI:(STTwitterAPI *)twitterAPI accountWasInvalidated:(ACAccount *)invalidatedAccount {
+- (void) twitterAPI:(STTwitterAPI *)twitterAPI accountWasInvalidated:(ACAccount *)invalidatedAccount {
     
 }
 

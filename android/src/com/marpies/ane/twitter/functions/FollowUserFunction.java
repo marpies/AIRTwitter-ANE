@@ -32,7 +32,7 @@ public class FollowUserFunction extends BaseFunction {
 	public FREObject call( FREContext context, FREObject[] args ) {
 		super.call( context, args );
 
-		long userID = FREObjectUtils.getDouble( args[0] ).longValue();
+        String userID = (args[0] == null) ? null : FREObjectUtils.getString( args[0] );
 		String screenName = (args[1] == null) ? null : FREObjectUtils.getString( args[1] );
 		boolean enableNotifications = FREObjectUtils.getBoolean( args[2] );
 		mCallbackID = FREObjectUtils.getInt( args[3] );
@@ -47,9 +47,9 @@ public class FollowUserFunction extends BaseFunction {
 			}
 		} else {
 			if( enableNotifications ) {
-				twitter.createFriendship( userID, true );
+				twitter.createFriendship( Long.valueOf( userID ), true );
 			} else {
-				twitter.createFriendship( userID );
+				twitter.createFriendship( Long.valueOf( userID ) );
 			}
 		}
 
