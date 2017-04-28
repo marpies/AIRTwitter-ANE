@@ -216,7 +216,7 @@ The ANE has been written by [Marcel Piestansky](https://twitter.com/marpies) and
 
 ### Change log
 
-#### April 8, 2017 (v1.2.0)
+#### April 28, 2017 (v1.2.0)
 
 * CHANGED `userID` parameters and properties to `String`
 
