@@ -18,7 +18,7 @@ To be implemented:
 
 ## Getting started
 
-First, add the extension's ID to the `extensions` element.
+First, add the extension's ID to the `extensions` element. Find the latest version on the [releases page](../../releases).
 
 ```xml
 <extensions>
@@ -215,6 +215,10 @@ ANT build scripts are available in the *build* directory. Edit *build.properties
 The ANE has been written by [Marcel Piestansky](https://twitter.com/marpies) and is distributed under [Apache License, version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html).
 
 ### Change log
+
+#### April 8, 2017 (v1.2.0)
+
+* CHANGED `userID` parameters and properties to `String`
 
 #### December 2, 2016 (v1.1.0)
 
