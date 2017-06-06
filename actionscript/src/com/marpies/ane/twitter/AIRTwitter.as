@@ -179,6 +179,25 @@ package com.marpies.ane.twitter {
         }
 
         /**
+         * Initiates login process by providing existing access token and secret.
+         * @param token Access token to be used in the login request.
+         * @param secret Access token secret to be used in the login request.
+         * @param callback Function with signature <code>callback(errorMessage:String, wasCancelled:Boolean):void</code>.
+         */
+        public static function loginWithAccessToken( token:String, secret:String, callback:Function ):void {
+            if( !isSupported ) return;
+            validateExtensionContext();
+
+            if( token == null ) throw new ArgumentError( "Parameter token cannot be null." );
+            if( secret == null ) throw new ArgumentError( "Parameter secret cannot be null." );
+
+            mLoginInProgress = true;
+            mLoginCallback = callback;
+
+            mContext.call( "loginWithAccessToken", token, secret );
+        }
+
+        /**
          * Logs out current and clears access tokens.
          */
         public static function logout():void {
