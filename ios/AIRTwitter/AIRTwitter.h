@@ -24,9 +24,11 @@
 
 + (nonnull id) sharedInstance;
 - (BOOL) initWithConsumerKey:(nullable NSString*) key consumerSecret:(nullable NSString*) secret urlScheme:(nullable NSString*) urlScheme;
+- (nonnull STTwitterAPI*) setAccessToken:(nonnull NSString*) token secret:(nonnull NSString*) secret;
 - (void) getAccessTokensForPIN:(nullable NSString*) PIN;
 - (void) verifySystemAccount:(nullable ACAccount*) account;
 - (void) clearAccessTokens;
+- (void) storeCredentials:(nonnull NSString*) screenName userID:(nonnull NSString*) userID accessToken:(nonnull NSString*) accessToken accessTokenSecret:(nonnull NSString*) accessTokenSecret;
 
 - (nonnull STTwitterAPI*) api;
 - (nonnull STTwitterAPI*) api:(BOOL) newInstance;

@@ -44,6 +44,7 @@
 #import "Functions/LoginWithAccount.h"
 #import "Functions/IsSystemAccountAvailableFunction.h"
 #import "Functions/RequestAccountAccessFunction.h"
+#import "Functions/LoginWithAccessTokenFunction.h"
 #import <objc/runtime.h>
 #import <AIRExtHelpers/MPUIApplicationDelegate.h>
 
@@ -106,6 +107,11 @@ FREContext mAIRTwitterExtContext = nil;
         return YES;
     }
     return NO;
+}
+
+- (STTwitterAPI*) setAccessToken:(nonnull NSString*) token secret:(nonnull NSString*) secret {
+    mSTTwitterAPI = [STTwitterAPI twitterAPIWithOAuthConsumerKey:mConsumerKey consumerSecret:mConsumerSecret oauthToken:token oauthTokenSecret:secret];
+    return mSTTwitterAPI;
 }
 
 - (void) getAccessTokensForPIN:(NSString*) PIN {
@@ -331,59 +337,40 @@ FREContext mAIRTwitterExtContext = nil;
  *
  **/
 
-void AIRTwitterAddFunction( FRENamedFunction* array, const char* name, FREFunction function, uint32_t* index ) {
-    array[(*index)].name = (const uint8_t*) name;
-    array[(*index)].functionData = NULL;
-    array[(*index)].function = function;
-    (*index)++;
-}
+FRENamedFunction airTwitterExtFunctions[] = {
+    { (const uint8_t*) "init",                       0, tw_init },
+    { (const uint8_t*) "login",                      0, tw_login },
+    { (const uint8_t*) "loginWithAccount",           0, tw_loginWithAccount },
+    { (const uint8_t*) "loginWithAccessToken",       0, tw_loginWithAccessToken },
+    { (const uint8_t*) "logout",                     0, tw_logout },
+    { (const uint8_t*) "updateStatus",               0, tw_updateStatus },
+    { (const uint8_t*) "getFollowers",               0, tw_getFollowers },
+    { (const uint8_t*) "getHomeTimeline",            0, tw_getHomeTimeline },
+    { (const uint8_t*) "getUserTimeline",            0, tw_getUserTimeline },
+    { (const uint8_t*) "getLikes",                   0, tw_getLikes },
+    { (const uint8_t*) "getFriends",                 0, tw_getFriends },
+    { (const uint8_t*) "getLoggedInUser",            0, tw_getLoggedInUser },
+    { (const uint8_t*) "getUser",                    0, tw_getUser },
+    { (const uint8_t*) "followUser",                 0, tw_followUser },
+    { (const uint8_t*) "unfollowUser",               0, tw_unfollowUser },
+    { (const uint8_t*) "retweetStatus",              0, tw_retweetStatus },
+    { (const uint8_t*) "likeStatus",                 0, tw_likeStatus },
+    { (const uint8_t*) "undoLikeStatus",             0, tw_undoLikeStatus },
+    { (const uint8_t*) "deleteStatus",               0, tw_deleteStatus },
+    { (const uint8_t*) "sendDirectMessage",          0, tw_sendDirectMessage },
+    { (const uint8_t*) "getDirectMessages",          0, tw_getDirectMessages },
+    { (const uint8_t*) "getSentDirectMessages",      0, tw_getSentDirectMessages },
+    { (const uint8_t*) "getAccessToken",             0, tw_getAccessToken },
+    { (const uint8_t*) "getAccessTokenSecret",       0, tw_getAccessTokenSecret },
+    { (const uint8_t*) "applicationOpenURL",         0, tw_applicationOpenURL },
+    { (const uint8_t*) "isSystemAccountAvailable",   0, tw_isSystemAccountAvailable },
+    { (const uint8_t*) "requestSystemAccountAccess", 0, tw_requestAccountAccess }
+};
 
-void AIRTwitterContextInitializer( void* extData,
-        const uint8_t* ctxType,
-        FREContext ctx,
-        uint32_t* numFunctionsToSet,
-        const FRENamedFunction** functionsToSet ) {
-    uint32_t numFunctions = 26;
-    *numFunctionsToSet = numFunctions;
-
-    FRENamedFunction* functionArray = (FRENamedFunction*) malloc( sizeof( FRENamedFunction ) * numFunctions );
-
-    uint32_t index = 0;
-    AIRTwitterAddFunction( functionArray, "init", &tw_init, &index );
-    AIRTwitterAddFunction( functionArray, "login", &tw_login, &index );
-    AIRTwitterAddFunction( functionArray, "loginWithAccount", &tw_loginWithAccount, &index );
-    AIRTwitterAddFunction( functionArray, "logout", &tw_logout, &index );
-
-    AIRTwitterAddFunction( functionArray, "updateStatus", &tw_updateStatus, &index );
-    AIRTwitterAddFunction( functionArray, "getFollowers", &tw_getFollowers, &index );
-    AIRTwitterAddFunction( functionArray, "getHomeTimeline", &tw_getHomeTimeline, &index );
-    AIRTwitterAddFunction( functionArray, "getUserTimeline", &tw_getUserTimeline, &index );
-    AIRTwitterAddFunction( functionArray, "getLikes", &tw_getLikes, &index );
-    AIRTwitterAddFunction( functionArray, "getFriends", &tw_getFriends, &index );
-    AIRTwitterAddFunction( functionArray, "getLoggedInUser", &tw_getLoggedInUser, &index );
-    AIRTwitterAddFunction( functionArray, "getUser", &tw_getUser, &index );
-
-    AIRTwitterAddFunction( functionArray, "followUser", &tw_followUser, &index );
-    AIRTwitterAddFunction( functionArray, "unfollowUser", &tw_unfollowUser, &index );
-
-    AIRTwitterAddFunction( functionArray, "retweetStatus", &tw_retweetStatus, &index );
-    AIRTwitterAddFunction( functionArray, "likeStatus", &tw_likeStatus, &index );
-    AIRTwitterAddFunction( functionArray, "undoLikeStatus", &tw_undoLikeStatus, &index );
-    AIRTwitterAddFunction( functionArray, "deleteStatus", &tw_deleteStatus, &index );
-
-    AIRTwitterAddFunction( functionArray, "sendDirectMessage", &tw_sendDirectMessage, &index );
-    AIRTwitterAddFunction( functionArray, "getDirectMessages", &tw_getDirectMessages, &index );
-    AIRTwitterAddFunction( functionArray, "getSentDirectMessages", &tw_getSentDirectMessages, &index );
-
-    AIRTwitterAddFunction( functionArray, "getAccessToken", &tw_getAccessToken, &index );
-    AIRTwitterAddFunction( functionArray, "getAccessTokenSecret", &tw_getAccessTokenSecret, &index );
-
-    AIRTwitterAddFunction( functionArray, "applicationOpenURL", &tw_applicationOpenURL, &index );
-
-    AIRTwitterAddFunction( functionArray, "isSystemAccountAvailable", &tw_isSystemAccountAvailable, &index );
-    AIRTwitterAddFunction( functionArray, "requestSystemAccountAccess", &tw_requestAccountAccess, &index );
-
-    *functionsToSet = functionArray;
+void AIRTwitterContextInitializer( void* extData, const uint8_t* ctxType, FREContext ctx, uint32_t* numFunctionsToSet, const FRENamedFunction** functionsToSet ) {
+    *numFunctionsToSet = sizeof( airTwitterExtFunctions ) / sizeof( FRENamedFunction );
+    
+    *functionsToSet = airTwitterExtFunctions;
 
     mAIRTwitterExtContext = ctx;
 }
