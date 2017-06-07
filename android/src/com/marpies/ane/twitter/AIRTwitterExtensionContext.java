@@ -32,6 +32,7 @@ public class AIRTwitterExtensionContext extends FREContext {
 
 		functions.put( "init", new InitFunction() );
 		functions.put( "login", new LoginFunction() );
+		functions.put( "loginWithAccessToken", new LoginWithAccessTokenFunction() );
 		functions.put( "logout", new LogoutFunction() );
 
 		functions.put( "updateStatus", new UpdateStatusFunction() );

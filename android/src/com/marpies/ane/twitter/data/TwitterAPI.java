@@ -79,6 +79,15 @@ public class TwitterAPI {
 		twitter.getOAuthAccessTokenAsync( mRequestToken, PIN );
 	}
 
+    public static void storeAccessTokens( AccessToken token ) {
+        mAccessToken = token;
+
+        SharedPreferences.Editor editor = getPreferences().edit();
+        editor.putString( "accessToken", token.getToken() )
+                .putString( "accessTokenSecret", token.getTokenSecret() );
+        editor.apply();
+    }
+
 	public static void clearAccessTokens() {
 		mAccessToken = null;
 		mLoggedInUser = null;
@@ -103,15 +112,6 @@ public class TwitterAPI {
 	 *
 	 *
 	 */
-
-	private static void storeAccessTokens( AccessToken token ) {
-		mAccessToken = token;
-
-		SharedPreferences.Editor editor = getPreferences().edit();
-		editor.putString( "accessToken", token.getToken() )
-				.putString( "accessTokenSecret", token.getTokenSecret() );
-		editor.apply();
-	}
 
 	private static SharedPreferences getPreferences() {
 		if( mPreferences == null ) {
