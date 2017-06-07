@@ -4,7 +4,7 @@ The extension is built on top of [Twitter4j](http://twitter4j.org/en/index.html)
 
 The ANE currently supports the following features:
 
-* User login via browser and using system account (iOS)
+* User login via browser, access token/secret or using system account (iOS)
 * Updating status with text and images (URLs and BitmapData)
 * Retrieving home and user timelines, retweeting, liking tweets
 * Retrieving followers, friends, sending (un)follow requests
@@ -214,7 +214,11 @@ ANT build scripts are available in the *build* directory. Edit *build.properties
 
 The ANE has been written by [Marcel Piestansky](https://twitter.com/marpies) and is distributed under [Apache License, version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html).
 
-### Change log
+### Changelog
+
+#### June 7, 2017 (v1.3.0)
+
+* ADDED `loginWithAccessToken` API
 
 #### April 28, 2017 (v1.2.0)
 
