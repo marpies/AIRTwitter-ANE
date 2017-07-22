@@ -216,6 +216,10 @@ The ANE has been written by [Marcel Piestansky](https://twitter.com/marpies) and
 
 ### Changelog
 
+#### July 22, 2017 (v1.3.1)
+
+* FIXED parsing of callback id for error events
+
 #### June 7, 2017 (v1.3.0)
 
 * ADDED `loginWithAccessToken` API
